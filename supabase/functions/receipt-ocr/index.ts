@@ -10,6 +10,11 @@ interface ReqPayload {
 const PRIMARY_MODEL = Deno.env.get("GEMINI_MODEL") || "gemini-3.8-flash";
 const FALLBACK_MODEL = Deno.env.get("GEMINI_FALLBACK_MODEL") ||
   "gemini-3.5-flash-lite";
+// 두 모델이 다 붐빌 때 마지막으로 써 볼 모델 (비워 두면 건너뜀)
+const LAST_MODEL = Deno.env.get("GEMINI_LAST_MODEL") ?? "gemini-2.5-flash";
+// 전체 처리 시간 상한. Supabase 함수 제한(150초)보다 넉넉히 짧게.
+const TOTAL_BUDGET_MS = 120_000;
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 // 모델마다 허용하는 thinking_level 값이 다릅니다.
 // 3.8 Flash: low 가능 / 3.5 Flash-Lite: minimal 가능 / 3.6 Flash: medium 이상만 가능
@@ -168,12 +173,13 @@ async function callGemini(
   apiKey: string,
   mimeType: string,
   base64Data: string,
+  timeoutMs: number = REQUEST_TIMEOUT_MS,
 ): Promise<string> {
   const apiUrl =
     `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
   const startedAt = Date.now();
 
   let response: Response;
@@ -199,7 +205,7 @@ async function callGemini(
     }
   } catch (error) {
     if (error instanceof Error && error.name === "AbortError") {
-      console.error(`[${model}] 시간 초과 (${REQUEST_TIMEOUT_MS}ms)`);
+      console.error(`[${model}] 시간 초과 (${timeoutMs}ms)`);
       throw new AttemptError(
         "AI 분석 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요.",
         504,
@@ -404,16 +410,30 @@ export default {
         console.info(`영수증 이미지 확인: ${mimeType}, ${base64Data.length}자`);
 
         // 기본 모델 → 실패하면 예비 모델 순서로 시도
-        const models = [...new Set([PRIMARY_MODEL, FALLBACK_MODEL])];
+        // 붐빔(503)·한도(429)는 같은 모델로 한 번 더 시도한 뒤 다음 모델로 넘어가요.
+        const models = [...new Set([PRIMARY_MODEL, FALLBACK_MODEL, LAST_MODEL].filter(Boolean))];
+        const attempts: string[] = [];
+        models.forEach((m, i) => { attempts.push(m); if (i < 2) attempts.push(m); });
+        const startedAll = Date.now();
         let lastError: HttpError | null = null;
+        let prevModel = "";
 
-        for (const model of models) {
+        for (const model of attempts) {
+          const remaining = TOTAL_BUDGET_MS - (Date.now() - startedAll);
+          if (remaining < 12_000) break;
+          // 같은 모델 재시도는 바로 앞이 붐빔/한도였을 때만
+          if (model === prevModel) {
+            if (!(lastError && [429, 503].includes(lastError.status))) continue;
+            await sleep(1500);
+          }
+          prevModel = model;
           try {
             const outputText = await callGemini(
               model,
               apiKey,
               mimeType,
               base64Data,
+              Math.min(REQUEST_TIMEOUT_MS, remaining - 5_000),
             );
 
             const cleanedText = outputText
@@ -446,7 +466,7 @@ export default {
           } catch (error) {
             if (error instanceof AttemptError && error.retryable) {
               lastError = error;
-              console.warn(`[${model}] 실패, 다음 모델로 넘어갑니다.`);
+              console.warn(`[${model}] 실패(${error.status}), 다시 시도하거나 다음 모델로 넘어갑니다.`);
               continue;
             }
             throw error;
