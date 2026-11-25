@@ -995,7 +995,11 @@ async function authAction(action) {
     if (action === 'signup') {
       result = await sb.auth.signUp({
         email,
-        password
+        password,
+        options: {
+          // 인증 메일의 링크가 localhost가 아니라 지금 접속한 앱 주소로 돌아오게 합니다.
+          emailRedirectTo: window.location.origin
+        }
       });
     } else {
       result = await sb.auth.signInWithPassword({
