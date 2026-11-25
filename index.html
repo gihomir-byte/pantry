@@ -3,78 +3,283 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#39785A">
-<meta name="description" content="우리 집 냉장고와 식재료, 레시피, 식단, 장보기를 함께 관리해요.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="description" content="냉장고에 뭐가 있는지, 가족이랑 냉큼 확인해요.">
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/icons/icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="나의 저장고">
-<title>나의 저장고</title>
+<meta name="apple-mobile-web-app-title" content="냉큼">
+<title>냉큼</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 :root{
-  --bg:#F7F6F0;--surface:#fff;--primary:#39785A;--primary-dark:#28583f;
-  --soft:#DCEBDD;--warning:#E5A64B;--danger:#D96B62;--text:#323A34;
-  --muted:#7B837C;--border:#E8EAE5;--shadow:0 8px 24px rgba(37,57,43,.07);
-  --radius:20px;
+  /* 냉큼 디자인 값: 냉장 민트 + 또렷한 둥근 사각형 */
+  --bg:#FFFFFF;--surface:#FFFFFF;--surface-2:#F4F7F6;--surface-3:#EBF0EE;
+  --brand:#12B89A;--primary:#087F6D;--primary-dark:#066A5B;--soft:#E3F5F0;--soft-ink:#0A6B5C;
+  --accent:#FF7A45;
+  --warning:#E8890C;--warn-bg:#FFF4E0;--warn-ink:#9A5B00;
+  --danger:#D93A3F;--danger-bg:#FFEDED;--danger-ink:#C5282F;
+  --text:#16201E;--muted:#66726F;--faint:#98A3A0;--border:#E4EAE8;
+  --shadow:0 1px 2px rgba(16,32,30,.04),0 4px 14px rgba(16,32,30,.05);
+  --r-xs:4px;--r-s:6px;--r-m:8px;--r-l:12px;--r-xl:16px;
+  --radius:var(--r-l);
+  --font:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Segoe UI",Roboto,sans-serif;
 }
-*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif}
-button,input,select,textarea{font:inherit} button{cursor:pointer}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased;letter-spacing:-.2px}
+button,input,select,textarea{font:inherit;letter-spacing:inherit} button{cursor:pointer}
+:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.svg-ico{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block}
 .app{max-width:1120px;margin:auto;min-height:100vh;padding-bottom:92px}
-header{position:sticky;top:0;z-index:10;background:rgba(247,246,240,.94);backdrop-filter:blur(12px);padding:17px 22px 12px;border-bottom:1px solid rgba(232,234,229,.8);display:flex;align-items:center;justify-content:space-between}
-.brand{display:flex;align-items:center;gap:10px}.brand-mark{width:38px;height:38px;border-radius:13px;background:var(--primary);color:white;display:grid;place-items:center;font-size:21px}
-.brand h1{font-size:19px;margin:0;font-weight:800;letter-spacing:-.6px}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
-.header-actions{display:flex;gap:8px}.icon-btn{border:1px solid var(--border);background:white;width:40px;height:40px;border-radius:14px;color:var(--text);font-size:17px}
-main{padding:22px}.page{display:none}.page.active{display:block}.welcome{margin-bottom:20px}.eyebrow{font-size:11px;letter-spacing:1.2px;color:var(--primary);font-weight:800}.welcome h2{font-size:25px;letter-spacing:-1px;margin:6px 0}.welcome p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
-.grid{display:grid;gap:14px}.stats{grid-template-columns:repeat(3,1fr);margin:18px 0}.stat{background:var(--surface);border:1px solid var(--border);border-radius:17px;padding:16px}.stat .label{font-size:11px;color:var(--muted)}.stat strong{display:block;font-size:24px;margin-top:7px;letter-spacing:-.7px}.stat em{font-style:normal;color:var(--muted);font-size:11px}
-.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:15px;box-shadow:var(--shadow)}
-.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}.panel-head h3{font-size:16px;margin:0;letter-spacing:-.4px}.sub{font-size:12px;color:var(--muted)}
-.text-btn{border:0;background:transparent;color:var(--primary);font-size:12px;font-weight:800;padding:5px}
-.btn{border:0;border-radius:13px;padding:12px 16px;font-weight:750;font-size:13px;background:var(--primary);color:white}.btn:hover{background:var(--primary-dark)}.btn.secondary{background:var(--soft);color:var(--primary-dark)}.btn.ghost{background:white;color:var(--text);border:1px solid var(--border)}.btn.danger{background:#FCEAE8;color:#A7433B}.btn.small{padding:8px 11px;font-size:12px;border-radius:10px}
-.quick-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}.quick{border:1px solid var(--border);background:white;border-radius:16px;padding:13px 8px;text-align:center;color:var(--text)}.quick b{display:block;font-size:22px;margin-bottom:6px}.quick span{font-size:11px;font-weight:750}
-.item-list{display:grid;gap:9px}.food-row{display:flex;align-items:center;gap:12px;padding:11px;border:1px solid var(--border);border-radius:15px}.food-icon{width:43px;height:43px;border-radius:13px;background:#F1F5EF;display:grid;place-items:center;font-size:23px;flex-shrink:0}.food-info{min-width:0;flex:1}.food-info b{font-size:13px;display:block}.food-info small{display:block;color:var(--muted);font-size:11px;margin-top:4px}.food-right{text-align:right;white-space:nowrap}.food-right b{font-size:12px;display:block}.food-right small{font-size:10px;color:var(--muted)}
-.pill{display:inline-flex;align-items:center;border-radius:99px;padding:5px 8px;font-size:10px;font-weight:800;background:#EEF3EE;color:var(--primary-dark)}.pill.warn{background:#FFF2DC;color:#946019}.pill.danger{background:#FCEAE8;color:#A7433B}.pill.gray{background:#F0F1EE;color:#69716A}
-.recipe-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.recipe-card{border:1px solid var(--border);border-radius:17px;overflow:hidden;background:white}.recipe-art{height:112px;background:linear-gradient(135deg,#E9F0E5,#F8EBDD);display:grid;place-items:center;font-size:46px}.recipe-body{padding:12px}.recipe-body h4{margin:0 0 6px;font-size:14px}.recipe-body p{margin:0;color:var(--muted);font-size:11px;line-height:1.5}.recipe-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.search{flex:1;min-width:150px;border:1px solid var(--border);background:white;border-radius:12px;padding:11px 13px;outline:none}.select{border:1px solid var(--border);background:white;border-radius:12px;padding:10px;color:var(--text)}
-.tabs{display:flex;gap:7px;overflow:auto;padding-bottom:3px}.tab{border:1px solid var(--border);background:white;border-radius:99px;padding:8px 13px;font-size:11px;color:var(--muted);white-space:nowrap}.tab.active{background:var(--primary);border-color:var(--primary);color:white}
-.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}.day{border:1px solid var(--border);border-radius:13px;background:white;padding:10px 5px;text-align:center;min-height:120px}.day .dow{font-size:10px;color:var(--muted)}.day .date{font-size:14px;font-weight:800;margin:5px 0}.day .meal{font-size:10px;line-height:1.35;margin:8px 0;color:var(--primary-dark);font-weight:750}.day button{border:0;background:var(--soft);color:var(--primary-dark);border-radius:8px;font-size:10px;padding:5px 7px}
-.shopping-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--border)}.shopping-row:last-child{border:0}.shopping-row input{accent-color:var(--primary);width:17px;height:17px}.shopping-row .grow{flex:1}.shopping-row.done .grow{text-decoration:line-through;color:#9AA19B}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-top:1px solid var(--border);padding:9px max(12px,env(safe-area-inset-right)) calc(9px + env(safe-area-inset-bottom));display:flex;justify-content:center}
-.nav-inner{width:min(100%,680px);display:grid;grid-template-columns:repeat(5,1fr);gap:4px}.nav-btn{border:0;background:transparent;color:#929A93;padding:5px 2px;border-radius:12px;font-size:10px;font-weight:700}.nav-btn .ico{display:block;font-size:20px;margin-bottom:3px}.nav-btn.active{color:var(--primary);background:#F0F5EF}
-.empty{padding:25px 12px;text-align:center;color:var(--muted);font-size:12px}.empty b{display:block;color:var(--text);font-size:14px;margin-bottom:5px}
-.modal-backdrop{position:fixed;inset:0;background:rgba(23,33,26,.42);z-index:50;display:none;align-items:flex-end;justify-content:center;padding:12px}.modal-backdrop.show{display:flex}.modal{background:white;border-radius:24px 24px 18px 18px;width:min(100%,520px);max-height:90vh;overflow:auto;padding:21px;box-shadow:0 20px 70px rgba(0,0,0,.2)}.modal h3{margin:0 0 5px;font-size:19px}.modal .hint{font-size:12px;color:var(--muted);margin:0 0 17px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:11px;color:#69716A;font-weight:750}.field input,.field select,.field textarea{width:100%;border:1px solid var(--border);border-radius:11px;padding:11px;background:#fff;outline:none;color:var(--text);font-size:13px}.field textarea{min-height:70px;resize:vertical}.modal-actions{display:flex;gap:8px;margin-top:18px}.modal-actions>*{flex:1}
-.toast{position:fixed;left:50%;bottom:94px;transform:translateX(-50%);background:#26382D;color:white;border-radius:99px;padding:11px 17px;font-size:12px;z-index:80;opacity:0;pointer-events:none;transition:.2s;white-space:nowrap}.toast.show{opacity:1}
-footer{text-align:center;color:#9AA19B;font-size:10px;padding:15px 20px 25px}
-@media(min-width:760px){main{padding:28px}.dashboard-cols{display:grid;grid-template-columns:1.1fr .9fr;gap:15px}.dashboard-cols .panel{height:100%}.modal-backdrop{align-items:center}.modal{border-radius:24px}.recipe-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:430px){header{padding:13px 16px}main{padding:17px 15px}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:21px}.week{gap:4px}.day{padding:8px 2px;min-height:112px}.day .meal{font-size:9px}.day button{font-size:9px;padding:4px}.panel{padding:15px}.welcome h2{font-size:23px}}
+header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);padding:14px 20px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px}.brand-mark{width:36px;height:36px;border-radius:var(--r-m);background:var(--brand);display:grid;place-items:center;flex-shrink:0}.brand-mark svg{width:22px;height:22px}
+.brand h1{font-size:19px;margin:0;font-weight:800;letter-spacing:-.6px}.brand small{display:block;color:var(--muted);font-size:12px;margin-top:1px}
+.header-actions{display:flex;gap:6px}.icon-btn{border:1px solid var(--border);background:var(--surface);width:40px;height:40px;border-radius:var(--r-m);color:var(--text);display:grid;place-items:center;padding:0}
+main{padding:22px}.page{display:none}.page.active{display:block}.welcome{margin-bottom:20px}.eyebrow{font-size:12px;letter-spacing:.2px;color:var(--primary);font-weight:700}.welcome h2{font-size:24px;letter-spacing:-.8px;margin:6px 0;line-height:1.3}.welcome p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+.grid{display:grid;gap:12px}.stats{grid-template-columns:repeat(3,1fr);margin:18px 0}.stat{background:var(--surface-2);border-radius:var(--r-l);padding:14px}.stat .label{font-size:12px;color:var(--muted);font-weight:600}.stat strong{display:block;font-size:24px;margin-top:6px;letter-spacing:-.7px}.stat em{font-style:normal;color:var(--muted);font-size:11px}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-l);padding:18px;margin-bottom:14px}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.panel-head h3{font-size:16px;margin:0;letter-spacing:-.4px}.sub{font-size:13px;color:var(--muted)}
+.text-btn{border:0;background:transparent;color:var(--primary);font-size:13px;font-weight:700;padding:6px}
+.btn{border:0;border-radius:var(--r-m);padding:12px 16px;font-weight:700;font-size:14px;background:var(--primary);color:#fff;min-height:44px}.btn:hover{background:var(--primary-dark)}.btn.secondary{background:var(--soft);color:var(--soft-ink)}.btn.secondary:hover{background:#D3EEE6}.btn.ghost{background:var(--surface);color:var(--text);border:1px solid var(--border)}.btn.ghost:hover{background:var(--surface-2)}.btn.danger{background:var(--danger-bg);color:var(--danger-ink)}.btn.small{padding:7px 11px;font-size:12.5px;border-radius:var(--r-s);min-height:34px}
+.btn.big{width:100%;padding:15px 16px;font-size:16px;min-height:52px}
+.quick-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}.quick{border:1px solid var(--border);background:var(--surface);border-radius:var(--r-l);padding:13px 8px;text-align:center;color:var(--text)}.quick:hover{background:var(--surface-2)}.quick b{display:block;font-size:22px;margin-bottom:6px}.quick span{font-size:12px;font-weight:700}
+.item-list{display:grid;gap:8px}.food-row{display:flex;align-items:center;gap:12px;padding:10px 11px;background:var(--surface-2);border-radius:var(--r-m)}.food-icon{width:42px;height:42px;border-radius:var(--r-m);background:var(--surface);display:grid;place-items:center;font-size:23px;flex-shrink:0}.food-info{min-width:0;flex:1}.food-info b{font-size:14px;display:block}.food-info small{display:block;color:var(--muted);font-size:12px;margin-top:4px}.food-right{text-align:right;white-space:nowrap}.food-right b{font-size:12px;display:block}.food-right small{font-size:10px;color:var(--muted)}
+.pill{display:inline-flex;align-items:center;gap:3px;border-radius:var(--r-xs);padding:3px 7px;font-size:11px;font-weight:700;background:var(--soft);color:var(--soft-ink);vertical-align:1px}.pill.warn{background:var(--warn-bg);color:var(--warn-ink)}.pill.danger{background:var(--danger-bg);color:var(--danger-ink)}.pill.gray{background:var(--surface-3);color:var(--muted)}
+.recipe-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.recipe-card{border:1px solid var(--border);border-radius:var(--r-l);overflow:hidden;background:var(--surface)}.recipe-art{height:112px;background:var(--surface-2);display:grid;place-items:center;font-size:46px}.recipe-body{padding:12px}.recipe-body h4{margin:0 0 6px;font-size:14px}.recipe-body p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}.recipe-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.search{flex:1;min-width:150px;border:1px solid var(--border);background:var(--surface);border-radius:var(--r-m);padding:11px 13px;outline:none;color:var(--text)}.search:focus,.select:focus{border-color:var(--primary)}.select{border:1px solid var(--border);background:var(--surface);border-radius:var(--r-m);padding:10px;color:var(--text)}
+.tabs{display:flex;gap:6px;overflow:auto;padding-bottom:3px}.tab{border:1px solid var(--border);background:var(--surface);border-radius:var(--r-s);padding:7px 12px;font-size:12.5px;font-weight:600;color:var(--muted);white-space:nowrap}.tab.active{background:var(--text);border-color:var(--text);color:#fff}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}.day{border:1px solid var(--border);border-radius:var(--r-m);background:var(--surface);padding:10px 5px;text-align:center;min-height:120px}.day .dow{font-size:11px;color:var(--muted)}.day .date{font-size:14px;font-weight:800;margin:5px 0}.day .meal{font-size:11px;line-height:1.35;margin:8px 0;color:var(--soft-ink);font-weight:700}.day button{border:0;background:var(--soft);color:var(--soft-ink);border-radius:var(--r-xs);font-size:11px;padding:5px 7px;font-weight:600}
+.shopping-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--border)}.shopping-row:last-child{border:0}.shopping-row input{accent-color:var(--primary);width:18px;height:18px}.shopping-row .grow{flex:1}.shopping-row.done .grow{text-decoration:line-through;color:var(--faint)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-top:1px solid var(--border);padding:6px max(12px,env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));display:flex;justify-content:center}
+.nav-inner{width:min(100%,680px);display:grid;grid-template-columns:repeat(5,1fr);gap:4px}.nav-btn{border:0;background:transparent;color:var(--faint);padding:6px 2px;border-radius:var(--r-m);font-size:11px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:48px}.nav-btn .svg-ico{width:22px;height:22px}.nav-btn.active{color:var(--primary);font-weight:800}
+.empty{padding:24px 12px;text-align:center;color:var(--muted);font-size:13px}.empty b{display:block;color:var(--text);font-size:15px;margin-bottom:5px}
+.modal-backdrop{position:fixed;inset:0;background:rgba(16,28,26,.42);z-index:50;display:none;align-items:flex-end;justify-content:center;padding:12px}.modal-backdrop.show{display:flex}.modal{background:var(--surface);border-radius:var(--r-xl) var(--r-xl) var(--r-l) var(--r-l);width:min(100%,520px);max-height:90vh;overflow:auto;padding:22px;box-shadow:0 20px 70px rgba(0,0,0,.2)}.modal h3{margin:0 0 5px;font-size:19px}.modal .hint{font-size:13px;color:var(--muted);margin:0 0 17px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;color:var(--muted);font-weight:700}.field input,.field select,.field textarea{width:100%;border:1px solid var(--border);border-radius:var(--r-m);padding:12px;background:var(--surface);outline:none;color:var(--text);font-size:15px}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--soft)}.field textarea{min-height:70px;resize:vertical}.modal-actions{display:flex;gap:8px;margin-top:18px}.modal-actions>*{flex:1}
+.toast{position:fixed;left:50%;bottom:94px;transform:translateX(-50%);background:var(--text);color:#fff;border-radius:var(--r-m);padding:12px 16px;font-size:13px;font-weight:600;z-index:200;opacity:0;pointer-events:none;transition:.2s;max-width:calc(100% - 32px);text-align:center}.toast.show{opacity:1}
+footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25px}
+
+/* ===== 첫 화면 (시작 ~ 완료) ===== */
+#onboard{position:fixed;inset:0;z-index:100;background:var(--bg);display:none;overflow-y:auto}
+#onboard.show{display:block}
+.ob-wrap{max-width:440px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;padding:calc(20px + env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left))}
+.ob-screen{display:none;flex:1;flex-direction:column}
+.ob-screen.on{display:flex}
+.ob-top{display:flex;align-items:center;justify-content:space-between;min-height:40px;margin-bottom:12px}
+.ob-back{border:0;background:transparent;width:40px;height:40px;margin-left:-8px;border-radius:var(--r-m);color:var(--text);display:grid;place-items:center}
+.ob-back:hover{background:var(--surface-2)}
+.ob-step{font-size:13px;font-weight:700;color:var(--muted)}
+.ob-title{font-size:25px;line-height:1.35;font-weight:800;letter-spacing:-.8px;margin:4px 0 10px}
+.ob-desc{font-size:15px;line-height:1.6;color:var(--muted);margin:0 0 24px}
+.ob-spacer{flex:1;min-height:20px}
+.ob-actions{display:grid;gap:8px}
+.ob-link{border:0;background:transparent;color:var(--muted);font-size:14px;padding:12px;text-align:center}
+.ob-link b{color:var(--primary)}
+.ob-msg{font-size:14px;line-height:1.55;margin:12px 0 0;color:var(--muted);min-height:1em}
+.ob-msg.err{color:var(--danger-ink)}
+.ob-hero{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:24px 0}
+.ob-logo{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.ob-logo .brand-mark{width:56px;height:56px;border-radius:var(--r-l)}.ob-logo .brand-mark svg{width:34px;height:34px}
+.ob-logo span{font-size:34px;font-weight:800;letter-spacing:-1.2px}
+.ob-tagline{font-size:22px;line-height:1.45;font-weight:700;letter-spacing:-.6px;margin:0}
+.ob-tagline em{font-style:normal;color:var(--primary)}
+.ob-banner{background:var(--soft);color:var(--soft-ink);border-radius:var(--r-m);padding:12px 14px;font-size:14px;line-height:1.5;font-weight:600;margin-bottom:12px}
+.ob-banner.warn{background:var(--warn-bg);color:var(--warn-ink)}
+.ob-banner button{margin-top:8px}
+.btn.kakao{background:#FEE500;color:#191919}.btn.kakao:hover{background:#F5DC00}
+.ob-card{display:flex;align-items:center;gap:14px;width:100%;text-align:left;border:1px solid var(--border);background:var(--surface);border-radius:var(--r-l);padding:18px 16px;color:var(--text);margin-bottom:10px}
+.ob-card:hover{border-color:var(--primary);background:var(--surface-2)}
+.ob-card .ob-ico{width:44px;height:44px;border-radius:var(--r-m);background:var(--soft);color:var(--primary);display:grid;place-items:center;flex-shrink:0;font-size:22px}
+.ob-card b{display:block;font-size:17px;margin-bottom:2px}
+.ob-card small{font-size:14px;color:var(--muted)}
+.ob-card .chev{margin-left:auto;color:var(--faint)}
+.ob-note{font-size:13.5px;color:var(--muted);line-height:1.55;background:var(--surface-2);border-radius:var(--r-m);padding:12px 14px}
+.ob-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.ob-chip{border:1px solid var(--border);background:var(--surface);border-radius:var(--r-s);padding:8px 12px;font-size:14px;font-weight:600;color:var(--text);min-height:38px}
+.ob-chip:hover{border-color:var(--primary);color:var(--primary)}
+.ob-help{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.5}
+.ob-code{background:var(--surface-2);border-radius:var(--r-l);padding:20px 16px;text-align:center;margin-top:16px}
+.ob-code small{display:block;font-size:13px;color:var(--muted);font-weight:600}
+.ob-code strong{display:block;font-size:32px;letter-spacing:5px;font-weight:800;margin:6px 0;font-variant-numeric:tabular-nums}
+.ob-code-input{width:100%;border:2px solid var(--border);border-radius:var(--r-m);padding:16px;font-size:28px;font-weight:800;letter-spacing:6px;text-align:center;text-transform:uppercase;outline:none;color:var(--text);background:var(--surface)}
+.ob-code-input:focus{border-color:var(--primary)}
+.ob-code-input::placeholder{color:var(--border);letter-spacing:6px}
+.ob-fridge{border:1px solid var(--border);border-radius:var(--r-l);padding:18px;display:flex;gap:14px;align-items:center}
+.ob-fridge .ob-ico{width:48px;height:48px;border-radius:var(--r-m);background:var(--soft);display:grid;place-items:center;font-size:24px;flex-shrink:0}
+.ob-fridge b{font-size:18px;display:block}
+.ob-fridge small{font-size:14px;color:var(--muted)}
+.ob-done-ico{width:64px;height:64px;border-radius:50%;background:var(--soft);color:var(--primary);display:grid;place-items:center;margin-bottom:18px}
+.ob-done-ico svg{width:32px;height:32px;stroke-width:2.5}
+.pw-field{position:relative}
+.ob-steps-dots{display:flex;gap:4px}
+.ob-steps-dots i{width:16px;height:4px;border-radius:2px;background:var(--border)}
+.ob-steps-dots i.on{background:var(--primary)}
+
+@media(min-width:760px){main{padding:28px}.dashboard-cols{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.dashboard-cols .panel{height:100%}.modal-backdrop{align-items:center}.modal{border-radius:var(--r-xl)}.recipe-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:430px){header{padding:12px 16px}main{padding:18px 16px}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:21px}.week{gap:4px}.day{padding:8px 2px;min-height:112px}.day .meal{font-size:10px}.day button{font-size:10px;padding:4px}.panel{padding:15px}.welcome h2{font-size:22px}}
 </style>
 </head>
 <body>
 
-<div id="authGate" style="position:fixed;inset:0;z-index:100;background:#F7F6F0;display:none;align-items:center;justify-content:center;padding:20px">
-  <div class="panel" style="width:min(100%,420px);padding:24px">
-    <div style="font-size:34px;margin-bottom:8px">🥬</div>
-    <h2 style="margin:0 0 6px;font-size:22px">나의 저장고</h2>
-    <p class="sub" style="line-height:1.6;margin:0 0 18px">두 사람이 같은 가족 저장고를 사용하려면 먼저 계정으로 로그인해 주세요.</p>
-    <div class="field"><label>이메일</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
-    <div class="field" style="margin-top:10px"><label>비밀번호 (6자 이상)</label><input id="authPassword" type="password" autocomplete="current-password" placeholder="비밀번호"></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px">
-      <button class="btn" onclick="authAction('signin')">로그인</button>
-      <button class="btn secondary" onclick="authAction('signup')">회원가입</button>
+<!-- 냉큼 첫 화면: ① 시작 → (이메일) → ② 길 고르기 → ③ 이름 짓기 → ④ 가족 부르기 → ⑧ 완료
+     초대받은 가족: ① 시작(초대 띠) → (이메일) → ⑥ 초대 확인 → ⑧ 완료 / 링크가 안 될 때 ⑦ 초대 번호 넣기 -->
+<div id="onboard" aria-live="polite">
+<div class="ob-wrap">
+
+  <!-- ① 시작 -->
+  <section class="ob-screen" data-screen="start">
+    <div id="obInAppBanner" class="ob-banner warn" style="display:none">
+      냉큼은 폰 화면에 두고 쓰면 편해요. 카카오톡 안에서는 로그인이 잘 안 될 수 있어요.
+      <div id="obInAppHow" style="font-weight:500;margin-top:4px"></div>
+      <button class="btn small" id="obOpenExternal" style="display:none" onclick="openExternalBrowser()">다른 브라우저로 열기</button>
     </div>
-    <p id="authMessage" class="sub" style="line-height:1.6;margin:12px 0 0">회원가입 후 이메일 인증이 필요할 수 있어요.</p>
-  </div>
+    <div id="obInviteBanner" class="ob-banner" style="display:none"></div>
+    <div class="ob-hero">
+      <div class="ob-logo"><div class="brand-mark" data-logo></div><span>냉큼</span></div>
+      <p class="ob-tagline">냉장고에 뭐가 있는지,<br>가족이랑 <em>냉큼</em> 확인해요</p>
+    </div>
+    <div class="ob-actions">
+      <button class="btn big kakao" id="obKakaoBtn" style="display:none" onclick="startKakao()">카카오로 시작하기</button>
+      <button class="btn big" onclick="obGo('email',{mode:'signup'})">이메일로 시작하기</button>
+      <button class="ob-link" onclick="obGo('email',{mode:'signin'})">이미 계정이 있어요 · <b>로그인</b></button>
+    </div>
+  </section>
+
+  <!-- 이메일 (가입 / 로그인) -->
+  <section class="ob-screen" data-screen="email">
+    <div class="ob-top"><button class="ob-back" aria-label="뒤로" onclick="obGo('start')"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button></div>
+    <h2 class="ob-title" id="obEmailTitle">이메일로 시작해요</h2>
+    <p class="ob-desc" id="obEmailDesc">이메일과 비밀번호만 있으면 돼요.</p>
+    <form onsubmit="event.preventDefault();authAction(obEmailMode)">
+      <div class="field"><label for="authEmail">이메일</label><input id="authEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required></div>
+      <div class="field" style="margin-top:12px"><label for="authPassword">비밀번호 (6자 이상)</label><input id="authPassword" type="password" autocomplete="new-password" placeholder="비밀번호" minlength="6" required></div>
+      <p id="authMessage" class="ob-msg"></p>
+      <div class="ob-spacer"></div>
+      <div class="ob-actions" style="margin-top:20px">
+        <button class="btn big" id="obEmailSubmit" type="submit">가입하고 시작하기</button>
+        <button class="ob-link" type="button" id="obEmailSwitch" onclick="obGo('email',{mode: obEmailMode==='signup'?'signin':'signup'})"></button>
+      </div>
+    </form>
+  </section>
+
+  <!-- 메일 인증 기다리기 -->
+  <section class="ob-screen" data-screen="verify">
+    <div class="ob-top"><button class="ob-back" aria-label="뒤로" onclick="obGo('email',{mode:'signin'})"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button></div>
+    <div class="ob-done-ico"><svg class="svg-ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
+    <h2 class="ob-title">메일함을 열어 주세요</h2>
+    <p class="ob-desc"><b id="obVerifyEmail" style="color:var(--text)"></b>으로 보낸 메일의 링크를 누르면 냉큼으로 돌아와요.</p>
+    <div class="ob-note" id="obVerifyInvite" style="display:none">받은 초대장은 기억해 둘게요. 인증을 마치면 바로 가족 냉장고로 들어가요.</div>
+    <div class="ob-spacer"></div>
+    <div class="ob-actions"><button class="btn big ghost" onclick="obGo('email',{mode:'signin'})">인증했어요 · 로그인하기</button></div>
+  </section>
+
+  <!-- ② 길 고르기 -->
+  <section class="ob-screen" data-screen="choose">
+    <div class="ob-top"><span></span><button class="ob-link" style="padding:8px" onclick="signOut()">로그아웃</button></div>
+    <h2 class="ob-title">어떻게 시작할까요?</h2>
+    <p class="ob-desc">하나만 고르면 돼요.</p>
+    <button class="ob-card" onclick="obGo('name')"><span class="ob-ico">🧊</span><span><b>우리 집 냉장고 만들기</b><small>내가 처음 시작해요</small></span><svg class="svg-ico chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    <button class="ob-card" onclick="obGo('code')"><span class="ob-ico">💌</span><span><b>초대받았어요</b><small>가족이 보낸 초대장이 있어요</small></span><svg class="svg-ico chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    <div class="ob-note" style="margin-top:6px">가족이 이미 만들었다면 ‘초대받았어요’를 눌러 주세요. 따로 만들면 다른 냉장고가 돼요.</div>
+  </section>
+
+  <!-- ③ 이름 짓기 -->
+  <section class="ob-screen" data-screen="name">
+    <div class="ob-top"><button class="ob-back" aria-label="뒤로" onclick="obGo('choose')"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><div class="ob-steps-dots"><i class="on"></i><i></i><i></i></div></div>
+    <h2 class="ob-title">냉장고 이름을 지어 주세요</h2>
+    <p class="ob-desc">가족이 들어올 때 이 이름이 보여요. 나중에 바꿀 수 있어요.</p>
+    <div class="field"><label for="obMyName">가족에게 보일 내 이름</label><input id="obMyName" maxlength="10" placeholder="예: 기호" oninput="obSyncFridgeName()"></div>
+    <div class="field" style="margin-top:14px"><label for="obFridgeName">냉장고 이름</label><input id="obFridgeName" maxlength="20" placeholder="우리 집 냉장고" oninput="obFridgeTouched=true"></div>
+    <div class="ob-chips">
+      <button type="button" class="ob-chip" onclick="obPickName(this)">우리 집 냉장고</button>
+      <button type="button" class="ob-chip" onclick="obPickName(this)">김치냉장고</button>
+      <button type="button" class="ob-chip" onclick="obPickName(this)">자취방 냉장고</button>
+    </div>
+    <p class="ob-msg" id="obNameMsg"></p>
+    <div class="ob-spacer"></div>
+    <div class="ob-actions"><button class="btn big" id="obCreateBtn" onclick="createFamily()">냉장고 만들기</button></div>
+  </section>
+
+  <!-- ④ 가족 부르기 -->
+  <section class="ob-screen" data-screen="invite">
+    <div class="ob-top"><span></span><div class="ob-steps-dots"><i class="on"></i><i class="on"></i><i></i></div></div>
+    <h2 class="ob-title" id="obInviteTitle">냉장고가 생겼어요.<br>가족도 불러 볼까요?</h2>
+    <p class="ob-desc">초대받은 가족은 같은 냉장고를 함께 보고 고칠 수 있어요.</p>
+    <div class="ob-code" id="obCodeBox">
+      <small>초대 번호</small>
+      <strong id="obCode">······</strong>
+      <small id="obCodeExpiry"></small>
+    </div>
+    <p class="ob-msg" id="obInviteMsg"></p>
+    <div class="ob-spacer"></div>
+    <div class="ob-actions">
+      <button class="btn big" onclick="shareInvite()">카카오톡으로 초대장 보내기</button>
+      <button class="btn big ghost" onclick="copyInviteLink()">초대 링크 복사하기</button>
+      <button class="ob-link" id="obInviteLater" onclick="obInviteLaterClick()">나중에 할게요</button>
+    </div>
+  </section>
+
+  <!-- ⑦ 초대 번호 넣기 -->
+  <section class="ob-screen" data-screen="code">
+    <div class="ob-top"><button class="ob-back" aria-label="뒤로" onclick="obBackFromCode()"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button></div>
+    <h2 class="ob-title">가족이 보낸<br>초대 번호를 넣어 주세요</h2>
+    <p class="ob-desc">초대 번호는 가족이 보낸 카톡 메시지에 있어요. 메시지를 통째로 붙여 넣어도 돼요.</p>
+    <input id="inviteCode" class="ob-code-input" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="K7M2QP" oninput="obCodeInput(this)">
+    <p class="ob-msg" id="obCodeMsg"></p>
+    <div class="ob-spacer"></div>
+    <div class="ob-actions"><button class="btn big" onclick="obCheckCode()">다음</button></div>
+  </section>
+
+  <!-- ⑥ 초대 확인 -->
+  <section class="ob-screen" data-screen="confirm">
+    <div class="ob-top"><button class="ob-back" aria-label="뒤로" onclick="obGo('code')"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button></div>
+    <h2 class="ob-title" id="obConfirmTitle">가족이 초대했어요</h2>
+    <p class="ob-desc" id="obConfirmDesc">들어가면 가족과 같은 냉장고를 함께 봐요.</p>
+    <div class="ob-fridge"><span class="ob-ico">🧊</span><span><b id="obConfirmFridge">가족 냉장고</b><small id="obConfirmMembers"></small></span></div>
+    <div class="field" style="margin-top:16px"><label for="obJoinName">가족에게 보일 내 이름</label><input id="obJoinName" maxlength="10" placeholder="예: 지은"></div>
+    <div class="ob-note" id="obConfirmSwitch" style="display:none;margin-top:12px">지금 쓰는 냉장고 대신 이 냉장고를 보게 돼요. 지금 냉장고는 그대로 남아 있어요.</div>
+    <p class="ob-msg" id="obConfirmMsg"></p>
+    <div class="ob-spacer"></div>
+    <div class="ob-actions">
+      <button class="btn big" id="obJoinBtn" onclick="joinFamily()">가족 냉장고 들어가기</button>
+      <button class="ob-link" id="obConfirmCancel" style="display:none" onclick="obCancelInvite()">들어가지 않을게요</button>
+    </div>
+  </section>
+
+  <!-- ⑧ 완료 -->
+  <section class="ob-screen" data-screen="done">
+    <div class="ob-top"><span></span><div class="ob-steps-dots" id="obDoneDots"><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
+    <div class="ob-done-ico"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h2 class="ob-title">이제 가족이랑<br>같은 냉장고를 봐요</h2>
+    <p class="ob-desc">오늘은 3개만 넣어도 충분해요.</p>
+    <div class="ob-actions">
+      <button class="btn big" onclick="obFinish('receipt')">영수증 찍어서 넣기</button>
+    </div>
+    <p class="ob-help" style="margin-top:18px">자주 사는 재료를 눌러 바로 넣을 수 있어요</p>
+    <div class="ob-chips" id="obQuickChips">
+      <button type="button" class="ob-chip" onclick="obQuickAdd(this,'계란','유제품','개',10)">🥚 계란</button>
+      <button type="button" class="ob-chip" onclick="obQuickAdd(this,'우유','유제품','팩',1)">🥛 우유</button>
+      <button type="button" class="ob-chip" onclick="obQuickAdd(this,'두부','기타','모',1)">⬜ 두부</button>
+      <button type="button" class="ob-chip" onclick="obQuickAdd(this,'대파','채소','대',1)">🥬 대파</button>
+      <button type="button" class="ob-chip" onclick="obQuickAdd(this,'양파','채소','개',3)">🧅 양파</button>
+    </div>
+    <div class="ob-spacer"></div>
+    <div class="ob-actions">
+      <button class="btn big ghost" onclick="obFinish('manual')">하나씩 넣기</button>
+      <button class="ob-link" onclick="obFinish('home')">냉장고 둘러보기</button>
+    </div>
+  </section>
+
+</div>
 </div>
 <div class="app">
 <header>
-  <div class="brand"><div class="brand-mark">🥬</div><div><h1>나의 저장고</h1><small id="householdLabel">우리 집 냉장고</small></div></div>
-  <div class="header-actions"><button class="icon-btn" title="알림" onclick="showToast('새로운 알림이 없습니다')">♧</button><button class="icon-btn" title="설정" onclick="navigate('more')">☰</button></div>
+  <div class="brand"><div class="brand-mark" data-logo></div><div><h1>냉큼</h1><small id="householdLabel">우리 집 냉장고</small></div></div>
+  <div class="header-actions"><button class="icon-btn" title="알림" aria-label="알림" onclick="showToast('새로운 알림이 없어요')"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M18 16V11a6 6 0 10-12 0v5l-1.5 2h15z"/><path d="M10 20.5a2 2 0 004 0"/></svg></button><button class="icon-btn" title="내 정보" aria-label="내 정보" onclick="navigate('more')"><svg class="svg-ico" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c1-3.5 3.8-5 7-5s6 1.5 7 5"/></svg></button></div>
 </header>
 <main>
 <section class="page active" id="page-home">
-  <div class="welcome"><div class="eyebrow">FRESH & MINIMAL</div><h2>우리 집 식재료,<br>오늘도 신선하게 🌿</h2><p>가지고 있는 재료를 확인하고 오늘의 식탁을 준비해 보세요.</p></div>
+  <div class="welcome"><div class="eyebrow" id="homeEyebrow">우리 집 냉장고</div><h2>오늘 먼저 먹을 건<br>무엇일까요?</h2><p>가지고 있는 재료를 확인하고 오늘의 식탁을 준비해 보세요.</p></div>
   <div class="grid stats">
     <div class="stat"><span class="label">전체 식재료</span><strong id="statTotal">0</strong><em>가지 보관 중</em></div>
     <div class="stat"><span class="label">소비기한 임박</span><strong id="statSoon">0</strong><em>빠른 소비 권장</em></div>
@@ -94,7 +299,7 @@ footer{text-align:center;color:#9AA19B;font-size:10px;padding:15px 20px 25px}
 </section>
 
 <section class="page" id="page-storage">
-  <div class="welcome"><div class="eyebrow">MY INVENTORY</div><h2>우리 집 저장고</h2><p>구매한 재료를 구매분별로 관리하고, 먼저 먹어야 할 재료를 확인하세요.</p></div>
+  <div class="welcome"><div class="eyebrow">냉장고</div><h2>냉장고에 있는 재료</h2><p>구매한 재료를 구매분별로 관리하고, 먼저 먹어야 할 재료를 확인하세요.</p></div>
   <div class="panel">
 <div class="panel-head">
   <h3>식재료 목록</h3>
@@ -119,7 +324,7 @@ footer{text-align:center;color:#9AA19B;font-size:10px;padding:15px 20px 25px}
 </section>
 
 <section class="page" id="page-recipes">
-  <div class="welcome"><div class="eyebrow">COOK WITH WHAT YOU HAVE</div><h2>오늘은 뭘 먹을까요?</h2><p>보유 재료와 소비기한을 고려해 만들기 좋은 메뉴를 추천해요.</p></div>
+  <div class="welcome"><div class="eyebrow">레시피</div><h2>오늘은 뭘 먹을까요?</h2><p>보유 재료와 소비기한을 고려해 만들기 좋은 메뉴를 추천해요.</p></div>
   <div class="panel"><div class="panel-head"><h3>추천 조건</h3><span class="pill">보유 재료 기반 추천</span></div><div class="toolbar">
     <input class="search" id="recipeSearch" placeholder="메뉴명 또는 재료 검색" oninput="renderRecipes()">
     <select class="select" id="recipeCategoryFilter" onchange="renderRecipes()">
@@ -140,38 +345,43 @@ footer{text-align:center;color:#9AA19B;font-size:10px;padding:15px 20px 25px}
 </section>
 
 <section class="page" id="page-meal">
-  <div class="welcome"><div class="eyebrow">WEEKLY DINNER PLAN</div><h2>이번 주 저녁 식단</h2><p>보유 재료를 활용해 한 주의 저녁 메뉴를 계획해 보세요.</p></div>
+  <div class="welcome"><div class="eyebrow">식단</div><h2>이번 주 저녁 식단</h2><p>보유 재료를 활용해 한 주의 저녁 메뉴를 계획해 보세요.</p></div>
   <div class="panel"><div class="panel-head"><h3 id="weekTitle">이번 주 식단</h3><button class="btn small" onclick="generateMealPlan()">✨ 식단 자동 구성</button></div><div class="sub" style="margin-bottom:13px">메뉴를 눌러 변경하거나 조리 완료를 기록할 수 있어요.</div><div class="week" id="weekGrid"></div></div>
   <div class="panel"><div class="panel-head"><h3>식단 사용 안내</h3></div><p class="sub" style="line-height:1.7;margin:0">식단에 메뉴를 배정해도 재고가 바로 차감되지는 않아요. 실제 조리를 완료하고 사용량을 확인한 뒤 재고에 반영됩니다.</p></div>
 </section>
 
 <section class="page" id="page-shopping">
-  <div class="welcome"><div class="eyebrow">SHOPPING LIST</div><h2>장보기 목록</h2><p>식단에 필요한 재료나 집에 부족한 식재료를 모아 관리하세요.</p></div>
+  <div class="welcome"><div class="eyebrow">장보기</div><h2>장보기 목록</h2><p>식단에 필요한 재료나 집에 부족한 식재료를 모아 관리하세요.</p></div>
   <div class="panel"><div class="panel-head"><h3>구매할 재료</h3><button class="btn small" onclick="addShoppingItem()">＋ 직접 추가</button></div><div id="shoppingList"></div><div style="margin-top:12px"><button class="btn secondary" style="width:100%" onclick="addShortages()">식단 부족 재료 가져오기</button></div></div>
 </section>
 
 <section class="page" id="page-more">
-  <div class="welcome"><div class="eyebrow">SETTINGS & FAMILY</div><h2>마이페이지</h2><p>가족 저장고와 앱 사용 환경을 관리하세요.</p></div>
+  <div class="welcome"><div class="eyebrow">내 정보</div><h2>내 정보</h2><p>가족 냉장고와 앱 설정을 바꿀 수 있어요.</p></div>
   <div class="panel">
-    <div class="panel-head"><h3>가족 저장고</h3><span class="pill" id="syncStatus">연결 확인 중</span></div>
-    <div class="field"><label>가족 공간 이름</label><input id="householdName" value="우리 집 냉장고" onchange="saveHouseholdName()"></div>
-    <div class="field" style="margin-top:12px"><label>가족 초대 코드</label><div style="display:flex;gap:8px"><input id="inviteCode" placeholder="배우자에게 받은 코드 입력"><button class="btn small" onclick="joinFamily()">참여</button></div></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn small" onclick="createFamily()">가족 공간 만들기</button><button class="btn small secondary" onclick="makeInvite()">초대 코드 만들기</button><button class="btn small ghost" onclick="signOut()">로그아웃</button></div>
-    <p class="sub" id="familyMessage" style="line-height:1.6;margin-top:12px">로그인 후 가족 공간을 만들거나 배우자의 초대 코드를 입력하세요.</p>
+    <div class="panel-head"><h3>가족 냉장고</h3><span class="pill" id="syncStatus">연결 확인 중</span></div>
+    <div class="field"><label for="householdName">냉장고 이름</label><input id="householdName" value="우리 집 냉장고" maxlength="20" onchange="saveHouseholdName()"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px"><button class="btn" onclick="openInviteFromMenu()">가족 초대하기</button><button class="btn ghost" onclick="openCodeFromMenu()">초대 번호 넣기</button></div>
+    <p class="sub" id="familyMessage" style="line-height:1.6;margin:12px 0 0"></p>
   </div>
-  <div class="panel"><div class="panel-head"><h3>알림 설정</h3></div><label style="display:flex;align-items:center;gap:9px;font-size:13px;margin:12px 0"><input type="checkbox" checked> 소비기한 임박 알림 표시</label><label style="display:flex;align-items:center;gap:9px;font-size:13px;margin:12px 0"><input type="checkbox" checked> 소비기한 경과 재료 표시</label></div>
-  <div class="panel"><div class="panel-head"><h3>서비스 정보</h3></div><p class="sub" style="line-height:1.7">나의 저장고 · Fresh & Minimal<br>가족과 함께 관리하는 우리 집 식재료</p></div>
+  <div class="panel">
+    <div class="panel-head"><h3>내 계정</h3></div>
+    <div class="field"><label for="myNameInput">가족에게 보일 내 이름</label><input id="myNameInput" maxlength="10" placeholder="예: 기호" onchange="saveMyName(this.value)"></div>
+    <p class="sub" id="myEmail" style="margin:10px 0 0"></p>
+    <button class="btn small ghost" style="margin-top:12px" onclick="signOut()">로그아웃</button>
+  </div>
+  <div class="panel"><div class="panel-head"><h3>알림 설정</h3></div><label style="display:flex;align-items:center;gap:9px;font-size:14px;margin:12px 0"><input type="checkbox" checked style="accent-color:var(--primary);width:18px;height:18px"> 유통기한 임박 알림 표시</label><label style="display:flex;align-items:center;gap:9px;font-size:14px;margin:12px 0"><input type="checkbox" checked style="accent-color:var(--primary);width:18px;height:18px"> 유통기한 지난 재료 표시</label></div>
+  <div class="panel"><div class="panel-head"><h3>서비스 정보</h3></div><p class="sub" style="line-height:1.7;margin:0">냉큼<br>냉장고에 뭐가 있는지, 가족이랑 냉큼 확인해요</p></div>
 </section>
-<footer>나의 저장고 · 오늘의 식탁을 더 신선하게</footer>
+<footer>냉큼 · 가족이 함께 보는 냉장고</footer>
 </main>
 </div>
 
 <nav class="bottom-nav"><div class="nav-inner">
-<button class="nav-btn active" data-page="home" onclick="navigate('home')"><span class="ico">⌂</span>홈</button>
-<button class="nav-btn" data-page="storage" onclick="navigate('storage')"><span class="ico">▤</span>저장고</button>
-<button class="nav-btn" data-page="recipes" onclick="navigate('recipes')"><span class="ico">♨</span>레시피</button>
-<button class="nav-btn" data-page="meal" onclick="navigate('meal')"><span class="ico">▦</span>식단</button>
-<button class="nav-btn" data-page="shopping" onclick="navigate('shopping')"><span class="ico">🛒</span>장보기</button>
+<button class="nav-btn active" data-page="home" onclick="navigate('home')"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M4 10.5L12 4l8 6.5V20H4z"/><path d="M10 20v-5h4v5"/></svg>홈</button>
+<button class="nav-btn" data-page="storage" onclick="navigate('storage')"><svg class="svg-ico" viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 9.5h12M9.5 5.5v1.5M9.5 12.5v3"/></svg>냉장고</button>
+<button class="nav-btn" data-page="recipes" onclick="navigate('recipes')"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M4 11h16a8 8 0 01-16 0z"/><path d="M9 7.5c0-1.5 1-1.5 1-3M14 7.5c0-1.5 1-1.5 1-3"/></svg>레시피</button>
+<button class="nav-btn" data-page="meal" onclick="navigate('meal')"><svg class="svg-ico" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8.5 3v4M15.5 3v4"/></svg>식단</button>
+<button class="nav-btn" data-page="shopping" onclick="navigate('shopping')"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M3.5 4.5h2.5l2 11h10l2-8H7"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>장보기</button>
 </div></nav>
 
 <div class="modal-backdrop" id="modalBackdrop" onclick="if(event.target===this)closeModal()"><div class="modal" id="modalContent"></div></div>
@@ -556,7 +766,7 @@ function cookAndDeduct(recipe){
 
 function showCookResult(changed){
   if(!changed.length){
-    openModal(`<h3>조리 완료</h3><p class="hint">저장고에 이 레시피의 재료가 없어서 줄인 재료가 없어요.</p><div class="modal-actions"><button class="btn" onclick="closeModal()">확인</button></div>`);
+    openModal(`<h3>조리 완료</h3><p class="hint">냉장고에 이 레시피의 재료가 없어서 줄인 재료가 없어요.</p><div class="modal-actions"><button class="btn" onclick="closeModal()">확인</button></div>`);
     return;
   }
   openModal(`<h3>이렇게 줄였어요</h3><p class="hint">틀린 것만 눌러서 고쳐 주세요. 맞으면 그냥 닫으면 돼요.</p>
@@ -615,16 +825,17 @@ function daysLeft(date){if(!date)return null;return Math.ceil((new Date(date+'T0
 function expiryStatus(item){let d=daysLeft(item.expiry);if(d===null)return ['날짜 미등록','gray'];if(d<0)return ['기한 경과','danger'];if(d===0)return ['오늘까지','danger'];if(d<=3)return ['임박','danger'];if(d<=7)return ['소비 권장','warn'];return ['여유','good']}
 function navigate(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===page));if(page==='home')renderHome();if(page==='storage')renderStorage();if(page==='recipes')renderRecipes();if(page==='meal')renderMeal();if(page==='shopping')renderShopping();window.scrollTo({top:0,behavior:'smooth'})}
 function showToast(msg){let el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2200)}
-function itemRow(x){ensureRough(x);let d=daysLeft(x.expiry);let exp=d===null?'':d<0?'<span class="pill danger">확인 필요</span>':d<=3?'<span class="pill danger">임박</span>':'';return `<div class="food-row"><div class="food-icon">${ingredientEmoji(x)}</div><div class="food-info"><b>${esc(x.name)}${isImportant(x)?' <span title="중요 품목" style="color:var(--warning)">★</span>':''} ${exp}</b><small>${levelBar(x.level)} · ${esc(x.location)}${x.expiry?' · ~'+x.expiry.slice(5).replace('-','/'):''}</small></div><div class="food-right" style="display:flex;gap:4px;align-items:center"><button class="btn small ghost" title="한 단계 줄이기" onclick="stepDown('${x.id}')">줄었어요</button><button class="text-btn" onclick="openItemDetail('${x.id}')">›</button></div></div>`}
+function itemRow(x){ensureRough(x);let d=daysLeft(x.expiry);let exp=d===null?'':d<0?'<span class="pill danger">! 지났어요</span>':d===0?'<span class="pill danger">! 오늘까지</span>':d<=1?'<span class="pill danger">! D-'+d+'</span>':d<=3?'<span class="pill warn">◷ D-'+d+'</span>':'';return `<div class="food-row"><div class="food-icon">${ingredientEmoji(x)}</div><div class="food-info"><b>${esc(x.name)}${isImportant(x)?' <span title="중요 품목" style="color:var(--warning)">★</span>':''} ${exp}</b><small>${levelBar(x.level)} · ${esc(x.location)}${x.expiry?' · ~'+x.expiry.slice(5).replace('-','/'):''}</small></div><div class="food-right" style="display:flex;gap:4px;align-items:center"><button class="btn small ghost" title="한 단계 줄이기" onclick="stepDown('${x.id}')">줄었어요</button><button class="text-btn" onclick="openItemDetail('${x.id}')">›</button></div></div>`}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function renderHome(){
  normalizeInventory();renderRoughHome();
  document.getElementById('householdLabel').textContent=household;
+ {const eb=document.getElementById('homeEyebrow');if(eb)eb.textContent=household;}
  document.getElementById('statTotal').textContent=inventory.length;
  document.getElementById('statSoon').textContent=inventory.filter(x=>{let d=daysLeft(x.expiry);return d!==null&&d<=3}).length;
  document.getElementById('statShopping').textContent=shopping.filter(x=>!x.checked).length;
  let soon=inventory.filter(x=>{let d=daysLeft(x.expiry);return d!==null&&d<=7}).sort((a,b)=>(daysLeft(a.expiry)??999)-(daysLeft(b.expiry)??999)).slice(0,3);
- document.getElementById('homeExpiry').innerHTML=soon.length?soon.map(itemRow).join(''):'<div class="empty"><b>급하게 먹어야 할 재료가 없어요</b>저장고가 잘 관리되고 있네요!</div>';
+ document.getElementById('homeExpiry').innerHTML=soon.length?soon.map(itemRow).join(''):'<div class="empty"><b>급하게 먹어야 할 재료가 없어요</b>냉장고가 잘 관리되고 있어요.</div>';
  let rec=rankRecipes()[0];document.getElementById('homeRecipe').innerHTML=rec?recipeCard(rec):'<div class="empty">재료를 등록하면 추천 메뉴가 보여요.</div>';
  let todayKey=datePlus(0),meal=mealPlan[todayKey];document.getElementById('homeMeal').innerHTML=meal?`<div class="food-row"><div class="food-icon">${meal.emoji}</div><div class="food-info"><b>${esc(meal.name)}</b><small>오늘 저녁 · ${meal.done?'조리 완료':'예정'}</small></div><button class="btn small secondary" onclick="navigate('meal')">확인</button></div>`:'<div class="empty"><b>오늘 저녁 메뉴가 아직 없어요</b>주간 식단에서 메뉴를 구성해 보세요.</div>';
 }
@@ -633,7 +844,7 @@ function renderStorage(){
  let q=(document.getElementById('searchInput')?.value||'').toLowerCase(),loc=document.getElementById('storageFilter')?.value||'all',sort=document.getElementById('sortFilter')?.value||'expiry';
  let arr=inventory.filter(x=>(category==='all'||x.category===category)&&(loc==='all'||x.location===loc)&&x.name.toLowerCase().includes(q));
  arr.sort((a,b)=>sort==='name'?a.name.localeCompare(b.name,'ko'):sort==='newest'?b.id.localeCompare(a.id):(daysLeft(a.expiry)??9999)-(daysLeft(b.expiry)??9999));
- document.getElementById('storageList').innerHTML=arr.length?arr.map(itemRow).join(''):'<div class="empty"><b>등록된 식재료가 없어요</b>재료 등록 버튼으로 우리 집 저장고를 채워보세요.</div>';
+ document.getElementById('storageList').innerHTML=arr.length?arr.map(itemRow).join(''):'<div class="empty"><b>등록된 식재료가 없어요</b>재료 등록 버튼으로 냉장고를 채워 보세요.</div>';
 }
 function openModal(content){document.getElementById('modalContent').innerHTML=content;document.getElementById('modalBackdrop').classList.add('show')}
 function closeModal(){document.getElementById('modalBackdrop').classList.remove('show')}
@@ -730,7 +941,7 @@ function saveIngredient(e) {
   save();
   closeModal();
   renderAll();
-  showToast('저장고에 재료를 등록했어요');
+  showToast('냉장고에 재료를 넣었어요');
 }
 // =====================================
 // 영수증 AI 인식 기능
@@ -1253,17 +1464,17 @@ function showRecipe(id){
 
 function addRecipeToMeal(id){let r=recipes.find(x=>x.id===id),key=prompt('식단 날짜를 입력해 주세요. (YYYY-MM-DD)',datePlus(0));if(!key)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(key)){showToast('날짜 형식을 확인해 주세요');return}mealPlan[key]={recipeId:r.id,name:r.name,emoji:r.emoji,done:false};save();closeModal();showToast('식단에 메뉴를 추가했어요')}
 function getWeekDates(){let d=new Date(today),day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);return Array.from({length:7},(_,i)=>{let x=new Date(d);x.setDate(x.getDate()+i);return x.toISOString().slice(0,10)})}
-function renderMeal(){let dates=getWeekDates();document.getElementById('weekTitle').textContent=`${dates[0].slice(5).replace('-','.')} – ${dates[6].slice(5).replace('-','.')}`;document.getElementById('weekGrid').innerHTML=dates.map((d,i)=>{let m=mealPlan[d];return `<div class="day"><div class="dow">${['월','화','수','목','금','토','일'][i]}</div><div class="date">${Number(d.slice(8))}일</div>${m?`<div class="meal">${m.emoji} ${esc(m.name)}${m.done?'<br>✓ 완료':''}</div><button onclick="mealAction('${d}')">${m.done?'기록 보기':'관리'}</button>`:`<div class="meal" style="color:#A0A79F">메뉴 없음</div><button onclick="chooseMeal('${d}')">＋ 메뉴</button>`}</div>`}).join('')}
+function renderMeal(){let dates=getWeekDates();document.getElementById('weekTitle').textContent=`${dates[0].slice(5).replace('-','.')} – ${dates[6].slice(5).replace('-','.')}`;document.getElementById('weekGrid').innerHTML=dates.map((d,i)=>{let m=mealPlan[d];return `<div class="day"><div class="dow">${['월','화','수','목','금','토','일'][i]}</div><div class="date">${Number(d.slice(8))}일</div>${m?`<div class="meal">${m.emoji} ${esc(m.name)}${m.done?'<br>✓ 완료':''}</div><button onclick="mealAction('${d}')">${m.done?'기록 보기':'관리'}</button>`:`<div class="meal" style="color:var(--faint)">메뉴 없음</div><button onclick="chooseMeal('${d}')">＋ 메뉴</button>`}</div>`}).join('')}
 function generateMealPlan(){let ranked=rankRecipes().filter(r=>r.score>0);if(!ranked.length){showToast('먼저 식재료를 등록해 주세요');return}let dates=getWeekDates();dates.forEach((d,i)=>{if(!mealPlan[d]||mealPlan[d].done){let r=ranked[i%ranked.length];mealPlan[d]={recipeId:r.id,name:r.name,emoji:r.emoji,done:false}}});save();renderMeal();renderHome();showToast('보유 재료 기반으로 식단을 구성했어요')}
 function chooseMeal(d){let options=recipes.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');openModal(`<h3>메뉴 선택</h3><p class="hint">${d} 저녁 메뉴를 선택하세요.</p><div class="field"><label>레시피</label><select id="chooseRecipe">${options}</select></div><div class="modal-actions"><button class="btn ghost" onclick="closeModal()">취소</button><button class="btn" onclick="saveChosenMeal('${d}')">식단에 추가</button></div>`)}
 function saveChosenMeal(d){let r=recipes.find(x=>x.id===document.getElementById('chooseRecipe').value);mealPlan[d]={recipeId:r.id,name:r.name,emoji:r.emoji,done:false};save();closeModal();renderMeal();renderHome()}
-function mealAction(d){let m=mealPlan[d];if(m.done){openModal(`<h3>조리 완료 기록</h3><p class="hint">${esc(m.name)} · 이미 완료된 메뉴입니다.</p><button class="btn ghost" style="width:100%" onclick="closeModal()">닫기</button>`);return}openModal(`<h3>${m.emoji} ${esc(m.name)}</h3><p class="hint">${d} 저녁 메뉴 관리</p><p class="sub">조리를 완료하면 이 레시피의 주재료를 한 번 쓴 만큼 저장고에서 줄여요. 틀린 건 다음 화면에서 바로 고칠 수 있어요.</p><div class="modal-actions"><button class="btn ghost" onclick="deleteMeal('${d}')">메뉴 취소</button><button class="btn" onclick="completeMeal('${d}')">조리 완료</button></div>`)}
+function mealAction(d){let m=mealPlan[d];if(m.done){openModal(`<h3>조리 완료 기록</h3><p class="hint">${esc(m.name)} · 이미 완료된 메뉴입니다.</p><button class="btn ghost" style="width:100%" onclick="closeModal()">닫기</button>`);return}openModal(`<h3>${m.emoji} ${esc(m.name)}</h3><p class="hint">${d} 저녁 메뉴 관리</p><p class="sub">조리를 완료하면 이 레시피의 주재료를 한 번 쓴 만큼 냉장고에서 줄여요. 틀린 건 다음 화면에서 바로 고칠 수 있어요.</p><div class="modal-actions"><button class="btn ghost" onclick="deleteMeal('${d}')">메뉴 취소</button><button class="btn" onclick="completeMeal('${d}')">조리 완료</button></div>`)}
 function completeMeal(d){let m=mealPlan[d],r=recipes.find(x=>x.id===m.recipeId);let changed=r?cookAndDeduct(r):[];m.done=true;save();renderAll();showCookResult(changed)}
 function deleteMeal(d){delete mealPlan[d];save();closeModal();renderMeal();renderHome()}
 function renderShopping(){document.getElementById('shoppingList').innerHTML=shopping.length?shopping.map(x=>`<div class="shopping-row ${x.checked?'done':''}"><input type="checkbox" ${x.checked?'checked':''} onchange="toggleShopping('${x.id}',this.checked)"><div class="grow"><b style="font-size:13px">${esc(x.name)}</b><div class="sub">${esc(x.qty||'수량 미정')}</div></div><button class="text-btn" onclick="removeShopping('${x.id}')">삭제</button></div>`).join(''):'<div class="empty"><b>장보기 목록이 비어 있어요</b>필요한 재료를 추가해 보세요.</div>'}
 function addShoppingItem(){openModal(`<h3>장보기 항목 추가</h3><p class="hint">구매할 식재료를 입력하세요.</p><form onsubmit="saveShopping(event)"><div class="form-grid"><div class="field full"><label>식재료명 *</label><input name="name" required placeholder="예: 우유"></div><div class="field full"><label>수량</label><input name="qty" placeholder="예: 1팩"></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="closeModal()">취소</button><button class="btn">추가하기</button></div></form>`)}
 function saveShopping(e){e.preventDefault();let f=new FormData(e.target);shopping.push({id:uid(),name:f.get('name'),qty:f.get('qty'),checked:false});save();closeModal();renderShopping();renderHome()}
-function toggleShopping(id,v){let x=shopping.find(a=>a.id===id);if(!x)return;x.checked=v;if(v){addFromShopping(x);showToast(`${x.name}을(를) 저장고에 넣었어요`)}else if(x.addedItemId){inventory=inventory.filter(a=>a.id!==x.addedItemId);delete x.addedItemId}save();renderAll()}
+function toggleShopping(id,v){let x=shopping.find(a=>a.id===id);if(!x)return;x.checked=v;if(v){addFromShopping(x);showToast(`${x.name}을(를) 냉장고에 넣었어요`)}else if(x.addedItemId){inventory=inventory.filter(a=>a.id!==x.addedItemId);delete x.addedItemId}save();renderAll()}
 function removeShopping(id){shopping=shopping.filter(x=>x.id!==id);save();renderShopping();renderHome()}
 function addShortages(){let used=new Set();let count=0;getWeekDates().forEach(d=>{let m=mealPlan[d],r=m&&recipes.find(x=>x.id===m.recipeId);if(!r)return;r.ingredients.forEach(([n,q,u])=>{let have=inventory.filter(x=>sameIngredient(x.name,n)).reduce((s,x)=>s+x.qty,0);if(have<(q||1)&&!used.has(n)){used.add(n);if(!shopping.some(x=>x.name===n&&!x.checked)){shopping.push({id:uid(),name:n,qty:q?`${Math.max(0,q-have)}${u}`:'',checked:false});count++}}})});save();renderShopping();renderHome();showToast(count?`${count}개 부족 재료를 추가했어요`:'추가할 부족 재료가 없어요')}
 function resetDemo(){if(!confirm('샘플 데이터로 초기화할까요? 현재 브라우저에 저장된 변경 내용은 사라집니다.'))return;inventory=structuredClone(seedInventory);shopping=[];mealPlan={};save();renderAll();showToast('샘플 데이터를 초기화했어요')}
@@ -1280,6 +1491,23 @@ let saveTimer = null;
 let realtimeChannel = null;
 let applyingRemote = false;
 
+// =====================================
+// 냉큼 첫 화면 (시작 ~ 완료)
+// =====================================
+const LOGO_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 9.5h12M9.5 5.5v1.5M9.5 12.5v3"/></svg>';
+document.querySelectorAll('[data-logo]').forEach(el => { el.innerHTML = LOGO_SVG; });
+
+const INVITE_KEY = 'nk_invite';        // 초대장으로 들어온 초대 번호 (가입·메일 인증을 거쳐도 기억)
+const PREF_HOUSEHOLD_KEY = 'nk_household';
+const IS_KAKAO_INAPP = /KAKAOTALK/i.test(navigator.userAgent);
+const IS_ANDROID = /Android/i.test(navigator.userAgent);
+
+let obEmailMode = 'signup';
+let obContext = 'onboarding';           // 'onboarding' | 'menu'
+let obPendingCode = '';
+let obFridgeTouched = false;
+let obInviteCache = null;               // { code, expires_at }
+
 const setSyncStatus = (status) => {
   const el = document.getElementById('syncStatus');
   if (el) el.textContent = status;
@@ -1290,17 +1518,366 @@ const setFamilyMessage = (message) => {
   if (el) el.textContent = message;
 };
 
+function obMsg(id, text, isError = true) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text || '';
+  el.classList.toggle('err', !!text && isError);
+}
+
+function myName() {
+  return (currentUser && currentUser.user_metadata && currentUser.user_metadata.name) || '';
+}
+
+async function saveMyName(name) {
+  name = String(name || '').trim().slice(0, 10);
+  if (!sb || !currentUser || !name || name === myName()) return;
+  const { data, error } = await sb.auth.updateUser({ data: { name } });
+  if (!error && data && data.user) {
+    currentUser = data.user;
+    const el = document.getElementById('myNameInput');
+    if (el) el.value = name;
+  }
+}
+
+function showOnboard(screen, opts) {
+  document.getElementById('onboard').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  obGo(screen, opts);
+}
+
+function hideOnboard() {
+  document.getElementById('onboard').classList.remove('show');
+  document.body.style.overflow = '';
+  obContext = 'onboarding';
+}
+
+// 예전 코드와의 호환: 로그인 화면 보이기
 function showAuth(show, message = '') {
-  const gate = document.getElementById('authGate');
+  if (show) showOnboard('start'); else hideOnboard();
+  if (message) obMsg('authMessage', message);
+}
 
-  if (gate) {
-    gate.style.display = show ? 'flex' : 'none';
+function obGo(screen, opts = {}) {
+  document.querySelectorAll('#onboard .ob-screen').forEach(el => {
+    el.classList.toggle('on', el.dataset.screen === screen);
+  });
+  document.getElementById('onboard').scrollTop = 0;
+
+  if (screen === 'start') renderStartScreen();
+
+  if (screen === 'email') {
+    obEmailMode = opts.mode || obEmailMode;
+    const signup = obEmailMode === 'signup';
+    document.getElementById('obEmailTitle').textContent = signup ? '이메일로 시작해요' : '다시 오셨네요';
+    document.getElementById('obEmailDesc').textContent = signup ? '이메일과 비밀번호만 있으면 돼요.' : '가입할 때 쓴 이메일로 로그인해 주세요.';
+    document.getElementById('obEmailSubmit').textContent = signup ? '가입하고 시작하기' : '로그인하기';
+    document.getElementById('obEmailSwitch').innerHTML = signup ? '이미 계정이 있어요 · <b>로그인</b>' : '처음이에요 · <b>이메일로 시작하기</b>';
+    document.getElementById('authPassword').setAttribute('autocomplete', signup ? 'new-password' : 'current-password');
+    obMsg('authMessage', '');
+    setTimeout(() => document.getElementById('authEmail').focus(), 50);
   }
 
-  if (message) {
-    const msg = document.getElementById('authMessage');
-    if (msg) msg.textContent = message;
+  if (screen === 'name') {
+    const nameEl = document.getElementById('obMyName');
+    const fridgeEl = document.getElementById('obFridgeName');
+    if (!nameEl.value) nameEl.value = myName();
+    if (!fridgeEl.value) {
+      obFridgeTouched = false;
+      fridgeEl.value = nameEl.value ? `${nameEl.value}네 냉장고` : '우리 집 냉장고';
+    }
+    obMsg('obNameMsg', '');
   }
+
+  if (screen === 'invite') {
+    const menu = obContext === 'menu';
+    document.getElementById('obInviteTitle').innerHTML = menu ? '가족을 불러 볼까요?' : '냉장고가 생겼어요.<br>가족도 불러 볼까요?';
+    document.getElementById('obInviteLater').textContent = menu ? '닫기' : '나중에 할게요';
+    document.querySelector('[data-screen="invite"] .ob-steps-dots').style.display = menu ? 'none' : '';
+    obMsg('obInviteMsg', '');
+    loadInviteCode();
+  }
+
+  if (screen === 'code') {
+    obMsg('obCodeMsg', '');
+    setTimeout(() => document.getElementById('inviteCode').focus(), 50);
+  }
+
+  if (screen === 'done') {
+    document.getElementById('obDoneDots').style.display = opts.joined ? 'none' : '';
+    document.querySelectorAll('#obQuickChips .ob-chip').forEach(b => { b.disabled = false; b.dataset.added = ''; });
+  }
+}
+
+function obInviteLaterClick() {
+  if (obContext === 'menu') hideOnboard();
+  else obGo('done');
+}
+
+function renderStartScreen() {
+  const kakaoBtn = document.getElementById('obKakaoBtn');
+  kakaoBtn.style.display = (window.APP_CONFIG && APP_CONFIG.KAKAO_LOGIN) ? '' : 'none';
+
+  const inApp = document.getElementById('obInAppBanner');
+  if (IS_KAKAO_INAPP) {
+    inApp.style.display = '';
+    document.getElementById('obOpenExternal').style.display = IS_ANDROID ? '' : 'none';
+    document.getElementById('obInAppHow').textContent = IS_ANDROID
+      ? '아래 버튼을 누르면 크롬에서 이어서 열려요.'
+      : '오른쪽 아래 ··· 버튼을 누르고 ‘다른 브라우저로 열기’를 골라 주세요.';
+  } else {
+    inApp.style.display = 'none';
+  }
+
+  const code = localStorage.getItem(INVITE_KEY);
+  const banner = document.getElementById('obInviteBanner');
+  if (!code) { banner.style.display = 'none'; return; }
+  banner.style.display = '';
+  banner.textContent = '가족 냉장고 초대장을 받았어요. 시작하면 바로 들어가요.';
+  fetchInvitePreview(code).then(p => {
+    if (p && p.status === 'ok' && p.inviter_name) {
+      banner.textContent = `${p.inviter_name}님이 가족 냉장고에 초대했어요. 시작하면 바로 들어가요.`;
+    }
+  });
+}
+
+function inviteLink(code) {
+  return `${location.origin}/?invite=${encodeURIComponent(code)}`;
+}
+
+function openExternalBrowser() {
+  const code = localStorage.getItem(INVITE_KEY);
+  const url = code ? inviteLink(code) : location.origin + '/';
+  location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(url);
+}
+
+// 주소에 ?invite= 가 있으면 기억해 두고 주소창에서는 지웁니다.
+function captureInviteFromUrl() {
+  const params = new URLSearchParams(location.search);
+  const raw = params.get('invite');
+  if (!raw) return;
+  const code = extractInviteCode(raw);
+  if (code) localStorage.setItem(INVITE_KEY, code);
+  params.delete('invite');
+  const qs = params.toString();
+  history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+}
+
+// 초대 번호: 헷갈리는 0·O·1·I·L 없이 6자리
+function extractInviteCode(raw) {
+  if (!raw) return '';
+  let t = String(raw);
+  const link = t.match(/[?&]invite=([A-Za-z0-9-]+)/);
+  if (link) t = link[1];
+  const up = t.toUpperCase();
+  const short = up.match(/(?:^|[^A-Z0-9])([A-HJKMNP-Z2-9]{3})[\s-]?([A-HJKMNP-Z2-9]{3})(?![A-Z0-9])/) ||
+                up.match(/^([A-HJKMNP-Z2-9]{3})[\s-]?([A-HJKMNP-Z2-9]{3})$/);
+  if (short) return short[1] + short[2];
+  const legacy = up.match(/[0-9A-F]{12}/);
+  if (legacy) return legacy[0];
+  return up.replace(/[^A-Z0-9]/g, '');
+}
+
+function formatInviteCode(code) {
+  return code && code.length === 6 ? code.slice(0, 3) + ' ' + code.slice(3) : (code || '');
+}
+
+function formatExpiry(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return `${d.getMonth() + 1}월 ${d.getDate()}일까지`;
+}
+
+function isMissingFunction(error) {
+  return !!error && (error.code === 'PGRST202' || /could not find the function/i.test(error.message || ''));
+}
+
+// 초대장 미리보기 (누가, 어느 냉장고로, 몇 명이) — 서버에 기능이 없으면 null
+async function fetchInvitePreview(code) {
+  if (!sb || !code) return null;
+  try {
+    const { data, error } = await sb.rpc('peek_invite', { p_code: code });
+    if (error) return null;
+    return data || null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// 초대 번호 받기: 새 6자리 번호 → 없으면 예전 초대 코드
+async function getInvite() {
+  if (obInviteCache && (!obInviteCache.expires_at || new Date(obInviteCache.expires_at) > new Date())) return obInviteCache;
+  const { data, error } = await sb.rpc('create_invite', { p_household_id: currentHouseholdId });
+  if (!error && data && data.code) {
+    obInviteCache = data;
+    return data;
+  }
+  if (error && !isMissingFunction(error)) throw error;
+  const legacy = await sb.from('households').select('invite_code').eq('id', currentHouseholdId).single();
+  if (legacy.error) throw legacy.error;
+  obInviteCache = { code: legacy.data.invite_code, expires_at: null };
+  return obInviteCache;
+}
+
+async function loadInviteCode() {
+  const codeEl = document.getElementById('obCode');
+  const expEl = document.getElementById('obCodeExpiry');
+  codeEl.textContent = '······';
+  expEl.textContent = '';
+  if (!currentHouseholdId) { obMsg('obInviteMsg', '냉장고를 먼저 만들어 주세요.'); return; }
+  try {
+    const inv = await getInvite();
+    codeEl.textContent = formatInviteCode(inv.code);
+    expEl.textContent = inv.expires_at ? `${formatExpiry(inv.expires_at)} 쓸 수 있어요` : '';
+  } catch (error) {
+    console.error(error);
+    codeEl.textContent = '- - -';
+    obMsg('obInviteMsg', '초대 번호를 만들지 못했어요. 잠시 후 다시 해 주세요.');
+  }
+}
+
+function inviteText(inv) {
+  const who = myName() || '가족';
+  const exp = inv.expires_at ? ` (${formatExpiry(inv.expires_at)})` : '';
+  return `${who}님이 냉큼으로 초대했어요.\n'${household}'를 가족이랑 함께 봐요.\n\n초대장 열기: ${inviteLink(inv.code)}\n초대 번호 ${formatInviteCode(inv.code)}${exp}`;
+}
+
+async function shareInvite() {
+  let inv;
+  try { inv = await getInvite(); } catch (e) { obMsg('obInviteMsg', '초대 번호를 만들지 못했어요. 잠시 후 다시 해 주세요.'); return; }
+  const text = inviteText(inv);
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: '냉큼 초대장', text });
+      return;
+    } catch (e) {
+      if (e && e.name === 'AbortError') return;
+    }
+  }
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('초대장을 복사했어요. 카카오톡 대화방에 붙여 넣어 주세요');
+  } catch (e) {
+    obMsg('obInviteMsg', '초대 번호를 카톡으로 직접 보내 주세요: ' + formatInviteCode(inv.code), false);
+  }
+}
+
+async function copyInviteLink() {
+  let inv;
+  try { inv = await getInvite(); } catch (e) { obMsg('obInviteMsg', '초대 번호를 만들지 못했어요. 잠시 후 다시 해 주세요.'); return; }
+  try {
+    await navigator.clipboard.writeText(inviteLink(inv.code));
+    showToast('초대 링크를 복사했어요');
+  } catch (e) {
+    obMsg('obInviteMsg', inviteLink(inv.code), false);
+  }
+}
+
+function obCodeInput(el) {
+  const v = el.value;
+  if (v.length > 8 || /[^A-Za-z0-9\s-]/.test(v)) {
+    el.value = extractInviteCode(v);
+  } else {
+    el.value = v.toUpperCase().replace(/[\s-]/g, '');
+  }
+  obMsg('obCodeMsg', '');
+}
+
+async function obCheckCode() {
+  const code = extractInviteCode(document.getElementById('inviteCode').value);
+  if (code.length < 6) { obMsg('obCodeMsg', '초대 번호 6자리를 넣어 주세요.'); return; }
+  obMsg('obCodeMsg', '확인하고 있어요…', false);
+  const preview = await fetchInvitePreview(code);
+  if (preview && preview.status === 'invalid') {
+    obMsg('obCodeMsg', '번호가 맞지 않아요. 카톡 메시지의 번호를 다시 확인해 주세요.');
+    return;
+  }
+  if (preview && preview.status === 'expired') {
+    obMsg('obCodeMsg', `초대장 기한(7일)이 지났어요. ${preview.inviter_name || '가족'}님께 새 초대장을 부탁해 보세요.`);
+    return;
+  }
+  obPendingCode = code;
+  showConfirm(preview, false);
+}
+
+function showConfirm(preview, fromLink) {
+  const p = preview && preview.status === 'ok' ? preview : null;
+  document.getElementById('obConfirmTitle').textContent = p && p.inviter_name ? `${p.inviter_name}님이 초대했어요` : '가족이 초대했어요';
+  document.getElementById('obConfirmFridge').textContent = p && p.household_name ? p.household_name : '가족 냉장고';
+  document.getElementById('obConfirmMembers').textContent = p && p.member_count ? `가족 ${p.member_count}명이 쓰고 있어요` : '초대 번호 ' + formatInviteCode(obPendingCode);
+  document.getElementById('obJoinName').value = myName();
+  document.getElementById('obConfirmSwitch').style.display = currentHouseholdId ? '' : 'none';
+  document.getElementById('obConfirmCancel').style.display = (fromLink || currentHouseholdId) ? '' : 'none';
+  obMsg('obConfirmMsg', '');
+  showOnboard('confirm');
+}
+
+function obBackFromCode() {
+  if (obContext === 'menu' || currentHouseholdId) hideOnboard();
+  else obGo('choose');
+}
+
+function obCancelInvite() {
+  localStorage.removeItem(INVITE_KEY);
+  obPendingCode = '';
+  if (currentHouseholdId) hideOnboard();
+  else obGo('choose');
+}
+
+function obSyncFridgeName() {
+  if (obFridgeTouched) return;
+  const n = document.getElementById('obMyName').value.trim();
+  document.getElementById('obFridgeName').value = n ? `${n}네 냉장고` : '우리 집 냉장고';
+}
+
+function obPickName(btn) {
+  document.getElementById('obFridgeName').value = btn.textContent;
+  obFridgeTouched = true;
+}
+
+function obQuickAdd(btn, name, cat, unit, qty) {
+  if (btn.dataset.added) return;
+  inventory.push({
+    id: uid(), name, category: cat, location: '냉장', qty, unit,
+    purchase: datePlus(0), expiry: '', note: '', emoji: getIngredientEmoji(name, cat)
+  });
+  ensureRough(inventory[inventory.length - 1]);
+  logActivity('add_manual', { item: name });
+  save();
+  renderAll();
+  btn.dataset.added = '1';
+  btn.disabled = true;
+  btn.textContent = '✓ ' + name;
+  showToast(`${name}을(를) 냉장고에 넣었어요`);
+}
+
+function obFinish(kind) {
+  hideOnboard();
+  if (kind === 'receipt') { navigate('storage'); openReceiptPicker(); return; }
+  if (kind === 'manual') { navigate('storage'); openIngredientModal(); return; }
+  navigate('home');
+}
+
+function openInviteFromMenu() {
+  if (!currentHouseholdId) { showToast('냉장고를 먼저 만들어 주세요'); return; }
+  obContext = 'menu';
+  showOnboard('invite');
+}
+
+function openCodeFromMenu() {
+  obContext = 'menu';
+  document.getElementById('inviteCode').value = '';
+  showOnboard('code');
+}
+
+async function startKakao() {
+  if (!sb) return;
+  const code = localStorage.getItem(INVITE_KEY);
+  const { error } = await sb.auth.signInWithOAuth({
+    provider: 'kakao',
+    options: { redirectTo: code ? inviteLink(code) : location.origin }
+  });
+  if (error) obMsg('authMessage', '카카오 로그인을 열지 못했어요. 이메일로 시작해 주세요.');
 }
 
 // Supabase 연결
@@ -1312,7 +1889,7 @@ function initSupabase() {
     !APP_CONFIG.SUPABASE_ANON_KEY
   ) {
     setSyncStatus('설정 필요');
-    showAuth(true, 'Supabase 설정을 확인해 주세요. config.js 파일이 필요합니다.');
+    showAuth(true, '서버 설정을 확인해 주세요. config.js 파일이 필요해요.');
     return false;
   }
 
@@ -1326,6 +1903,7 @@ function initSupabase() {
 
 // 앱 시작
 async function initApp() {
+  captureInviteFromUrl();
   load();
 
   document.getElementById('householdName').value = household;
@@ -1354,7 +1932,7 @@ async function initApp() {
     currentUser = data.session.user;
     await afterLogin();
   } else {
-    showAuth(true);
+    showOnboard('start');
   }
 
   // 로그인 상태 변경 감지
@@ -1371,6 +1949,7 @@ async function initApp() {
       currentUser = null;
       currentHouseholdId = null;
       cloudReady = false;
+      obInviteCache = null;
 
       if (realtimeChannel) {
         sb.removeChannel(realtimeChannel);
@@ -1378,125 +1957,155 @@ async function initApp() {
       }
 
       setSyncStatus('로그아웃');
-      showAuth(true);
+      showOnboard('start');
     }
   });
+}
+
+function authErrorText(error, mode) {
+  const m = (error && error.message) || '';
+  if (/invalid login credentials/i.test(m)) return '이메일이나 비밀번호가 맞지 않아요. 처음이라면 아래 ‘이메일로 시작하기’를 눌러 주세요.';
+  if (/email not confirmed/i.test(m)) return '메일함에서 인증 링크를 먼저 눌러 주세요.';
+  if (/already registered|already been registered/i.test(m)) return '이미 가입한 이메일이에요. 로그인해 주세요.';
+  if (/password/i.test(m)) return '비밀번호는 6자 이상으로 정해 주세요.';
+  if (/rate limit|too many/i.test(m)) return '요청이 많았어요. 1분 뒤에 다시 해 주세요.';
+  if (/valid email|invalid email/i.test(m)) return '이메일 주소를 다시 확인해 주세요.';
+  return mode === 'signup' ? '가입하지 못했어요. 잠시 후 다시 해 주세요.' : '로그인하지 못했어요. 잠시 후 다시 해 주세요.';
 }
 
 // 회원가입 / 로그인
 async function authAction(action) {
   if (!sb) {
-    showAuth(true, 'Supabase 연결을 먼저 확인해 주세요.');
+    obMsg('authMessage', '서버에 연결하지 못했어요. 잠시 후 다시 해 주세요.');
     return;
   }
 
   const email = document.getElementById('authEmail').value.trim();
   const password = document.getElementById('authPassword').value;
-  const message = document.getElementById('authMessage');
 
   if (!email || password.length < 6) {
-    message.textContent = '이메일과 6자 이상의 비밀번호를 입력해 주세요.';
+    obMsg('authMessage', '이메일과 6자 이상의 비밀번호를 넣어 주세요.');
     return;
   }
 
-  message.textContent = '처리 중…';
+  obMsg('authMessage', '잠시만요…', false);
 
   try {
     let result;
 
     if (action === 'signup') {
+      const code = localStorage.getItem(INVITE_KEY);
       result = await sb.auth.signUp({
         email,
         password,
         options: {
-          // 인증 메일의 링크가 localhost가 아니라 지금 접속한 앱 주소로 돌아오게 합니다.
-          emailRedirectTo: window.location.origin
+          // 인증 메일의 링크가 지금 접속한 앱 주소로 돌아오게 합니다. 초대장도 함께 이어집니다.
+          emailRedirectTo: code ? inviteLink(code) : window.location.origin
         }
       });
     } else {
-      result = await sb.auth.signInWithPassword({
-        email,
-        password
-      });
+      result = await sb.auth.signInWithPassword({ email, password });
     }
 
     if (result.error) {
-      message.textContent = result.error.message;
+      obMsg('authMessage', authErrorText(result.error, action));
+      if (/already registered|already been registered/i.test(result.error.message || '')) {
+        obEmailMode = 'signin';
+        obGo('email', { mode: 'signin' });
+        obMsg('authMessage', '이미 가입한 이메일이에요. 비밀번호를 넣고 로그인해 주세요.');
+      }
       return;
     }
 
     // 이메일 인증이 필요한 경우
     if (action === 'signup' && !result.data.session) {
-      message.textContent =
-        '가입 요청이 완료됐어요. 이메일 인증을 마친 뒤 로그인해 주세요.';
+      document.getElementById('obVerifyEmail').textContent = email;
+      document.getElementById('obVerifyInvite').style.display = localStorage.getItem(INVITE_KEY) ? '' : 'none';
+      obGo('verify');
       return;
     }
 
     currentUser = result.data.user;
+    obMsg('authMessage', '');
 
     await afterLogin();
 
   } catch (error) {
     console.error(error);
-    message.textContent = '요청 중 오류가 발생했어요. 잠시 후 다시 시도해 주세요.';
+    obMsg('authMessage', '요청 중 문제가 생겼어요. 잠시 후 다시 해 주세요.');
   }
 }
 
-// 로그인 후 가족 공간 확인
-async function afterLogin() {
+// 로그인 후 가족 냉장고 확인
+// opts.keepOnboard: 첫 화면 흐름 안에서 부를 때 첫 화면을 닫지 않음
+async function afterLogin(opts = {}) {
   if (!currentUser) return;
 
   cloudReady = false;
-  setSyncStatus('가족 공간 확인 중');
+  setSyncStatus('가족 냉장고 확인 중');
 
   // 같은 기기에서 다른 계정으로 로그인했다면 이전 계정의 데이터를 비웁니다.
   if (localStorage.getItem('ms_owner') !== currentUser.id) {
     clearLocalData();
     localStorage.setItem('ms_owner', currentUser.id);
+    localStorage.removeItem(PREF_HOUSEHOLD_KEY);
   }
 
-  showAuth(false);
+  const nameInput = document.getElementById('myNameInput');
+  if (nameInput) nameInput.value = myName();
+  const emailEl = document.getElementById('myEmail');
+  if (emailEl) emailEl.textContent = currentUser.email ? '로그인한 계정: ' + currentUser.email : '';
 
   // 레시피는 화면을 막지 않도록 뒤에서 불러옵니다.
   loadExternalRecipes();
 
   try {
-    // 현재 사용자의 가족 공간 조회
     const { data: memberships, error } = await sb
       .from('household_members')
       .select('household_id')
-      .eq('user_id', currentUser.id)
-      .limit(1);
+      .eq('user_id', currentUser.id);
 
     if (error) throw error;
 
-    // 아직 가족 공간이 없는 사용자
+    const pendingInvite = localStorage.getItem(INVITE_KEY);
+
+    // 아직 가족 냉장고가 없는 사용자
     if (!memberships || memberships.length === 0) {
       currentHouseholdId = null;
       cloudReady = false;
 
-      // 가족 공간이 없는 계정은 빈 화면에서 시작합니다.
       clearLocalData();
       localStorage.setItem('ms_owner', currentUser.id);
 
-      setSyncStatus('가족 공간 필요');
+      setSyncStatus('냉장고 없음');
+      setFamilyMessage('아직 가족 냉장고가 없어요.');
 
-      setFamilyMessage(
-        '로그인됐어요. 가족 공간을 만들거나 배우자의 초대 코드를 입력해 주세요.'
-      );
+      if (pendingInvite) {
+        obPendingCode = pendingInvite;
+        const preview = await fetchInvitePreview(pendingInvite);
+        if (preview && preview.status !== 'ok') {
+          localStorage.removeItem(INVITE_KEY);
+          showOnboard('code');
+          obMsg('obCodeMsg', preview.status === 'expired'
+            ? `초대장 기한(7일)이 지났어요. ${preview.inviter_name || '가족'}님께 새 초대장을 부탁해 보세요.`
+            : '초대장이 맞지 않아요. 카톡 메시지의 번호를 다시 확인해 주세요.');
+          return;
+        }
+        showConfirm(preview, true);
+        return;
+      }
 
-      navigate('more');
+      if (!opts.keepOnboard) showOnboard('choose');
       return;
     }
 
-    currentHouseholdId = memberships[0].household_id;
+    const ids = memberships.map(m => m.household_id);
+    const pref = localStorage.getItem(PREF_HOUSEHOLD_KEY);
+    currentHouseholdId = ids.includes(pref) ? pref : ids[0];
+    localStorage.setItem(PREF_HOUSEHOLD_KEY, currentHouseholdId);
 
-    // 가족 공간 데이터 조회
     await pullCloudState();
-
-    // 실시간 동기화 구독
     subscribeFamily();
-
     cloudReady = true;
 
     // 재방문 측정: 하루에 한 번 "앱 열기" 기록
@@ -1507,25 +2116,36 @@ async function afterLogin() {
     }
 
     setSyncStatus('동기화 완료');
-
-    setFamilyMessage(
-      '가족 저장고에 연결됐어요. 초대 코드를 배우자와 공유해 보세요.'
-    );
-
+    setFamilyMessage('가족이 넣고 뺀 재료가 바로 보여요.');
     document.getElementById('householdName').value = household;
-
-    showAuth(false);
     renderAll();
 
+    if (opts.keepOnboard) return;
+
+    // 이미 냉장고가 있는데 초대장을 받은 경우: 들어갈지 물어봐요
+    if (pendingInvite) {
+      obPendingCode = pendingInvite;
+      const preview = await fetchInvitePreview(pendingInvite);
+      if (preview && preview.status === 'ok' && preview.household_id && ids.includes(preview.household_id)) {
+        localStorage.removeItem(INVITE_KEY);
+        hideOnboard();
+        showToast('이미 들어와 있는 냉장고예요');
+        return;
+      }
+      showConfirm(preview, true);
+      return;
+    }
+
+    hideOnboard();
+
   } catch (error) {
-    console.error('가족 공간 확인 오류:', error);
+    console.error('가족 냉장고 확인 오류:', error);
 
     cloudReady = false;
     setSyncStatus('연결 오류');
-
-    setFamilyMessage(
-      '가족 정보를 불러오지 못했어요: ' + error.message
-    );
+    hideOnboard();
+    setFamilyMessage('가족 냉장고를 불러오지 못했어요. 인터넷 연결을 확인하고 다시 열어 주세요.');
+    showToast('가족 냉장고를 불러오지 못했어요');
   }
 }
 
@@ -1544,20 +2164,10 @@ async function pullCloudState() {
 
     const state = data.state || {};
 
-    inventory = Array.isArray(state.inventory)
-      ? state.inventory
-      : [];
-
-    shopping = Array.isArray(state.shopping)
-      ? state.shopping
-      : [];
-
-    mealPlan = state.mealPlan && typeof state.mealPlan === 'object'
-      ? state.mealPlan
-      : {};
-
+    inventory = Array.isArray(state.inventory) ? state.inventory : [];
+    shopping = Array.isArray(state.shopping) ? state.shopping : [];
+    mealPlan = state.mealPlan && typeof state.mealPlan === 'object' ? state.mealPlan : {};
     activity = Array.isArray(state.activity) ? state.activity : [];
-
     household = data.name || '우리 집 냉장고';
 
     localStorage.setItem('ms_inventory', JSON.stringify(inventory));
@@ -1603,10 +2213,7 @@ async function persistCloudState() {
   try {
     const { error } = await sb
       .from('households')
-      .update({
-        name: household,
-        state
-      })
+      .update({ name: household, state })
       .eq('id', currentHouseholdId);
 
     if (error) throw error;
@@ -1615,12 +2222,8 @@ async function persistCloudState() {
 
   } catch (error) {
     console.error('가족 데이터 저장 오류:', error);
-
     setSyncStatus('저장 실패');
-
-    showToast(
-      '공유 저장에 실패했어요. 인터넷 연결이나 Supabase 권한을 확인해 주세요.'
-    );
+    showToast('저장하지 못했어요. 인터넷 연결을 확인해 주세요.');
   }
 }
 
@@ -1651,19 +2254,12 @@ function subscribeFamily() {
         applyingRemote = true;
 
         const state = newData.state;
+        const seen = new Set(activity.map(a => a.t + a.type + a.by));
 
-        inventory = Array.isArray(state.inventory)
-          ? state.inventory
-          : [];
-
-        shopping = Array.isArray(state.shopping)
-          ? state.shopping
-          : [];
-
+        inventory = Array.isArray(state.inventory) ? state.inventory : [];
+        shopping = Array.isArray(state.shopping) ? state.shopping : [];
         mealPlan = state.mealPlan || {};
-
         activity = Array.isArray(state.activity) ? state.activity : activity;
-
         household = newData.name || household;
 
         localStorage.setItem('ms_inventory', JSON.stringify(inventory));
@@ -1677,7 +2273,14 @@ function subscribeFamily() {
 
         renderAll();
 
-        setSyncStatus('배우자 변경 반영됨');
+        // 냉큼 알림의 첫 알림: 가족이 들어왔어요
+        const joined = activity.filter(a => a.type === 'join' && !seen.has(a.t + a.type + a.by));
+        if (joined.length) {
+          const who = joined[joined.length - 1].name || '가족';
+          showToast(`${who}님이 ${household}에 들어왔어요`);
+        }
+
+        setSyncStatus('가족 변경 반영됨');
       }
     )
     .subscribe((status) => {
@@ -1689,141 +2292,107 @@ function subscribeFamily() {
     });
 }
 
-// 가족 공간 만들기
+// ③ 냉장고 만들기
 async function createFamily() {
-  if (!currentUser) {
-    showAuth(true);
-    return;
-  }
+  if (!currentUser) { showOnboard('start'); return; }
 
-  const name =
-    document.getElementById('householdName').value.trim() ||
-    '우리 집 냉장고';
+  const name = document.getElementById('obFridgeName').value.trim() || '우리 집 냉장고';
+  const btn = document.getElementById('obCreateBtn');
 
-  setFamilyMessage('가족 공간을 만들고 있어요…');
+  btn.disabled = true;
+  obMsg('obNameMsg', '냉장고를 만들고 있어요…', false);
 
   try {
-    // 새 가족 공간은 항상 빈 상태로 만듭니다.
-    const initialState = {
-      inventory: [],
-      shopping: [],
-      mealPlan: {}
-    };
+    await saveMyName(document.getElementById('obMyName').value);
 
     const { data, error } = await sb.rpc('create_household', {
       p_name: name,
-      p_state: initialState
+      p_state: { inventory: [], shopping: [], mealPlan: {} }
     });
 
     if (error) throw error;
-
-    currentHouseholdId = data;
 
     household = name;
+    if (data) localStorage.setItem(PREF_HOUSEHOLD_KEY, data);
+    obInviteCache = null;
 
-    await afterLogin();
+    await afterLogin({ keepOnboard: true });
 
-    showToast('가족 저장고를 만들었어요');
+    if (!currentHouseholdId) throw new Error('household not found after create');
 
-  } catch (error) {
-    console.error(error);
-
-    setFamilyMessage(
-      '가족 공간 생성 실패: ' + error.message
-    );
-  }
-}
-
-// 초대 코드 확인 및 공유
-async function makeInvite() {
-  if (!currentHouseholdId) {
-    setFamilyMessage('먼저 가족 공간을 만들어 주세요.');
-    return;
-  }
-
-  try {
-    const { data, error } = await sb
-      .from('households')
-      .select('invite_code')
-      .eq('id', currentHouseholdId)
-      .single();
-
-    if (error) throw error;
-
-    const code = data.invite_code;
-
-    setFamilyMessage(
-      '배우자에게 아래 초대 코드를 전달하세요: ' + code
-    );
-
-    try {
-      await navigator.clipboard.writeText(code);
-      showToast('초대 코드를 복사했어요');
-    } catch (copyError) {
-      showToast('초대 코드를 화면에서 확인해 주세요');
-    }
+    obContext = 'onboarding';
+    obGo('invite');
 
   } catch (error) {
     console.error(error);
-
-    setFamilyMessage(
-      '초대 코드를 불러오지 못했어요: ' + error.message
-    );
+    obMsg('obNameMsg', '냉장고를 만들지 못했어요. 잠시 후 다시 해 주세요.');
+  } finally {
+    btn.disabled = false;
   }
 }
 
-// 배우자의 가족 공간에 참여
+function joinErrorText(error) {
+  const m = (error && error.message) || '';
+  if (/INVITE_EXPIRED|만료|expired/i.test(m)) return '초대장 기한(7일)이 지났어요. 가족에게 새 초대장을 부탁해 보세요.';
+  if (/INVITE_INVALID|올바르지|invalid|not found/i.test(m)) return '번호가 맞지 않아요. 카톡 메시지의 번호를 다시 확인해 주세요.';
+  return '들어가지 못했어요. 잠시 후 다시 해 주세요.';
+}
+
+// ⑥ 가족 냉장고 들어가기
 async function joinFamily() {
-  if (!currentUser) {
-    showAuth(true);
-    return;
-  }
+  if (!currentUser) { showOnboard('start'); return; }
 
-  const code = document
-    .getElementById('inviteCode')
-    .value.trim()
-    .toUpperCase();
+  const code = obPendingCode || extractInviteCode(document.getElementById('inviteCode').value);
+  if (!code) { obGo('code'); return; }
 
-  if (!code) {
-    setFamilyMessage('초대 코드를 입력해 주세요.');
-    return;
-  }
-
-  setFamilyMessage('가족 공간에 참여하고 있어요…');
+  const btn = document.getElementById('obJoinBtn');
+  btn.disabled = true;
+  obMsg('obConfirmMsg', '들어가고 있어요…', false);
 
   try {
-    const { data, error } = await sb.rpc('join_household', {
-      p_invite_code: code
-    });
+    await saveMyName(document.getElementById('obJoinName').value);
 
-    if (error) throw error;
+    let householdId = null;
+    let res = { error: { code: 'PGRST202' } };
+    if (code.length === 6) {
+      res = await sb.rpc('join_with_invite', { p_code: code });
+    }
+    if (res.error && isMissingFunction(res.error)) {
+      res = await sb.rpc('join_household', { p_invite_code: code });
+    }
+    if (res.error) throw res.error;
+    householdId = res.data;
 
-    currentHouseholdId = data;
+    localStorage.removeItem(INVITE_KEY);
+    obPendingCode = '';
+    if (householdId) localStorage.setItem(PREF_HOUSEHOLD_KEY, householdId);
+    obInviteCache = null;
 
-    await afterLogin();
+    await afterLogin({ keepOnboard: true });
 
-    showToast('가족 저장고에 참여했어요');
+    // 만든 사람에게 "OO님이 들어왔어요"를 알리기 위한 기록
+    logActivity('join', { name: myName() || '가족' });
+    save();
+
+    showToast(`${household}에 들어왔어요`);
+    obGo('done', { joined: true });
 
   } catch (error) {
     console.error(error);
-
-    setFamilyMessage(
-      '가족 공간 참여 실패: ' + error.message
-    );
+    obMsg('obConfirmMsg', joinErrorText(error));
+  } finally {
+    btn.disabled = false;
   }
 }
 
-// 가족 공간 이름 저장
+// 냉장고 이름 저장
 async function saveHouseholdName() {
-  household =
-    document.getElementById('householdName').value.trim() ||
-    '우리 집 냉장고';
-
+  household = document.getElementById('householdName').value.trim() || '우리 집 냉장고';
   save();
-
   document.getElementById('householdLabel').textContent = household;
-
-  showToast('가족 공간 이름을 저장했어요');
+  const eb = document.getElementById('homeEyebrow');
+  if (eb) eb.textContent = household;
+  showToast('냉장고 이름을 바꿨어요');
 }
 
 // 로그아웃
@@ -1833,13 +2402,14 @@ async function signOut() {
   const { error } = await sb.auth.signOut();
 
   if (error) {
-    showToast('로그아웃에 실패했어요.');
+    showToast('로그아웃하지 못했어요.');
     return;
   }
 
   currentUser = null;
   currentHouseholdId = null;
   cloudReady = false;
+  obInviteCache = null;
 
   if (realtimeChannel) {
     sb.removeChannel(realtimeChannel);
@@ -1848,8 +2418,9 @@ async function signOut() {
 
   // 다음 사람이 이 기기에서 로그인해도 내 데이터가 보이지 않게 합니다.
   clearLocalData();
+  localStorage.removeItem(PREF_HOUSEHOLD_KEY);
 
-  showAuth(true, '로그아웃했어요.');
+  showOnboard('start');
 }
 
 // PWA 설치 안내 이벤트
