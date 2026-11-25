@@ -317,7 +317,6 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
     <div class="panel"><div class="panel-head"><h3>먼저 먹으면 좋은 재료</h3><button class="text-btn" onclick="navigate('storage')">전체 보기 →</button></div><div id="homeExpiry" class="item-list"></div></div>
     <div class="panel"><div class="panel-head"><h3>오늘의 추천 메뉴</h3><button class="text-btn" onclick="navigate('recipes')">더 보기 →</button></div><div id="homeRecipe"></div></div>
   </div>
-  <div class="panel"><div class="panel-head"><h3>앞으로 7일 저녁</h3><button class="text-btn" onclick="navigate('meal')">식단 보기 →</button></div><div id="homeMeal"></div></div>
 </section>
 
 <section class="page" id="page-storage">
@@ -1232,7 +1231,7 @@ function renderHome(){
  let soon=inventory.filter(x=>{let d=daysLeft(x.expiry);return d!==null&&d<=7}).sort((a,b)=>(daysLeft(a.expiry)??999)-(daysLeft(b.expiry)??999)).slice(0,3);
  document.getElementById('homeExpiry').innerHTML=soon.length?soon.map(itemRow).join(''):'<div class="empty"><b>급하게 먹어야 할 재료가 없어요</b>냉장고가 잘 관리되고 있어요.</div>';
  let rec=rankRecipes()[0];document.getElementById('homeRecipe').innerHTML=rec?recipeCard(rec):'<div class="empty">재료를 등록하면 추천 메뉴가 보여요.</div>';
- let todayKey=datePlus(0),meal=mealPlan[todayKey];document.getElementById('homeMeal').innerHTML=meal?`<div class="food-row"><div class="food-icon">${meal.emoji}</div><div class="food-info"><b>${esc(meal.name)}</b><small>오늘 저녁 · ${meal.done?'먹었어요':'아직 안 했어요'}</small></div><button class="btn small secondary" onclick="navigate('meal')">확인</button></div>`:'<div class="empty"><b>오늘 저녁 메뉴가 아직 없어요</b>레시피 탭의 [이번 주 식단]에서 정할 수 있어요.</div>';
+ let todayKey=datePlus(0),meal=mealPlan[todayKey];(document.getElementById('homeMeal')||{}).innerHTML=meal?`<div class="food-row"><div class="food-icon">${meal.emoji}</div><div class="food-info"><b>${esc(meal.name)}</b><small>오늘 저녁 · ${meal.done?'먹었어요':'아직 안 했어요'}</small></div><button class="btn small secondary" onclick="navigate('meal')">확인</button></div>`:'<div class="empty"><b>오늘 저녁 메뉴가 아직 없어요</b>레시피 탭의 [이번 주 식단]에서 정할 수 있어요.</div>';
 }
 function setCategory(c,el){category=c;document.querySelectorAll('#categoryTabs .tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');renderStorage()}
 function renderStorage(){
