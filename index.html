@@ -540,12 +540,27 @@ function toAppRecipe(row){
   };
 }
 
+let recipeLoadState = 'loading'; // loading | ok | 실패 이유
 function applyExternalRecipes(rows){
-  const ext = rows.map(toAppRecipe).filter(r=>r.name && r.ingredients.length);
+  // 한 줄이 이상해도 나머지는 보이도록 하나씩 변환
+  const ext = [];
+  rows.forEach(row=>{ try{ const r = toAppRecipe(row); if(r.name && r.ingredients.length) ext.push(r); }catch(e){ console.warn('레시피 변환 실패', row && row.id, e); } });
+  recipeLoadState = ext.length ? 'ok' : `레시피 ${rows.length}개를 받았지만 재료를 읽지 못했어요`;
   recipes = LOCAL_RECIPES.concat(ext);
 }
 
 async function loadExternalRecipes(){
+  try{ await loadExternalRecipesInner(); }
+  catch(e){ console.error('레시피 불러오기 오류', e); recipeLoadState = '오류: ' + (e && e.message || e); }
+  if(!recipes.length && recipeLoadState==='loading') recipeLoadState = '서버에서 레시피를 받지 못했어요';
+  renderRecipes(); renderHome();
+}
+function retryRecipes(){
+  try{ localStorage.removeItem(RECIPE_CACHE_KEY); }catch(_){}
+  recipeLoadState = 'loading'; renderRecipes();
+  loadExternalRecipes();
+}
+async function loadExternalRecipesInner(){
   try{
     const cached = JSON.parse(localStorage.getItem(RECIPE_CACHE_KEY) || 'null');
     if(cached && Array.isArray(cached.rows)){
@@ -556,7 +571,7 @@ async function loadExternalRecipes(){
     }
   }catch(_){}
 
-  if(!sb) return;
+  if(!sb){ recipeLoadState = '서버 연결 전이에요'; return; }
 
   const rows = [];
   const pageSize = 1000;
@@ -567,11 +582,11 @@ async function loadExternalRecipes(){
       .eq('is_published', true)
       .order('id')
       .range(from, from + pageSize - 1);
-    if(error){ console.warn('레시피 불러오기 실패:', error.message); return; }
+    if(error){ console.warn('레시피 불러오기 실패:', error.message); if(!recipes.length) recipeLoadState = '서버 오류: ' + error.message; return; }
     rows.push(...data);
     if(data.length < pageSize) break;
   }
-  if(!rows.length) return;
+  if(!rows.length){ if(!recipes.length) recipeLoadState = '서버에 공개된 레시피가 0개예요'; return; }
 
   // 휴대폰 저장 공간을 아끼기 위해 단계 이미지 주소는 빼고 저장합니다.
   const slim = rows.map(r=>({...r, steps:(r.steps||[]).map(st=>({step_number:st.step_number, instruction:st.instruction}))}));
@@ -1814,7 +1829,9 @@ function renderRecipeThemes(ranked){
     const top = arr.slice(0,12);
     top.slice(0,6).forEach(r=>used.add(r.id));
     return `<section class="rc-row"><div class="rc-row-head"><h3>${title}<small>${desc} · ${arr.length}개</small></h3><button class="text-btn" onclick="openAllRecipes('${key}')">더 보기 ›</button></div><div class="rc-scroll">${top.map(r=>miniCard(r,key)).join('')}</div></section>`;
-  }).join('') || '<div class="empty"><b>레시피를 불러오는 중이에요</b>잠시 후 다시 열어 주세요.</div>';
+  }).join('') || (recipeLoadState==='loading' || recipeLoadState==='ok'
+    ? '<div class="empty"><b>레시피를 불러오는 중이에요</b>잠시만 기다려 주세요.</div>'
+    : `<div class="empty"><b>레시피를 불러오지 못했어요</b>${esc(recipeLoadState)}<br><button class="btn small" style="margin-top:10px" onclick="retryRecipes()">다시 불러오기</button></div>`);
 }
 function openAllRecipes(themeKey){
   recipeThemeFilter = themeKey || '';
