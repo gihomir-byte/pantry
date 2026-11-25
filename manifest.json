@@ -1,13 +1,13 @@
 {
   "id": "/",
-  "name": "나의 저장고",
-  "short_name": "저장고",
-  "description": "우리 집 식재료와 레시피, 식단, 장보기를 함께 관리해요.",
+  "name": "냉큼",
+  "short_name": "냉큼",
+  "description": "냉장고에 뭐가 있는지, 가족이랑 냉큼 확인해요.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#F7F6F0",
-  "theme_color": "#39785A",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FFFFFF",
   "lang": "ko",
   "icons": [
     {
