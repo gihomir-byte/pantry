@@ -63,11 +63,11 @@ C. photo: 사진에서 분명히 알아볼 수 있는 식재료만 넣습니다.
    채소, 과일, 육류, 유제품, 기타
 9. 보관 위치를 다음 중 하나로 추천합니다.
    냉장, 냉동, 실온, 김치냉장고
-10. 상품 특성과 일반적인 식품 보관 기준을 고려해
-    예상 소비기한을 최대한 제안합니다.
-11. 소비기한은 실제 제품 포장에 표시된 날짜가 아니라
-    일반적인 보관 기준을 바탕으로 한 추정값입니다.
-12. 추정이 매우 어려운 경우에만 소비기한을 빈 문자열로 반환합니다.
+10. 상품 특성과 추천 보관 위치를 고려해, 산 날부터 며칠 안에 먹으면 되는지를
+    shelfDays에 숫자(일)로 넣습니다. 예: 두부 5, 우유 10, 대파 10, 계란 30, 고추장 180, 쌀 365
+    날짜를 직접 계산하지 말고 일수만 넣으세요. 날짜 계산은 앱이 합니다.
+11. expiry는 포장에 인쇄된 날짜가 사진에 또렷하게 보일 때만 그 날짜를 넣고, 아니면 빈 문자열입니다.
+12. 추정이 매우 어려운 경우에만 shelfDays를 0으로 둡니다.
 13. 수량은 숫자로, 단위는 문자열로 반환합니다.
 14. 날짜 형식은 반드시 YYYY-MM-DD로 반환합니다.
 15. 사진에 없는 상품이나 정보를 만들어내지 마세요.
@@ -89,7 +89,8 @@ C. photo: 사진에서 분명히 알아볼 수 있는 식재료만 넣습니다.
       "location": "냉장",
       "qty": 1,
       "unit": "개",
-      "expiry": "YYYY-MM-DD",
+      "shelfDays": 5,
+      "expiry": "",
       "emoji": "🥬",
       "price": 3500
     }
@@ -146,7 +147,7 @@ function buildRequestBody(
               data: base64Data,
             },
           },
-          { text: prompt },
+          { text: `오늘 날짜(한국 시간): ${todayInKorea()}. 연도를 판단할 때 이 날짜를 기준으로 하세요.\n` + prompt },
         ],
       },
     ],
@@ -284,10 +285,50 @@ async function callGemini(
   return outputText;
 }
 
+// 소비기한: 포장에 찍힌 날짜(앞뒤 3년 안)면 그대로, 아니면 구매일 + shelfDays
+function expiryFor(item: any, purchaseDate: string, today: string): string {
+  if (isDate(item.expiry)) {
+    const d = daysBetween(today, item.expiry);
+    if (d > -60 && d < 1100) return item.expiry;
+  }
+  const days = Math.round(Number(item.shelfDays));
+  if (Number.isFinite(days) && days > 0 && days <= 1100) return addDays(purchaseDate, days);
+  return "";
+}
+
 const allowedCategories = ["채소", "과일", "육류", "유제품", "기타"];
 const allowedLocations = ["냉장", "냉동", "실온", "김치냉장고"];
 
+function todayInKorea(): string {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Seoul",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+}
+
+function addDays(date: string, days: number): string {
+  const d = new Date(date + "T00:00:00Z");
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
+function daysBetween(a: string, b: string): number {
+  return Math.round(
+    (new Date(b + "T00:00:00Z").getTime() - new Date(a + "T00:00:00Z").getTime()) / 86400000,
+  );
+}
+
+const isDate = (v: unknown) => typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v);
+
 function normalize(parsed: any) {
+  const today = todayInKorea();
+  // 구매일: 1년 넘게 지났거나 미래 날짜면 AI가 연도를 잘못 본 것이라 오늘로 바꿉니다.
+  let purchaseDate = isDate(parsed.purchaseDate) ? parsed.purchaseDate : today;
+  const ago = daysBetween(purchaseDate, today);
+  if (ago < 0 || ago > 365) purchaseDate = today;
+
   const items = parsed.items
     .filter((item: any) => typeof item?.name === "string" && item.name.trim())
     .map((item: any) => ({
@@ -304,7 +345,7 @@ function normalize(parsed: any) {
       unit: typeof item.unit === "string" && item.unit.trim()
         ? item.unit.trim().slice(0, 20)
         : "개",
-      expiry: /^\d{4}-\d{2}-\d{2}$/.test(item.expiry || "") ? item.expiry : "",
+      expiry: expiryFor(item, purchaseDate, today),
       emoji: typeof item.emoji === "string" && item.emoji
         ? item.emoji.slice(0, 8)
         : "🥬",
@@ -312,17 +353,6 @@ function normalize(parsed: any) {
         ? Math.round(Number(item.price))
         : 0,
     }));
-
-  const todayKorea = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Seoul",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(new Date());
-
-  const purchaseDate = /^\d{4}-\d{2}-\d{2}$/.test(parsed.purchaseDate || "")
-    ? parsed.purchaseDate
-    : todayKorea;
 
   const source = ["receipt", "order", "photo"].includes(parsed.source)
     ? parsed.source
