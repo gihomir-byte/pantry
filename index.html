@@ -72,7 +72,7 @@ button.food-info{border:0;background:transparent;text-align:left;padding:2px 0;f
 .rc-search-btn{display:flex;align-items:center;gap:8px;width:100%;border:1px solid var(--border);background:var(--surface);border-radius:var(--r-m);padding:12px 13px;color:var(--faint);font-size:14px;margin:0 0 6px;text-align:left}.rc-search-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2}
 .rc-row{margin:18px 0 4px}.rc-row-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}.rc-row-head h3{margin:0;font-size:16px}.rc-row-head small{display:block;font-size:12px;color:var(--muted);font-weight:500;margin-top:2px}
 .rc-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory;margin:0 -16px;padding-left:16px;padding-right:16px}.rc-scroll::-webkit-scrollbar{display:none}
-.rc-mini{flex:0 0 138px;scroll-snap-align:start;border:1px solid var(--border);border-radius:var(--r-l);background:var(--surface);overflow:hidden;text-align:left;padding:0;color:var(--text);position:relative}.rc-mini .art{height:92px;background:var(--surface-2);display:grid;place-items:center;font-size:38px;overflow:hidden}.rc-mini .art img{width:100%;height:100%;object-fit:cover}.rc-mini b{display:block;font-size:13px;line-height:1.35;padding:8px 9px 2px;height:43px;overflow:hidden}.rc-mini small{display:block;font-size:11px;color:var(--muted);padding:0 9px 9px}.rc-mini small.ok{color:var(--primary);font-weight:700}.rc-mini small.warn{color:var(--warn-ink);font-weight:700}.cook-hist{background:var(--surface-2);border-radius:var(--r-m,12px);padding:10px 12px;margin:0 0 10px;font-size:13px}.cook-hist b{display:block}.cook-hist small{color:var(--muted)}
+.rc-mini{flex:0 0 138px;scroll-snap-align:start;border:1px solid var(--border);border-radius:var(--r-l);background:var(--surface);overflow:hidden;text-align:left;padding:0;color:var(--text);position:relative}.rc-mini .art{height:92px;background:var(--surface-2);display:grid;place-items:center;font-size:38px;overflow:hidden}.rc-mini .art img{width:100%;height:100%;object-fit:cover}.rc-mini b{display:block;font-size:13px;line-height:1.35;padding:8px 9px 2px;height:43px;overflow:hidden}.rc-mini small{display:block;font-size:11px;color:var(--muted);padding:0 9px 9px}.rc-mini small.ok{color:var(--primary);font-weight:700}.rc-mini small.warn{color:var(--warn-ink);font-weight:700}.chips.wrap{flex-wrap:wrap;overflow:visible}.pantry-row{display:flex;align-items:center;gap:12px}.pantry-row .grow{flex:1;min-width:0}.pantry-row b{display:block;font-size:15px}.pantry-row small{display:block;color:var(--muted);font-size:12px;margin-top:2px}.rd-hero{margin:-22px -22px 14px;height:210px;overflow:hidden;background:var(--surface-2);border-radius:var(--r-xl) var(--r-xl) 0 0}.rd-hero img{width:100%;height:100%;object-fit:cover}.rd-sec{border:1px solid var(--border);border-radius:var(--r-l);padding:13px;margin-bottom:16px}.rd-sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.rd-sec-head small{color:var(--muted);font-size:12px}.rd-ing{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;padding:6px 0;border-top:1px dashed var(--border)}.rd-steps{list-style:none;padding:0;margin:6px 0 10px;display:grid;gap:14px}.rd-steps li{display:flex;gap:10px;align-items:flex-start}.rd-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--soft-ink);display:grid;place-items:center;font-weight:800;font-size:13px}.rd-steps p{margin:2px 0 0;font-size:14px;line-height:1.65}.rd-step-img{margin-top:8px;border-radius:var(--r-m);overflow:hidden}.rd-step-img img{width:100%;max-height:220px;object-fit:cover;display:block}.cook-hist{background:var(--surface-2);border-radius:var(--r-m,12px);padding:10px 12px;margin:0 0 10px;font-size:13px}.cook-hist b{display:block}.cook-hist small{color:var(--muted)}
 .rc-fav{position:absolute;top:6px;right:6px;width:30px;height:30px;border-radius:var(--r-s);border:0;background:rgba(255,255,255,.92);font-size:15px;color:var(--danger);display:grid;place-items:center}
 .chips{display:flex;gap:6px;overflow-x:auto;padding:8px 0 2px}.chips::-webkit-scrollbar{display:none}.chip{border:1px solid var(--border);background:var(--surface);border-radius:var(--r-s);padding:7px 11px;font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap}.chip.on{background:var(--text);border-color:var(--text);color:#fff}
 .rc-top{display:flex;justify-content:space-between;align-items:center;margin:0 0 8px}
@@ -343,6 +343,7 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
     <div class="tabs" id="categoryTabs"><button class="tab active" data-cat="all" onclick="setCategory('all',this)">전체</button><button class="tab" data-cat="채소" onclick="setCategory('채소',this)">채소</button><button class="tab" data-cat="과일" onclick="setCategory('과일',this)">과일</button><button class="tab" data-cat="육류" onclick="setCategory('육류',this)">육류</button><button class="tab" data-cat="유제품" onclick="setCategory('유제품',this)">유제품</button><button class="tab" data-cat="기타" onclick="setCategory('기타',this)">기타</button></div>
     <div id="storageList" class="item-list" style="margin-top:13px"></div>
   </div>
+  <div class="panel" id="pantryPanel"></div>
 </section>
 
 <section class="page" id="page-recipes">
@@ -425,35 +426,11 @@ const seedInventory=[
  {id:'i6',name:'김치',category:'기타',qty:300,unit:'g',location:'김치냉장고',purchase:datePlus(-12),expiry:datePlus(30),emoji:'🥬',note:''},
  {id:'i7',name:'우유',category:'유제품',qty:1,unit:'팩',location:'냉장',purchase:datePlus(-2),expiry:datePlus(5),emoji:'🥛',note:'개봉 전'}
 ];
-let recipes = [
-  {id:'r1',name:'두부 김치찌개',emoji:'🍲',time:25,category:'한식',ingredients:[['두부',0.5,'모'],['김치',150,'g'],['대파',0.5,'대']],steps:['김치와 대파를 먹기 좋은 크기로 썰어요.','냄비에 김치를 볶다가 물과 양념을 넣고 끓여요.','두부와 대파를 넣고 5분 더 끓여 완성해요.']},
-  {id:'r2',name:'계란 대파 볶음밥',emoji:'🍳',time:15,category:'한식',ingredients:[['계란',2,'개'],['대파',0.5,'대'],['양파',0.5,'개']],steps:['대파와 양파를 잘게 썰어요.','팬에 파기름을 내고 양파를 볶아요.','계란과 밥을 넣어 고슬고슬하게 볶아요.']},
-  {id:'r3',name:'닭가슴살 양파볶음',emoji:'🍗',time:20,category:'한식',ingredients:[['닭가슴살',200,'g'],['양파',1,'개']],steps:['닭가슴살과 양파를 한입 크기로 썰어요.','팬에 닭가슴살을 먼저 익혀요.','양파와 간장 양념을 넣고 볶아요.']},
-  {id:'r4',name:'두부 계란 부침',emoji:'🥘',time:15,category:'한식',ingredients:[['두부',0.5,'모'],['계란',1,'개']],steps:['두부의 물기를 빼고 도톰하게 썰어요.','풀어 둔 계란물을 입혀요.','기름 두른 팬에 앞뒤로 노릇하게 부쳐요.']},
-  {id:'r5',name:'김치 볶음밥',emoji:'🍚',time:15,category:'한식',ingredients:[['김치',100,'g'],['대파',0.3,'대'],['계란',1,'개']],steps:['김치와 대파를 잘게 썰어요.','팬에 대파와 김치를 볶다가 밥을 넣어요.','간을 맞추고 계란 프라이를 곁들여요.']},
-  {id:'r6',name:'닭가슴살 에그볼',emoji:'🥗',time:25,category:'간편식',ingredients:[['닭가슴살',150,'g'],['계란',1,'개'],['양상추',3,'장']],steps:['닭가슴살을 완전히 익혀 한입 크기로 잘라요.','계란을 삶고 양상추를 씻어요.','그릇에 담고 드레싱을 곁들여요.']},
-  {id:'r7',name:'감자 양파국',emoji:'🥣',time:25,category:'국물요리',ingredients:[['감자',1,'개'],['양파',0.5,'개'],['대파',0.3,'대']],steps:['감자와 양파를 먹기 좋게 썰어요.','냄비에 감자와 물을 넣고 끓여요.','감자가 익으면 양파와 대파를 넣고 간을 맞춰요.']},
-  {id:'r8',name:'토마토 계란볶음',emoji:'🍅',time:12,category:'중식',ingredients:[['토마토',1,'개'],['계란',2,'개']],steps:['토마토를 큼직하게 썰어요.','팬에서 계란을 부드럽게 스크램블해 덜어 둬요.','토마토를 볶다가 계란을 넣고 소금으로 간해요.']},
-  {id:'r9',name:'버섯 간장볶음',emoji:'🍄',time:15,category:'한식',ingredients:[['버섯',150,'g'],['양파',0.5,'개'],['대파',0.3,'대']],steps:['버섯과 양파를 먹기 좋게 썰어요.','팬에 대파와 양파를 볶아요.','버섯과 간장 양념을 넣고 수분이 날아갈 때까지 볶아요.']},
-  {id:'r10',name:'참치 김치찌개',emoji:'🍲',time:20,category:'국물요리',ingredients:[['김치',150,'g'],['참치',1,'캔'],['양파',0.5,'개']],steps:['김치와 양파를 썰어요.','냄비에 김치를 볶다가 물을 넣고 끓여요.','참치를 넣고 5분 정도 더 끓여요.']},
-  {id:'r11',name:'양배추 닭볶음',emoji:'🥬',time:20,category:'한식',ingredients:[['닭가슴살',150,'g'],['양배추',100,'g'],['양파',0.5,'개']],steps:['닭가슴살과 채소를 썰어요.','팬에 닭가슴살을 먼저 익혀요.','양배추와 양파를 넣고 숨이 죽을 때까지 볶아요.']},
-  {id:'r12',name:'감자채전',emoji:'🥔',time:20,category:'한식',ingredients:[['감자',2,'개'],['양파',0.3,'개']],steps:['감자와 양파를 가늘게 채 썰어요.','소금으로 간하고 물기를 살짝 짜요.','팬에 얇게 펴서 앞뒤로 노릇하게 부쳐요.']},
-  {id:'r13',name:'프렌치토스트',emoji:'🍞',time:15,category:'양식',ingredients:[['식빵',2,'장'],['계란',1,'개'],['우유',50,'ml']],steps:['계란과 우유를 골고루 섞어요.','식빵을 계란물에 앞뒤로 적셔요.','버터를 두른 팬에서 약불로 노릇하게 구워요.']},
-  {id:'r14',name:'참치마요 덮밥',emoji:'🍚',time:10,category:'간편식',ingredients:[['참치',1,'캔'],['계란',1,'개'],['양파',0.3,'개']],steps:['양파를 잘게 썰어 볶아요.','계란 프라이를 준비해요.','밥 위에 참치와 양파, 계란을 올리고 마요네즈를 곁들여요.']},
-  {id:'r15',name:'두부 토마토 샐러드',emoji:'🥗',time:10,category:'간편식',ingredients:[['두부',0.5,'모'],['토마토',1,'개']],steps:['두부의 물기를 빼고 깍둑썰기해요.','토마토도 비슷한 크기로 썰어요.','올리브오일과 소금, 후추를 곁들여요.']},
-  {id:'r16',name:'소고기 양파볶음',emoji:'🥩',time:20,category:'한식',ingredients:[['소고기',200,'g'],['양파',1,'개']],steps:['소고기와 양파를 얇게 썰어요.','팬을 달궈 소고기를 볶아요.','양파와 간장 양념을 넣고 익혀요.']},
-  {id:'r17',name:'새우 마늘볶음',emoji:'🦐',time:15,category:'양식',ingredients:[['새우',150,'g'],['마늘',5,'쪽']],steps:['새우는 해동해 물기를 제거해요.','팬에 올리브오일과 마늘을 볶아요.','새우를 넣고 완전히 익을 때까지 볶아요.']},
-  {id:'r18',name:'연어 덮밥',emoji:'🍣',time:15,category:'일식',ingredients:[['연어',150,'g'],['양파',0.3,'개']],steps:['연어는 신선한 회용 제품을 사용해요.','양파를 얇게 썰어 찬물에 담갔다가 물기를 빼요.','밥 위에 연어와 양파를 올리고 간장 소스를 곁들여요.']},
-  {id:'r19',name:'오이 참깨무침',emoji:'🥒',time:10,category:'한식',ingredients:[['오이',1,'개'],['양파',0.2,'개']],steps:['오이를 얇게 썰고 소금에 잠깐 절여요.','양파를 얇게 썰어요.','물기를 짜고 식초, 참기름, 깨로 무쳐요.']},
-  {id:'r20',name:'브로콜리 계란볶음',emoji:'🥦',time:15,category:'간편식',ingredients:[['브로콜리',100,'g'],['계란',2,'개']],steps:['브로콜리를 작게 나눠 살짝 데쳐요.','팬에서 계란을 스크램블해요.','브로콜리를 넣고 소금과 후추로 볶아요.']},
-  {id:'r21',name:'돼지고기 김치볶음',emoji:'🥓',time:20,category:'한식',ingredients:[['돼지고기',150,'g'],['김치',150,'g'],['양파',0.5,'개']],steps:['돼지고기와 김치, 양파를 썰어요.','팬에 돼지고기를 먼저 볶아요.','김치와 양파를 넣고 충분히 익혀요.']},
-  {id:'r22',name:'고구마 우유수프',emoji:'🍠',time:25,category:'양식',ingredients:[['고구마',1,'개'],['우유',200,'ml']],steps:['고구마를 익혀 껍질을 벗겨요.','고구마와 우유를 냄비에 넣고 으깨며 데워요.','농도를 맞추고 소금으로 간해요.']},
-  {id:'r23',name:'가지 간장덮밥',emoji:'🍆',time:20,category:'한식',ingredients:[['가지',1,'개'],['양파',0.3,'개']],steps:['가지와 양파를 먹기 좋게 썰어요.','팬에 가지를 노릇하게 볶아요.','간장 양념을 넣어 졸인 뒤 밥 위에 올려요.']},
-  {id:'r24',name:'소시지 채소볶음',emoji:'🍳',time:15,category:'간편식',ingredients:[['소시지',2,'개'],['양파',0.5,'개'],['파프리카',0.5,'개']],steps:['소시지와 채소를 한입 크기로 썰어요.','팬에 소시지를 먼저 볶아요.','채소를 넣고 케첩 또는 간장으로 간해요.']}
-];
-const LOCAL_RECIPES = recipes.slice();
+let recipes = []; // 레시피는 Supabase(식품안전나라 레시피)에서 불러와요
+const LOCAL_RECIPES = [];
 let inventory,shopping,mealPlan,category='all',household='우리 집 냉장고';
 let favorites=[]; // 우리 집 단골 레시피 이름
+let pantry={setup:false, items:{}}; // 우리 집 양념: {setup:체크 했는지, items:{간장:'have'|'out'}}
 let cookStats={}; // 해 먹은 기록: {요리 이름: {n:횟수, last:'YYYY-MM-DD'}}
 
 // ===== 외부 레시피(식품안전나라) 재료 정리 =====
@@ -814,6 +791,7 @@ function openCookConfirm(recipeId, mealDate){
   openModal(`<h3>${r.emoji} ${esc(r.name)} 만들었어요?</h3>
     <p class="hint">${plan.length ? '냉장고 재료를 이렇게 줄일게요. 안 쓴 재료는 체크를 빼 주세요.' : '냉장고에 이 요리 재료가 없어서 줄일 건 없어요.'}</p>
     ${plan.length ? `<div class="cook-list">${rows}</div>` : ''}
+    ${(()=>{ const ks = recipeSeasonKeys(r).filter(k=>seasonStatus(k)!=='out'); return ks.length ? `<b style="font-size:13px;display:block;margin-top:14px">다 쓴 양념이 있으면 눌러 주세요</b><div class="chips wrap" id="usedUpChips" style="margin-top:8px">${ks.map(k=>`<button type="button" class="chip" data-k="${k}" onclick="this.classList.toggle('on')">${k}</button>`).join('')}</div><p class="hint" style="margin:6px 0 0">누른 양념은 장보기에 넣어 둘게요.</p>` : ''; })()}
     <div class="modal-actions"><button class="btn ghost" style="flex:1" onclick="closeModal()">취소</button><button class="btn" style="flex:2" onclick="confirmCook()">${plan.length ? '이렇게 줄여 주세요' : '잘 먹었어요'}</button></div>`);
 }
 function confirmCook(){
@@ -823,22 +801,97 @@ function confirmCook(){
   const r = recipes.find(x=>x.id===recipeId);
   if(!r) return;
   const keep = [...document.querySelectorAll('.cook-row input')].filter(c=>c.checked).map(c=>plan[Number(c.dataset.i)]);
+  const usedUp = [...document.querySelectorAll('#usedUpChips .chip.on')].map(c=>c.dataset.k);
   closeModal();
   withUndo(()=>{
     cookAndDeduct(r, keep);
+    usedUp.forEach(k=>{ setSeasoning(k,'out'); addShoppingOnce(k, true); });
     const key = mealDate || datePlus(0);
     if(mealPlan[key] && (mealDate || mealPlan[key].recipeId===r.id)) mealPlan[key].done = true;
-  }, keep.length ? `${keep.length}가지 재료를 줄였어요` : '잘 먹었어요!');
+  }, (keep.length ? `${keep.length}가지 재료를 줄였어요` : '잘 먹었어요!') + (usedUp.length ? ` · 양념 ${usedUp.length}개 장보기에 넣었어요` : ''));
 }
 
 // 장보기 체크 → 저장고에 "넉넉"으로 추가 (체크 해제하면 되돌림)
 function addFromShopping(item){
   const name = item.name;
+  const sk = seasonKey(name);
+  if(sk){ item.seasoningKey = sk; item.prevSeason = (pantry.items||{})[sk] || ''; setSeasoning(sk,'have'); logActivity('shopping_add', {item:name}); return; }
   const category = guessCategory(name);
   const x = ensureRough({id:uid(), name, category, location: category==='기타' ? '실온' : '냉장', qty:1, unit:'개', purchase:datePlus(0), expiry:'', note:'장보기에서 추가', emoji:getIngredientEmoji(name, category)});
   inventory.push(x);
   item.addedItemId = x.id;
   logActivity('shopping_add', {item:name});
+}
+// ===== 우리 집 양념: 양·기한 없이 있음/떨어짐만 =====
+const BASIC_SEASONINGS = [['소금',['소금','소금물','천일염','꽃소금']],['설탕',['설탕','흑설탕','백설탕']],['간장',['간장','진간장','국간장','양조간장','저염간장']],['식용유',['식용유','포도씨유','카놀라유','콩기름']],['후추',['후추','후춧가루']],['고추장',['고추장']],['된장',['된장','저염된장']],['고춧가루',['고춧가루']],['참기름',['참기름']],['다진마늘',['다진마늘','마늘']],['식초',['식초','식초물']],['굴소스',['굴소스']],['맛술',['맛술','미림','청주']],['올리고당',['올리고당','물엿']],['깨',['깨','통깨','참깨']]];
+const EXTRA_SEASONINGS = [['올리브유',['올리브유','올리브오일']],['들기름',['들기름']],['꿀',['꿀']],['케첩',['케첩','케찹']],['마요네즈',['마요네즈']],['버터',['버터','무염버터']],['전분',['전분','녹말','감자전분']],['밀가루',['밀가루']],['부침가루',['부침가루']],['튀김가루',['튀김가루']],['빵가루',['빵가루']],['카레가루',['카레가루']],['쌈장',['쌈장']],['생강',['다진생강','생강']],['레몬즙',['레몬즙']]];
+const DEFAULT_HAVE = ['소금','설탕','간장','식용유','후추'];
+const SEASONING_GROUPS = BASIC_SEASONINGS.concat(EXTRA_SEASONINGS);
+function seasonKey(name){
+  const n = String(name||'').replace(/\s/g,'');
+  const g = SEASONING_GROUPS.find(([k,al])=>al.includes(n));
+  return g ? g[0] : null;
+}
+// have / out / unknown / skip(물, 육수처럼 따로 챙기지 않는 것)
+function seasonStatus(key){
+  if(!key) return 'skip';
+  const v = (pantry.items||{})[key];
+  if(v==='have') return v;
+  if(v==='out'){ const g = SEASONING_GROUPS.find(x=>x[0]===key); return g && g[1].some(hasStock) ? 'have' : 'out'; }
+  if(DEFAULT_HAVE.includes(key)) return 'have';
+  // 냉장고 목록에 마늘·버터처럼 따로 넣어 둔 게 있으면 있음
+  const g = SEASONING_GROUPS.find(x=>x[0]===key);
+  if(g && g[1].some(hasStock)) return 'have';
+  return pantry.setup ? 'out' : 'unknown';
+}
+function recipeSeasonKeys(r){
+  return [...new Set((r.seasonings||[]).map(x=>seasonKey(x[0])).filter(Boolean))];
+}
+function seasoningsOut(r){ return recipeSeasonKeys(r).filter(k=>seasonStatus(k)==='out'); }
+function setSeasoning(key, v){
+  pantry.items = pantry.items || {};
+  pantry.items[key] = v;
+}
+function addShoppingOnce(name, auto){
+  if(shopping.some(s=>!s.checked && sameIngredient(s.name, name))) return false;
+  shopping.push({id:uid(), name, qty:'', checked:false, auto:!!auto});
+  return true;
+}
+let pantryDraft = null;
+function openPantrySheet(){
+  pantryDraft = new Set(SEASONING_GROUPS.map(g=>g[0]).filter(k=>seasonStatus(k)==='have'));
+  const chips = list => list.map(([k])=>`<button type="button" class="chip ${pantryDraft.has(k)?'on':''}" data-k="${k}" onclick="togglePantryDraft(this)">${k}</button>`).join('');
+  openModal(`<h3>🧂 우리 집 양념</h3>
+    <p class="hint">지금 집에 있는 양념을 눌러 주세요. 양이나 기한은 안 적어도 돼요. 떨어지면 요리할 때 한 번만 알려 주세요.</p>
+    <b style="font-size:13px">자주 쓰는 양념</b>
+    <div class="chips wrap" style="margin:8px 0 14px">${chips(BASIC_SEASONINGS)}</div>
+    <b style="font-size:13px">있으면 눌러 주세요</b>
+    <div class="chips wrap" style="margin:8px 0 4px">${chips(EXTRA_SEASONINGS)}</div>
+    <div class="modal-actions"><button class="btn ghost" style="flex:1" onclick="closeModal()">취소</button><button class="btn" style="flex:2" onclick="savePantrySheet()">이렇게 저장</button></div>`);
+}
+function togglePantryDraft(el){
+  const k = el.dataset.k;
+  if(pantryDraft.has(k)) pantryDraft.delete(k); else pantryDraft.add(k);
+  el.classList.toggle('on');
+}
+function savePantrySheet(){
+  const draft = pantryDraft; pantryDraft = null;
+  closeModal();
+  withUndo(()=>{
+    pantry.setup = true;
+    SEASONING_GROUPS.forEach(([k])=>setSeasoning(k, draft.has(k) ? 'have' : 'out'));
+  }, `양념 ${draft.size}개 있다고 저장했어요`);
+}
+function renderPantry(){
+  const el = document.getElementById('pantryPanel');
+  if(!el) return;
+  if(!pantry.setup){
+    el.innerHTML = `<div class="pantry-row"><span class="food-icon">🧂</span><span class="grow"><b>우리 집 양념</b><small>한 번만 체크해 두면 레시피에서 없는 양념을 알려 드려요</small></span><button class="btn small" onclick="openPantrySheet()">체크하기</button></div>`;
+    return;
+  }
+  const have = SEASONING_GROUPS.filter(([k])=>seasonStatus(k)==='have').length;
+  const outBasic = BASIC_SEASONINGS.map(g=>g[0]).filter(k=>seasonStatus(k)==='out');
+  el.innerHTML = `<div class="pantry-row"><span class="food-icon">🧂</span><span class="grow"><b>우리 집 양념 ${have}가지</b><small>${outBasic.length ? '없는 양념: '+outBasic.map(esc).join(', ') : '자주 쓰는 양념은 다 있어요'}</small></span><button class="btn small secondary" onclick="openPantrySheet()">고치기</button></div>`;
 }
 // 이름으로 보관 위치·단위 짐작 (분류는 guessCategory)
 function guessLocation(name, category){
@@ -879,7 +932,7 @@ function guessCategory(name){
 
 // 새 사용자는 빈 저장고로 시작합니다. (샘플 데이터 없음)
 function load(){
- try{inventory=JSON.parse(localStorage.getItem('ms_inventory'))||[];shopping=JSON.parse(localStorage.getItem('ms_shopping'))||[];mealPlan=JSON.parse(localStorage.getItem('ms_meal'))||{};household=localStorage.getItem('ms_household')||'우리 집 냉장고';activity=JSON.parse(localStorage.getItem('ms_activity'))||[];favorites=JSON.parse(localStorage.getItem('ms_favorites'))||[];cookStats=JSON.parse(localStorage.getItem('ms_cookstats'))||{};seedCookStats()}
+ try{inventory=JSON.parse(localStorage.getItem('ms_inventory'))||[];shopping=JSON.parse(localStorage.getItem('ms_shopping'))||[];mealPlan=JSON.parse(localStorage.getItem('ms_meal'))||{};household=localStorage.getItem('ms_household')||'우리 집 냉장고';activity=JSON.parse(localStorage.getItem('ms_activity'))||[];favorites=JSON.parse(localStorage.getItem('ms_favorites'))||[];cookStats=JSON.parse(localStorage.getItem('ms_cookstats'))||{};pantry=JSON.parse(localStorage.getItem('ms_pantry'))||pantry;seedCookStats()}
  catch(e){inventory=[];shopping=[];mealPlan={}}
 }
 
@@ -899,6 +952,7 @@ function save(){
   localStorage.setItem('ms_activity', JSON.stringify(activity));
   localStorage.setItem('ms_favorites', JSON.stringify(favorites));
   localStorage.setItem('ms_cookstats', JSON.stringify(cookStats));
+  localStorage.setItem('ms_pantry', JSON.stringify(pantry));
 
   if (typeof queueCloudSave === 'function') {
     queueCloudSave();
@@ -924,7 +978,7 @@ function showToast(msg, opt){
 }
 // 바꾸기 전 상태를 기억해 두고, 바꾼 뒤 [되돌리기]를 보여줍니다.
 function withUndo(fn, msg){
-  const snap = JSON.stringify({inventory, shopping, mealPlan, cookStats, actLen: activity.length});
+  const snap = JSON.stringify({inventory, shopping, mealPlan, cookStats, pantry, actLen: activity.length});
   const ret = fn();
   save(); renderAll();
   showToast(typeof msg === 'function' ? msg(ret) : msg, {undo:true});
@@ -934,7 +988,7 @@ function withUndo(fn, msg){
 function undoLast(){
   if(!undoSnap) return;
   const s = JSON.parse(undoSnap); undoSnap = null;
-  inventory = s.inventory; shopping = s.shopping; mealPlan = s.mealPlan; if(s.cookStats) cookStats = s.cookStats;
+  inventory = s.inventory; shopping = s.shopping; mealPlan = s.mealPlan; if(s.cookStats) cookStats = s.cookStats; if(s.pantry) pantry = s.pantry;
   activity = activity.slice(0, s.actLen);
   logActivity('undo', {});
   save(); renderAll(); closeModal();
@@ -1499,6 +1553,10 @@ function saveReceiptItems(){
     });
   }
 
+  // 간장·고추장 같은 양념은 냉장고 목록 대신 '우리 집 양념'에 있음으로
+  const seasonItems = newItems.filter(it=>seasonKey(it.name));
+  seasonItems.forEach(it=>setSeasoning(seasonKey(it.name),'have'));
+  newItems.splice(0, newItems.length, ...newItems.filter(it=>!seasonKey(it.name)));
   newItems.forEach(ensureRough);
   inventory.push(...newItems);
   // 장보기 목록에 있던 재료면 체크 (냉장고에는 위에서 넣었으니 따로 추가하지 않아요)
@@ -1506,6 +1564,10 @@ function saveReceiptItems(){
   newItems.forEach(it=>{
     const s = shopping.find(sh=>!sh.checked && sameIngredient(sh.name, it.name));
     if(s){ s.checked = true; s.addedItemId = it.id; boughtCount++; }
+  });
+  seasonItems.forEach(it=>{
+    const s = shopping.find(sh=>!sh.checked && seasonKey(sh.name)===seasonKey(it.name));
+    if(s){ s.checked = true; s.seasoningKey = seasonKey(it.name); boughtCount++; }
   });
   logActivity('add_receipt', {items:newItems.length});
 
@@ -1515,7 +1577,7 @@ function saveReceiptItems(){
 
   receiptDraft=[];
 
-  showToast(`${newItems.length}개 재료를 냉장고에 넣었어요${boughtCount?` · 장보기 ${boughtCount}개 체크`:''}`);
+  showToast(`${newItems.length}개 재료를 냉장고에 넣었어요${seasonItems.length?` · 양념 ${seasonItems.length}개 있음 표시`:''}${boughtCount?` · 장보기 ${boughtCount}개 체크`:''}`);
 }
 // 식재료 관리 상세 화면
 function openItemDetail(id){
@@ -1631,8 +1693,9 @@ function rankRecipes(){
     const matches=r.ingredients.filter(([n])=>hasStock(n));
     const urgent=r.ingredients.filter(([n])=>stockFor(n).some(x=>daysLeft(x.expiry)!==null&&daysLeft(x.expiry)<=3));
     const missing=r.ingredients.filter(([n])=>!hasStock(n));
-    const score=Math.max(0,Math.round(matches.length/total*60+urgent.length*12+(missing.length===0?15:0)-missing.length*4));
-    return {...r,matches,urgent,missing,score};
+    const sOut=seasoningsOut(r);
+    const score=Math.max(0,Math.round(matches.length/total*60+urgent.length*12+(missing.length===0?15:0)-missing.length*4-sOut.length*3));
+    return {...r,matches,urgent,missing,sOut,score};
   }).sort((a,b)=>b.score-a.score || (a.time??99)-(b.time??99));
 }
 
@@ -1645,7 +1708,7 @@ function recipeCard(r){
       <p>보유 재료 ${r.matches.length}/${r.ingredients.length}개 · 부족 ${r.missing.length}개</p>
       <div class="recipe-meta">
         <span class="pill">${esc(recipeKind(r))}</span>${r.time?`<span class="pill">${r.time}분</span>`:''}
-        ${r.urgent.length?'<span class="pill warn">임박 재료 활용</span>':''}
+        ${r.urgent.length?'<span class="pill warn">임박 재료 활용</span>':''}${r.sOut.length?`<span class="pill gray">양념 ${r.sOut.length}개 없어요</span>`:''}
       </div>
       <button class="btn small" style="width:100%;margin-top:11px" onclick="showRecipe('${r.id}')">레시피 보기</button>
     </div>
@@ -1731,9 +1794,10 @@ let recipeKindFilter = 'all', recipeMainFilter = 'all', recipeThemeFilter = '';
 function miniCard(r, key){
   const fav = favorites.includes(r.name);
   const n = cookCount(r.name), ago = cookDaysAgo(r.name);
-  const sub = key==='cooked' ? `<small class="ok">${n}번 해 먹었어요</small>`
+  const sub0 = key==='cooked' ? `<small class="ok">${n}번 해 먹었어요</small>`
     : key==='again' ? `<small class="warn">${sinceText(ago)}</small>`
-    : r.missing.length===0 ? '<small class="ok">바로 만들 수 있어요</small>' : `<small>${r.missing.length}개 사야 해요</small>`;
+    : r.missing.length===0 ? (r.sOut.length ? `<small>양념 ${r.sOut.length}개만 없어요</small>` : '<small class="ok">바로 만들 수 있어요</small>') : `<small>${r.missing.length}개 사야 해요</small>`;
+  const sub = sub0;
   return `<div class="rc-mini" role="button" tabindex="0" onclick="showRecipe('${r.id}')"><div class="art">${r.image?`<img src="${esc(r.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.replaceWith(document.createTextNode('${r.emoji}'))">`:r.emoji}</div><b>${esc(r.name)}</b>${sub}<button class="rc-fav" aria-label="단골로 표시" onclick="event.stopPropagation();toggleFavorite('${r.id}')">${fav?'♥':'♡'}</button></div>`;
 }
 function renderRecipeThemes(ranked){
@@ -1821,42 +1885,77 @@ function youtubeSearchUrl(name){
     encodeURIComponent(name+' 레시피 만드는 법');
 }
 
-function showRecipe(id){
-  const r=rankRecipes().find(x=>x.id===id);
-  if(!r){showToast('레시피를 찾을 수 없어요.');return;}
+// 단계 사진은 휴대폰 저장 공간을 아끼려고 상세를 열 때 그 레시피 하나만 불러와요
+const stepImgCache = new Map();
+function stepImageOf(st){
+  for(const [k,v] of Object.entries(st||{})){
+    if(typeof v==='string' && /^https?:\/\//.test(v) && (/img|image|photo|url/i.test(k) || /\.(jpe?g|png|gif|webp)(\?|$)/i.test(v))) return v.replace(/^http:/,'https:');
+  }
+  return '';
+}
+async function loadStepImages(r){
+  if(!r.external || !sb) return;
+  let imgs = stepImgCache.get(r.id);
+  if(!imgs){
+    try{
+      const { data, error } = await sb.from('recipes_external').select('steps').eq('id', r.id.slice(1)).single();
+      if(error || !data) return;
+      imgs = (data.steps||[]).slice().sort((a,b)=>(a.step_number||0)-(b.step_number||0)).filter(st=>String(st.instruction||'').trim()).map(stepImageOf);
+      stepImgCache.set(r.id, imgs);
+    }catch(_){ return; }
+  }
+  document.querySelectorAll('#modalContent .rd-step-img').forEach(el=>{
+    const src = imgs[Number(el.dataset.i)];
+    if(src){ el.innerHTML = `<img src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.remove()">`; el.hidden = false; }
+  });
+}
+function addMissingToShopping(id){
+  const r = rankRecipes().find(x=>x.id===id);
+  if(!r) return;
+  withUndo(()=>{
+    let n = 0;
+    r.missing.forEach(([name])=>{ if(addShoppingOnce(name)) n++; });
+    r.sOut.forEach(k=>{ if(addShoppingOnce(k)) n++; });
+    return n;
+  }, n=> n ? `장보기에 ${n}개 넣었어요` : '이미 장보기에 다 있어요');
+  showRecipe(id);
+}
+function showRecipe(id, fallbackName){
+  const all = rankRecipes();
+  const r = all.find(x=>x.id===id) || (fallbackName && all.find(x=>x.name===fallbackName));
+  if(!r){showToast('이 레시피는 이제 없어요. 다른 레시피를 골라 주세요.');return;}
 
-  const servings=Number(document.getElementById('servingsFilter')?.value||2);
   const ingredientRows=r.ingredients.map(([name,qty,unit,label])=>{
     const have=hasStock(name);
-    // 외부 레시피는 원문 분량을 그대로, 기본 레시피는 인분에 맞춰 계산
-    const amount=r.external ? '' : `${qty*servings/2}${unit}`;
-    return `<div style="display:flex;justify-content:space-between;gap:8px;font-size:12px">
-      <span>${have?'🟢':'⚪'} ${esc(r.external?label:name)}</span>
-      <b>${esc(amount)}${amount?' · ':''}${have?'보유':'구매 필요'}</b>
-    </div>`;
+    return `<div class="rd-ing"><span>${esc(label||name)}</span><span class="pill ${have?'':'gray'}">${have?'있어요':'없어요'}</span></div>`;
   }).join('');
-  const seasoningLine=(r.seasonings||[]).length
-    ? `<p class="sub" style="margin-top:10px">양념: ${r.seasonings.map(x=>esc(x[3]||x[0])).join(', ')}</p>`
-    : '';
+  const seasonRows=(r.seasonings||[]).map(x=>{
+    const st = seasonStatus(seasonKey(x[0]));
+    const tag = st==='have' ? '<span class="pill">있어요</span>' : st==='out' ? '<span class="pill danger">없어요</span>' : '';
+    return `<div class="rd-ing"><span>${esc(x[3]||x[0])}</span>${tag}</div>`;
+  }).join('');
+  const needBuy = r.missing.length + r.sOut.length;
+  const kind = recipeKind(r);
 
   openModal(`
+    ${r.image?`<div class="rd-hero"><img src="${esc(r.image)}" alt="" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></div>`:''}
     <h3>${r.emoji} ${esc(r.name)}</h3>
-    ${r.image?`<img src="${esc(r.image)}" alt="" referrerpolicy="no-referrer" style="width:100%;max-height:220px;object-fit:cover;border-radius:14px;margin-bottom:10px" onerror="this.remove()">`:''}
-    <p class="hint">${r.time?r.time+'분 · ':''}${esc(r.category)}${r.external?' · 식품안전나라 레시피':` · ${servings}인분 기준`}</p>
-    <div class="panel" style="box-shadow:none;padding:13px">
-      <b>필요한 재료</b>
-      <div style="margin-top:10px;display:grid;gap:9px">${ingredientRows}</div>
-      ${seasoningLine}
+    <p class="hint">${esc(kind)} · 재료 ${r.ingredients.length}가지 · ${r.steps.length}단계${r.external?' · 식품안전나라 레시피':''}</p>
+    ${cookCount(r.name) ? `<div class="cook-hist"><b>🍳 지금까지 ${cookCount(r.name)}번 해 먹었어요</b><small>마지막 ${fmtMD(cookStats[r.name].last)} · ${sinceText(cookDaysAgo(r.name))}</small></div>` : '<div class="cook-hist"><small>아직 우리 집에서 안 해 먹은 요리예요</small></div>'}
+    <div class="rd-sec">
+      <div class="rd-sec-head"><b>재료</b><small>있는 재료 ${r.matches.length}/${r.ingredients.length}</small></div>
+      ${ingredientRows}
+      ${seasonRows ? `<div class="rd-sec-head" style="margin-top:12px"><b>양념</b>${pantry.setup?'':'<button class="text-btn" onclick="openPantrySheet()">우리 집 양념 체크하기</button>'}</div>${seasonRows}` : ''}
+      ${needBuy ? `<button class="btn secondary" style="width:100%;margin-top:12px" onclick="addMissingToShopping('${r.id}')">없는 재료 ${needBuy}개 장보기에 넣기</button>` : ''}
     </div>
-    <b style="font-size:13px">조리 순서</b>
-    <ol style="font-size:13px;line-height:1.8;padding-left:20px">
-      ${r.steps.map(step=>`<li>${esc(step)}</li>`).join('')}
+    <div class="rd-sec-head"><b>만드는 법</b><small>${r.steps.length}단계</small></div>
+    <ol class="rd-steps">
+      ${r.steps.map((step,i)=>`<li><span class="rd-num">${i+1}</span><div class="grow"><p>${esc(step)}</p><div class="rd-step-img" data-i="${i}" hidden></div></div></li>`).join('')}
     </ol>
     <a class="text-btn" href="${youtubeSearchUrl(r.name)}" target="_blank" rel="noopener noreferrer"
        style="display:block;text-align:center;text-decoration:none;margin:4px 0 14px">
-      ▶ 유튜브에서 만드는 영상 보기
+      ▶ 유튜브에서 만드는 영상도 보기
     </a>
-    ${cookCount(r.name) ? `<div class="cook-hist"><b>🍳 지금까지 ${cookCount(r.name)}번 해 먹었어요</b><small>마지막 ${fmtMD(cookStats[r.name].last)} · ${sinceText(cookDaysAgo(r.name))}</small></div>` : '<div class="cook-hist"><small>아직 우리 집에서 안 해 먹은 요리예요</small></div>'}
     <button class="btn ghost" style="width:100%;margin-bottom:8px" onclick="toggleFavorite('${r.id}');showRecipe('${r.id}')">${favorites.includes(r.name)?'♥ 우리 집 단골':'♡ 단골로 표시'}</button>
     <button class="btn big" onclick="openCookConfirm('${r.id}')">이 요리 했어요</button>
     <div class="modal-actions" style="margin-top:8px">
@@ -1864,6 +1963,9 @@ function showRecipe(id){
       <button class="btn secondary" style="flex:1" onclick="addRecipeToMeal('${r.id}')">식단에 넣기</button>
     </div>
   `);
+  document.getElementById('modalContent').parentElement?.scrollTo?.({top:0});
+  document.querySelector('.modal')?.scrollTo?.({top:0});
+  loadStepImages(r);
 }
 
 const DOW = ['일','월','화','수','목','금','토'];
@@ -1897,7 +1999,7 @@ function renderMeal(){
   document.getElementById('weekGrid').innerHTML = dates.map(d=>{
     const m = mealPlan[d], L = dayLabel(d);
     const name = m
-      ? `<button class="meal-name" onclick="showRecipe('${m.recipeId}')">${m.emoji} ${esc(m.name)}${m.done?' <span class="pill">먹었어요</span>':''}</button>`
+      ? `<button class="meal-name" onclick="showRecipe('${m.recipeId}','${esc(m.name).replace(/'/g,'')}')">${m.emoji} ${esc(m.name)}${m.done?' <span class="pill">먹었어요</span>':''}</button>`
       : `<span class="meal-name none">아직 안 정했어요</span>`;
     const acts = !m ? `<button class="btn small secondary" onclick="chooseMeal('${d}')">＋ 메뉴</button>`
       : m.done ? '' : `<button class="btn small" onclick="completeMeal('${d}')">했어요</button><button class="btn small ghost" onclick="chooseMeal('${d}')">바꾸기</button>`;
@@ -1948,12 +2050,13 @@ function toggleShopping(id,v){
     x.checked = v;
     if(v) addFromShopping(x);
     else if(x.addedItemId){ inventory = inventory.filter(a=>a.id!==x.addedItemId); delete x.addedItemId; }
-  }, v ? `${josa(name,'을/를')} 냉장고에 넣었어요` : `${josa(name,'을/를')} 냉장고에서 뺐어요`);
+    else if(x.seasoningKey){ setSeasoning(x.seasoningKey, x.prevSeason || 'out'); delete x.seasoningKey; }
+  }, x.seasoningKey || (v && seasonKey(name)) ? (v ? `${name}: 우리 집 양념에 있다고 표시했어요` : `${name}: 다시 없다고 표시했어요`) : v ? `${josa(name,'을/를')} 냉장고에 넣었어요` : `${josa(name,'을/를')} 냉장고에서 뺐어요`);
 }
 function removeShopping(id){shopping=shopping.filter(x=>x.id!==id);save();renderShopping();renderHome()}
 function addShortages(){let used=new Set();let count=0;getWeekDates().forEach(d=>{let m=mealPlan[d],r=m&&recipes.find(x=>x.id===m.recipeId);if(!r)return;r.ingredients.forEach(([n,q,u])=>{let have=inventory.filter(x=>sameIngredient(x.name,n)).reduce((s,x)=>s+x.qty,0);if(have<(q||1)&&!used.has(n)){used.add(n);if(!shopping.some(x=>x.name===n&&!x.checked)){shopping.push({id:uid(),name:n,qty:q?`${Math.max(0,q-have)}${u}`:'',checked:false});count++}}})});save();renderShopping();renderHome();showToast(count?`${count}개 부족 재료를 추가했어요`:'추가할 부족 재료가 없어요')}
 function resetDemo(){if(!confirm('샘플 데이터로 초기화할까요? 현재 브라우저에 저장된 변경 내용은 사라집니다.'))return;inventory=structuredClone(seedInventory);shopping=[];mealPlan={};save();renderAll();showToast('샘플 데이터를 초기화했어요')}
-function renderAll(){normalizeInventory();renderHome();renderStorage();renderRecipes();renderMeal();renderShopping()}
+function renderAll(){normalizeInventory();renderHome();renderStorage();renderPantry();renderRecipes();renderMeal();renderShopping()}
 
 // --- Supabase + PWA + Family Shared Storage ---
 
@@ -2645,6 +2748,7 @@ async function pullCloudState() {
     activity = Array.isArray(state.activity) ? state.activity : [];
     favorites = Array.isArray(state.favorites) ? state.favorites : favorites;
     cookStats = state.cookStats && typeof state.cookStats==='object' ? state.cookStats : cookStats;
+    pantry = state.pantry && typeof state.pantry==='object' ? state.pantry : pantry;
     seedCookStats();
     household = data.name || '우리 집 냉장고';
 
@@ -2686,6 +2790,7 @@ async function persistCloudState() {
     activity,
     favorites,
     cookStats,
+    pantry,
     updatedBy: currentUser.id,
     updatedAt: new Date().toISOString()
   };
@@ -2742,6 +2847,7 @@ function subscribeFamily() {
         activity = Array.isArray(state.activity) ? state.activity : activity;
         favorites = Array.isArray(state.favorites) ? state.favorites : favorites;
         cookStats = state.cookStats && typeof state.cookStats==='object' ? state.cookStats : cookStats;
+        pantry = state.pantry && typeof state.pantry==='object' ? state.pantry : pantry;
         household = newData.name || household;
 
         localStorage.setItem('ms_inventory', JSON.stringify(inventory));
