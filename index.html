@@ -1269,11 +1269,21 @@ async function handleReceiptFile(event){
   try{
     const allItems = [];
     let purchaseDateFound = '';
-    for(let fi=0; fi<files.length; fi++){
+    // 여러 장은 동시에 보내서 기다리는 시간을 줄여요.
+    const startedAt = Date.now();
+    const tick = setInterval(()=>{
       const prog = document.getElementById('photoProgress');
-      if(prog && files.length>1) prog.textContent = `사진 ${fi+1}/${files.length}장 보는 중`;
-      const imageData = await compressReceiptImage(files[fi]);
-      const {data,error} = await sb.functions.invoke('receipt-ocr', { body:{ imageData } });
+      const sec = Math.round((Date.now()-startedAt)/1000);
+      if(prog) prog.textContent = sec < 15 ? `${sec}초 · 잠시만 기다려 주세요` : `${sec}초 · 보통 20~30초 걸려요`;
+    }, 1000);
+    let results;
+    try{
+      results = await Promise.all(files.map(async f=>{
+        const imageData = await compressReceiptImage(f);
+        return sb.functions.invoke('receipt-ocr', { body:{ imageData } });
+      }));
+    } finally { clearInterval(tick); }
+    for(const {data,error} of results){
       if(error){
         // 서버가 보낸 실제 오류 문구를 꺼내서 보여줍니다.
         let serverMessage = '';
