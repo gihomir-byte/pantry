@@ -53,6 +53,7 @@ const prompt = `
 14. 날짜 형식은 반드시 YYYY-MM-DD로 반환합니다.
 15. 영수증에 없는 상품이나 정보를 만들어내지 마세요.
 16. 식재료나 보관식품이 없다면 items를 빈 배열로 반환합니다.
+17. 상품별 결제 금액(원, 할인 반영 후)을 price에 숫자로 넣습니다. 알 수 없으면 0입니다.
 
 [반환 형식]
 
@@ -69,7 +70,8 @@ const prompt = `
       "qty": 1,
       "unit": "개",
       "expiry": "YYYY-MM-DD",
-      "emoji": "🥬"
+      "emoji": "🥬",
+      "price": 3500
     }
   ]
 }
@@ -286,6 +288,9 @@ function normalize(parsed: any) {
       emoji: typeof item.emoji === "string" && item.emoji
         ? item.emoji.slice(0, 8)
         : "🥬",
+      price: Number.isFinite(Number(item.price)) && Number(item.price) > 0
+        ? Math.round(Number(item.price))
+        : 0,
     }));
 
   const todayKorea = new Intl.DateTimeFormat("en-CA", {
