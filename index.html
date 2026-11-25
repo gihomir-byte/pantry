@@ -52,11 +52,23 @@ main{padding:22px}.page{display:none}.page.active{display:block}.welcome{margin-
 .week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}.day{border:1px solid var(--border);border-radius:var(--r-m);background:var(--surface);padding:10px 5px;text-align:center;min-height:120px}.day .dow{font-size:11px;color:var(--muted)}.day .date{font-size:14px;font-weight:800;margin:5px 0}.day .meal{font-size:11px;line-height:1.35;margin:8px 0;color:var(--soft-ink);font-weight:700}.day button{border:0;background:var(--soft);color:var(--soft-ink);border-radius:var(--r-xs);font-size:11px;padding:5px 7px;font-weight:600}
 .shopping-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--border)}.shopping-row:last-child{border:0}.shopping-row input{accent-color:var(--primary);width:18px;height:18px}.shopping-row .grow{flex:1}.shopping-row.done .grow{text-decoration:line-through;color:var(--faint)}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-top:1px solid var(--border);padding:6px max(12px,env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));display:flex;justify-content:center}
-.nav-inner{width:min(100%,680px);display:grid;grid-template-columns:repeat(5,1fr);gap:4px}.nav-btn{border:0;background:transparent;color:var(--faint);padding:6px 2px;border-radius:var(--r-m);font-size:11px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:48px}.nav-btn .svg-ico{width:22px;height:22px}.nav-btn.active{color:var(--primary);font-weight:800}
+.nav-inner{width:min(100%,680px);display:grid;grid-template-columns:repeat(4,1fr);gap:4px}.nav-btn{border:0;background:transparent;color:var(--faint);padding:6px 2px;border-radius:var(--r-m);font-size:11px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:48px}.nav-btn .svg-ico{width:22px;height:22px}.nav-btn.active{color:var(--primary);font-weight:800}
 .empty{padding:24px 12px;text-align:center;color:var(--muted);font-size:13px}.empty b{display:block;color:var(--text);font-size:15px;margin-bottom:5px}
 .modal-backdrop{position:fixed;inset:0;background:rgba(16,28,26,.42);z-index:50;display:none;align-items:flex-end;justify-content:center;padding:12px}.modal-backdrop.show{display:flex}.modal{background:var(--surface);border-radius:var(--r-xl) var(--r-xl) var(--r-l) var(--r-l);width:min(100%,520px);max-height:90vh;overflow:auto;padding:22px;box-shadow:0 20px 70px rgba(0,0,0,.2)}.modal h3{margin:0 0 5px;font-size:19px}.modal .hint{font-size:13px;color:var(--muted);margin:0 0 17px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;color:var(--muted);font-weight:700}.field input,.field select,.field textarea{width:100%;border:1px solid var(--border);border-radius:var(--r-m);padding:12px;background:var(--surface);outline:none;color:var(--text);font-size:15px}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--soft)}.field textarea{min-height:70px;resize:vertical}.modal-actions{display:flex;gap:8px;margin-top:18px}.modal-actions>*{flex:1}
 .toast{position:fixed;left:50%;bottom:94px;transform:translateX(-50%);background:var(--text);color:#fff;border-radius:var(--r-m);padding:12px 16px;font-size:13px;font-weight:600;z-index:200;opacity:0;pointer-events:none;transition:.2s;max-width:calc(100% - 32px);text-align:center}.toast.show{opacity:1}
+.toast.has-action{width:max-content;display:flex;align-items:center;gap:14px;text-align:left;padding:10px 10px 10px 16px}.toast.has-action.show{pointer-events:auto}.toast-undo{border:0;background:rgba(255,255,255,.14);color:#8FF0DC;font-weight:800;font-size:13px;padding:8px 12px;border-radius:var(--r-s);white-space:nowrap;min-height:36px}
+button.food-info{border:0;background:transparent;text-align:left;padding:2px 0;font:inherit;color:inherit;cursor:pointer}
+.lv-btn{flex-shrink:0;border:0;border-radius:var(--r-s);padding:8px 9px 8px 11px;font-size:13px;font-weight:800;display:inline-flex;align-items:center;gap:3px;min-height:38px;white-space:nowrap;background:var(--soft);color:var(--soft-ink)}.lv-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}.lv-btn.warn{background:var(--warn-bg);color:var(--warn-ink)}.lv-btn.danger{background:var(--danger-bg);color:var(--danger-ink)}.lv-btn.gray{background:var(--surface-3);color:var(--muted)}
+.lv-options{display:grid;gap:8px}.lv-opt{display:flex;align-items:center;gap:12px;border:1.5px solid var(--border);background:var(--surface);border-radius:var(--r-l);padding:14px;font-size:16px;font-weight:700;text-align:left;width:100%;color:var(--text);min-height:56px}.lv-opt.on{border-color:var(--primary);background:var(--soft)}.lv-opt em{margin-left:auto;font-style:normal;font-size:12px;color:var(--primary);font-weight:800}
+.lv-meter{width:38px;height:8px;border-radius:9px;background:var(--surface-3);overflow:hidden;flex-shrink:0}.lv-meter i{display:block;height:100%;background:var(--primary)}.lv-meter.warn i{background:var(--warning)}.lv-meter.danger i{background:var(--danger)}
+.sheet-foot{display:flex;justify-content:space-between;gap:8px;margin-top:14px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--surface-2);border-radius:var(--r-m);padding:4px;margin:4px 0 16px}.seg button{border:0;background:transparent;border-radius:var(--r-s);padding:10px 8px;font-weight:700;color:var(--muted);font-size:14px;min-height:42px}.seg button.on{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(16,28,26,.12)}
+.day-list{display:grid;gap:8px}.meal-row{display:grid;grid-template-columns:62px 1fr auto;align-items:center;gap:10px;padding:12px;background:var(--surface-2);border-radius:var(--r-m)}.meal-row.today{background:var(--soft)}.meal-day b{display:block;font-size:15px}.meal-day small{font-size:11px;color:var(--muted)}.meal-name{font-size:14px;font-weight:700;min-width:0;border:0;background:transparent;text-align:left;padding:0;color:var(--text)}.meal-name.none{color:var(--faint);font-weight:600}.meal-acts{display:flex;gap:4px}.meal-row.done .meal-name{color:var(--muted)}.meal-row.has{grid-template-columns:62px 1fr;row-gap:8px}.meal-row.has .meal-day{grid-row:span 2}.meal-row.has .meal-acts{grid-column:2}.meal-row.has .meal-acts .btn{flex:1}.meal-row.has.done .meal-acts{display:none}
+.pick-list{display:grid;gap:6px;max-height:50vh;overflow:auto}.pick-row{display:flex;align-items:center;gap:12px;border:1px solid var(--border);background:var(--surface);border-radius:var(--r-m);padding:10px 12px;text-align:left;width:100%;color:var(--text)}.pick-row .pick-emoji{font-size:24px;width:32px;text-align:center}.pick-row b{display:block;font-size:14px}.pick-row small{font-size:12px;color:var(--muted)}
+.day-pick{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.day-btn{border:1.5px solid var(--border);background:var(--surface);border-radius:var(--r-m);padding:12px;text-align:left;color:var(--text);min-height:64px}.day-btn b{display:block;font-size:15px}.day-btn small{font-size:12px;color:var(--muted)}.day-btn em{display:block;font-style:normal;font-size:11px;color:var(--warn-ink);margin-top:3px}.day-btn:disabled{opacity:.45}
+.cook-list{display:grid;gap:8px}.cook-row{display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--surface-2);border-radius:var(--r-m);cursor:pointer}.cook-row input{accent-color:var(--primary);width:22px;height:22px;flex-shrink:0}.cook-row .grow{flex:1;min-width:0}.cook-row b{display:block;font-size:14px}.cook-row small{font-size:13px;color:var(--muted)}.cook-row strong.warn{color:var(--warn-ink)}.cook-row strong.danger,.cook-row strong.gray{color:var(--danger-ink)}.cook-row strong.good{color:var(--soft-ink)}.cook-row:has(input:not(:checked)){opacity:.5}
+.note{display:flex;gap:8px;align-items:center;background:var(--soft);color:var(--soft-ink);border-radius:var(--r-m);padding:11px 12px;font-size:13px;font-weight:700;margin-bottom:6px}
 footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25px}
 
 /* ===== 첫 화면 (시작 ~ 완료) ===== */
@@ -282,7 +294,7 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
   <div class="welcome"><div class="eyebrow" id="homeEyebrow">우리 집 냉장고</div><h2>오늘 먼저 먹을 건<br>무엇일까요?</h2><p>가지고 있는 재료를 확인하고 오늘의 식탁을 준비해 보세요.</p></div>
   <div class="grid stats">
     <div class="stat"><span class="label">전체 식재료</span><strong id="statTotal">0</strong><em>가지 보관 중</em></div>
-    <div class="stat"><span class="label">소비기한 임박</span><strong id="statSoon">0</strong><em>빠른 소비 권장</em></div>
+    <div class="stat"><span class="label">곧 먹어야 해요</span><strong id="statSoon">0</strong><em>3일 안에</em></div>
     <div class="stat"><span class="label">장보기</span><strong id="statShopping">0</strong><em>구매 예정</em></div>
   </div>
   <div class="panel" id="homeAlerts" style="display:none"></div>
@@ -295,7 +307,7 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
     <div class="panel"><div class="panel-head"><h3>먼저 먹으면 좋은 재료</h3><button class="text-btn" onclick="navigate('storage')">전체 보기 →</button></div><div id="homeExpiry" class="item-list"></div></div>
     <div class="panel"><div class="panel-head"><h3>오늘의 추천 메뉴</h3><button class="text-btn" onclick="navigate('recipes')">더 보기 →</button></div><div id="homeRecipe"></div></div>
   </div>
-  <div class="panel"><div class="panel-head"><h3>이번 주 저녁 식단</h3><button class="text-btn" onclick="navigate('meal')">식단 보기 →</button></div><div id="homeMeal"></div></div>
+  <div class="panel"><div class="panel-head"><h3>앞으로 7일 저녁</h3><button class="text-btn" onclick="navigate('meal')">식단 보기 →</button></div><div id="homeMeal"></div></div>
 </section>
 
 <section class="page" id="page-storage">
@@ -317,14 +329,15 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
   style="display:none"
   onchange="handleReceiptFile(event)"
 >
-    <div class="toolbar"><input class="search" id="searchInput" placeholder="식재료 검색" oninput="renderStorage()"><select class="select" id="storageFilter" onchange="renderStorage()"><option value="all">전체 위치</option><option>냉장</option><option>냉동</option><option>실온</option><option>김치냉장고</option></select><select class="select" id="sortFilter" onchange="renderStorage()"><option value="expiry">소비기한순</option><option value="name">이름순</option><option value="newest">최근 등록순</option></select></div>
+    <div class="toolbar"><input class="search" id="searchInput" placeholder="식재료 검색" oninput="renderStorage()"><select class="select" id="storageFilter" onchange="renderStorage()"><option value="all">전체 위치</option><option>냉장</option><option>냉동</option><option>실온</option><option>김치냉장고</option></select><select class="select" id="sortFilter" onchange="renderStorage()"><option value="expiry">먹을 날짜 순</option><option value="name">이름순</option><option value="newest">최근 등록순</option></select></div>
     <div class="tabs" id="categoryTabs"><button class="tab active" data-cat="all" onclick="setCategory('all',this)">전체</button><button class="tab" data-cat="채소" onclick="setCategory('채소',this)">채소</button><button class="tab" data-cat="과일" onclick="setCategory('과일',this)">과일</button><button class="tab" data-cat="육류" onclick="setCategory('육류',this)">육류</button><button class="tab" data-cat="유제품" onclick="setCategory('유제품',this)">유제품</button><button class="tab" data-cat="기타" onclick="setCategory('기타',this)">기타</button></div>
     <div id="storageList" class="item-list" style="margin-top:13px"></div>
   </div>
 </section>
 
 <section class="page" id="page-recipes">
-  <div class="welcome"><div class="eyebrow">레시피</div><h2>오늘은 뭘 먹을까요?</h2><p>보유 재료와 소비기한을 고려해 만들기 좋은 메뉴를 추천해요.</p></div>
+  <div class="seg" role="tablist"><button class="on" onclick="navigate('recipes')">추천 레시피</button><button onclick="navigate('meal')">이번 주 식단</button></div>
+  <div class="welcome"><div class="eyebrow">레시피</div><h2>오늘은 뭘 먹을까요?</h2><p>냉장고에 있는 재료로 만들기 좋은 메뉴부터 보여줘요.</p></div>
   <div class="panel"><div class="panel-head"><h3>추천 조건</h3><span class="pill">보유 재료 기반 추천</span></div><div class="toolbar">
     <input class="search" id="recipeSearch" placeholder="메뉴명 또는 재료 검색" oninput="renderRecipes()">
     <select class="select" id="recipeCategoryFilter" onchange="renderRecipes()">
@@ -345,14 +358,14 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
 </section>
 
 <section class="page" id="page-meal">
-  <div class="welcome"><div class="eyebrow">식단</div><h2>이번 주 저녁 식단</h2><p>보유 재료를 활용해 한 주의 저녁 메뉴를 계획해 보세요.</p></div>
-  <div class="panel"><div class="panel-head"><h3 id="weekTitle">이번 주 식단</h3><button class="btn small" onclick="generateMealPlan()">✨ 식단 자동 구성</button></div><div class="sub" style="margin-bottom:13px">메뉴를 눌러 변경하거나 조리 완료를 기록할 수 있어요.</div><div class="week" id="weekGrid"></div></div>
-  <div class="panel"><div class="panel-head"><h3>식단 사용 안내</h3></div><p class="sub" style="line-height:1.7;margin:0">식단에 메뉴를 배정해도 재고가 바로 차감되지는 않아요. 실제 조리를 완료하고 사용량을 확인한 뒤 재고에 반영됩니다.</p></div>
+  <div class="seg" role="tablist"><button onclick="navigate('recipes')">추천 레시피</button><button class="on" onclick="navigate('meal')">이번 주 식단</button></div>
+  <div class="welcome"><div class="eyebrow">레시피</div><h2>앞으로 7일 저녁</h2><p>메뉴를 정해 두고, 요리한 날 [했어요]를 누르면 쓴 재료만큼 냉장고에서 줄어요.</p></div>
+  <div class="panel"><div class="panel-head"><h3 id="weekTitle">앞으로 7일 저녁</h3><button class="btn small" onclick="generateMealPlan()">일주일 식단 짜 주기</button></div><div class="day-list" id="weekGrid"></div><p class="sub" style="margin:12px 0 0;line-height:1.6">메뉴만 정해 두면 재료는 줄지 않아요.</p></div>
 </section>
 
 <section class="page" id="page-shopping">
-  <div class="welcome"><div class="eyebrow">장보기</div><h2>장보기 목록</h2><p>식단에 필요한 재료나 집에 부족한 식재료를 모아 관리하세요.</p></div>
-  <div class="panel"><div class="panel-head"><h3>구매할 재료</h3><button class="btn small" onclick="addShoppingItem()">＋ 직접 추가</button></div><div id="shoppingList"></div><div style="margin-top:12px"><button class="btn secondary" style="width:100%" onclick="addShortages()">식단 부족 재료 가져오기</button></div></div>
+  <div class="welcome"><div class="eyebrow">장보기</div><h2>장보기 목록</h2><p>살 재료를 적어 두고, 산 건 체크하세요.</p></div>
+  <div class="panel"><div class="panel-head"><h3>살 재료</h3><button class="btn small" onclick="addShoppingItem()">＋ 직접 추가</button></div><div class="note">✓ 산 건 체크만 하면 냉장고에 들어가요</div><div id="shoppingList"></div><div style="margin-top:12px"><button class="btn secondary" style="width:100%" onclick="addShortages()">식단에 필요한 재료 가져오기</button></div></div>
 </section>
 
 <section class="page" id="page-more">
@@ -369,7 +382,7 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
     <p class="sub" id="myEmail" style="margin:10px 0 0"></p>
     <button class="btn small ghost" style="margin-top:12px" onclick="signOut()">로그아웃</button>
   </div>
-  <div class="panel"><div class="panel-head"><h3>알림 설정</h3></div><label style="display:flex;align-items:center;gap:9px;font-size:14px;margin:12px 0"><input type="checkbox" checked style="accent-color:var(--primary);width:18px;height:18px"> 유통기한 임박 알림 표시</label><label style="display:flex;align-items:center;gap:9px;font-size:14px;margin:12px 0"><input type="checkbox" checked style="accent-color:var(--primary);width:18px;height:18px"> 유통기한 지난 재료 표시</label></div>
+  <div class="panel"><div class="panel-head"><h3>알림 설정</h3></div><label style="display:flex;align-items:center;gap:9px;font-size:14px;margin:12px 0"><input type="checkbox" checked style="accent-color:var(--primary);width:18px;height:18px"> 곧 먹어야 할 재료 알려주기</label><label style="display:flex;align-items:center;gap:9px;font-size:14px;margin:12px 0"><input type="checkbox" checked style="accent-color:var(--primary);width:18px;height:18px"> 날짜 지난 재료 보여주기</label></div>
   <div class="panel"><div class="panel-head"><h3>서비스 정보</h3></div><p class="sub" style="line-height:1.7;margin:0">냉큼<br>냉장고에 뭐가 있는지, 가족이랑 냉큼 확인해요</p></div>
 </section>
 <footer>냉큼 · 가족이 함께 보는 냉장고</footer>
@@ -380,7 +393,6 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
 <button class="nav-btn active" data-page="home" onclick="navigate('home')"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M4 10.5L12 4l8 6.5V20H4z"/><path d="M10 20v-5h4v5"/></svg>홈</button>
 <button class="nav-btn" data-page="storage" onclick="navigate('storage')"><svg class="svg-ico" viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 9.5h12M9.5 5.5v1.5M9.5 12.5v3"/></svg>냉장고</button>
 <button class="nav-btn" data-page="recipes" onclick="navigate('recipes')"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M4 11h16a8 8 0 01-16 0z"/><path d="M9 7.5c0-1.5 1-1.5 1-3M14 7.5c0-1.5 1-1.5 1-3"/></svg>레시피</button>
-<button class="nav-btn" data-page="meal" onclick="navigate('meal')"><svg class="svg-ico" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8.5 3v4M15.5 3v4"/></svg>식단</button>
 <button class="nav-btn" data-page="shopping" onclick="navigate('shopping')"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M3.5 4.5h2.5l2 11h10l2-8H7"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>장보기</button>
 </div></nav>
 
@@ -391,7 +403,8 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
 <script src="/config.js"></script>
 <script>
 const today = new Date(); today.setHours(0,0,0,0);
-const datePlus = n => {const d=new Date(today);d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)};
+const ymd = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; // 한국 시간 기준 날짜
+const datePlus = n => {const d=new Date(today);d.setDate(d.getDate()+n);return ymd(d)};
 const uid=()=>Math.random().toString(36).slice(2,10);
 const seedInventory=[
  {id:'i1',name:'두부',category:'유제품',qty:1,unit:'모',location:'냉장',purchase:datePlus(-2),expiry:datePlus(2),emoji:'⬜',note:'찌개용'},
@@ -662,14 +675,7 @@ function stepDown(id){
   showToast(next===0 ? `${x.name}: 다 썼어요${isImportant(x)?' · 장보기에 넣었어요':''}` : `${x.name}: ${levelLabel(next)[0]}`);
 }
 
-function setItemLevel(id, level, reason){
-  const x = inventory.find(a=>a.id===id);
-  if(!x) return;
-  setLevel(x, level, reason);
-  logActivity(reason==='discarded' ? 'discard_manual' : 'manual_adjust', {item:x.name, to:level});
-  save(); closeModal(); renderAll();
-  showToast(level===0 ? (reason==='discarded' ? '버린 것으로 기록했어요' : '다 쓴 것으로 정리했어요') : `${levelLabel(level)[0]}(으)로 바꿨어요`);
-}
+function setItemLevel(id, level, reason){ pickLevel(id, level, reason); }
 
 function toggleStar(id){
   const x = inventory.find(a=>a.id===id);
@@ -686,10 +692,12 @@ function staleItems(){
 function answerStale(id, answer){
   const x = inventory.find(a=>a.id===id);
   if(!x) return;
-  logActivity('stale_answer', {item:x.name, answer});
-  if(answer==='have'){ x.lastTouched = datePlus(0); }
-  else setLevel(x, 0, answer==='discarded' ? 'discarded' : 'used');
-  save(); renderAll();
+  const name = x.name;
+  withUndo(()=>{
+    logActivity('stale_answer', {item:name, answer});
+    if(answer==='have'){ x.lastTouched = datePlus(0); }
+    else setLevel(x, 0, answer==='discarded' ? 'discarded' : 'used');
+  }, answer==='have' ? `${name} 아직 있다고 적었어요` : answer==='discarded' ? `${josa(name,'을/를')} 버렸다고 적었어요` : `${josa(name,'을/를')} 다 썼어요`);
 }
 
 // 오늘 알려줄 중요 품목 (오후 5시 알림과 홈 화면에서 같은 규칙 사용)
@@ -700,9 +708,9 @@ function importantAlerts(){
     const d = daysLeft(x.expiry);
     if(d!==null && d<=2){
       const rec = recipes.find(r=>r.ingredients.some(([n])=>sameIngredient(x.name,n)));
-      out.push({x, kind:'expiry', text: d<0 ? `${x.name} 소비기한이 지났어요. 상태를 확인해 주세요.` : `${d===0?'오늘':d+'일 안에'} ${x.name}을(를) 쓰면 좋아요.${rec?` ${rec.name} 어때요?`:''}`, recipe: rec});
+      out.push({x, kind:'expiry', text: d<0 ? `${josa(x.name,'은/는')} 먹을 날짜가 지났어요. 괜찮은지 봐 주세요.` : `${['오늘','내일','모레'][d]}까지 ${josa(x.name,'을/를')} 먹으면 좋아요.${rec?` ${rec.name} 어때요?`:''}`, recipe: rec});
     } else if(x.level>0 && x.level<20){
-      out.push({x, kind:'low', text:`${x.name}이(가) 거의 떨어졌어요.`});
+      out.push({x, kind:'low', text:`${josa(x.name,'이/가')} 거의 떨어졌어요.`});
     }
   });
   return out.slice(0,4);
@@ -712,7 +720,7 @@ function addToShoppingFromAlert(id){
   const x = inventory.find(a=>a.id===id);
   if(!x) return;
   if(!shopping.some(s=>!s.checked && sameIngredient(s.name,x.name))) shopping.push({id:uid(), name:x.name, qty:'', checked:false});
-  save(); renderAll(); showToast('장보기에 넣었어요');
+  save(); renderAll(); showToast(`${josa(x.name,'을/를')} 장보기에 넣었어요`);
 }
 
 function searchRecipe(name){
@@ -741,40 +749,70 @@ function levelBar(level){
   return `<span style="display:inline-flex;align-items:center;gap:6px"><span style="display:inline-block;width:46px;height:6px;border-radius:9px;background:var(--border);overflow:hidden"><span style="display:block;height:100%;width:${Math.max(6,level)}%;background:${color}"></span></span><span style="font-size:11px;color:${color};font-weight:700">${label}</span></span>`;
 }
 
-// 요리 완료: 레시피 주재료마다 재고를 한 번 분량씩 줄이고, 결과를 보여줍니다.
-function cookAndDeduct(recipe){
-  const changed = [];
+// 요리 완료: 레시피 주재료마다 재고를 한 번 분량씩 줄입니다.
+// planCook은 미리 계산만 하고(재고는 그대로), cookAndDeduct가 실제로 줄여요.
+function planCook(recipe){
+  const seen = new Set(), out = [];
   recipe.ingredients.forEach(([name, q, unit])=>{
     const x = stockFor(name)[0];
-    if(!x) return;
-    const before = x.level;
+    if(!x || seen.has(x.id)) return;
+    seen.add(x.id);
+    let after, qty;
     if(q && unit && unit===x.unit && x.initialQty>0){
-      x.qty = Math.max(0, x.qty - q);
-      x.level = Math.round(x.qty / x.initialQty * 100);
-      if(x.qty>0 && x.level===0) x.level = 1;
+      qty = Math.max(0, x.qty - q);
+      after = Math.round(qty / x.initialQty * 100);
+      if(qty>0 && after===0) after = 1;
     } else {
-      x.level = Math.max(0, x.level - Math.ceil(100 / (x.uses || 4)));
-      if(x.initialQty>0) x.qty = Math.round(x.initialQty * x.level / 100 * 100) / 100;
+      after = Math.max(0, x.level - Math.ceil(100 / (x.uses || 4)));
+      qty = x.initialQty>0 ? Math.round(x.initialQty * after / 100 * 100) / 100 : x.qty;
     }
-    x.lastTouched = datePlus(0);
-    changed.push({id:x.id, name:x.name, before, after:x.level, emoji:ingredientEmoji(x)});
+    out.push({id:x.id, name:x.name, emoji:ingredientEmoji(x), before:x.level, after, qty});
   });
-  changed.filter(c=>c.after===0).forEach(c=>{ const x=inventory.find(a=>a.id===c.id); if(x) finishItem(x,'used'); });
-  logActivity('cook', {recipe:recipe.name, items:changed.length});
-  return changed;
+  return out;
+}
+function cookAndDeduct(recipe, plan){
+  plan = plan || planCook(recipe);
+  plan.forEach(p=>{
+    const x = inventory.find(a=>a.id===p.id);
+    if(!x) return;
+    x.level = p.after; x.qty = p.qty; x.lastTouched = datePlus(0);
+  });
+  plan.filter(p=>p.after===0).forEach(p=>{ const x=inventory.find(a=>a.id===p.id); if(x) finishItem(x,'used'); });
+  logActivity('cook', {recipe:recipe.name, items:plan.length});
+  return plan;
 }
 
-function showCookResult(changed){
-  if(!changed.length){
-    openModal(`<h3>조리 완료</h3><p class="hint">냉장고에 이 레시피의 재료가 없어서 줄인 재료가 없어요.</p><div class="modal-actions"><button class="btn" onclick="closeModal()">확인</button></div>`);
-    return;
-  }
-  openModal(`<h3>이렇게 줄였어요</h3><p class="hint">틀린 것만 눌러서 고쳐 주세요. 맞으면 그냥 닫으면 돼요.</p>
-    <div style="display:grid;gap:10px">${changed.map(c=>{
-      const exists = inventory.some(a=>a.id===c.id);
-      return `<div class="food-row"><div class="food-icon">${c.emoji}</div><div class="food-info"><b>${esc(c.name)}</b><small>${levelLabel(c.before)[0]} → ${levelLabel(c.after)[0]}</small></div>${exists?`<div class="food-right" style="display:flex;gap:4px"><button class="btn small ghost" onclick="setItemLevel('${c.id}',80)">넉넉</button><button class="btn small ghost" onclick="setItemLevel('${c.id}',40)">조금</button><button class="btn small ghost" onclick="setItemLevel('${c.id}',0)">다 씀</button></div>`:''}</div>`;
-    }).join('')}</div>
-    <div class="modal-actions"><button class="btn" onclick="closeModal()">맞아요</button></div>`);
+// [이 요리 했어요] → 줄어들 재료를 먼저 보여주고, 확인하면 줄여요.
+let cookPending = null;
+function openCookConfirm(recipeId, mealDate){
+  const r = recipes.find(x=>x.id===recipeId);
+  if(!r){ showToast('레시피를 찾을 수 없어요'); return; }
+  normalizeInventory();
+  const plan = planCook(r);
+  cookPending = {recipeId, mealDate: mealDate || '', plan};
+  const rows = plan.map((p,i)=>{
+    const [b] = levelLabel(p.before), [a, k] = levelLabel(p.after);
+    const line = b===a ? `조금 써요 · 아직 ${a}` : `${b} → <strong class="${k}">${a}</strong>`;
+    return `<label class="cook-row"><input type="checkbox" checked data-i="${i}"><span class="food-icon">${p.emoji}</span><span class="grow"><b>${esc(p.name)}</b><small>${line}</small></span></label>`;
+  }).join('');
+  openModal(`<h3>${r.emoji} ${esc(r.name)} 만들었어요?</h3>
+    <p class="hint">${plan.length ? '냉장고 재료를 이렇게 줄일게요. 안 쓴 재료는 체크를 빼 주세요.' : '냉장고에 이 요리 재료가 없어서 줄일 건 없어요.'}</p>
+    ${plan.length ? `<div class="cook-list">${rows}</div>` : ''}
+    <div class="modal-actions"><button class="btn ghost" style="flex:1" onclick="closeModal()">취소</button><button class="btn" style="flex:2" onclick="confirmCook()">${plan.length ? '이렇게 줄여 주세요' : '잘 먹었어요'}</button></div>`);
+}
+function confirmCook(){
+  if(!cookPending) return;
+  const {recipeId, mealDate, plan} = cookPending;
+  cookPending = null;
+  const r = recipes.find(x=>x.id===recipeId);
+  if(!r) return;
+  const keep = [...document.querySelectorAll('.cook-row input')].filter(c=>c.checked).map(c=>plan[Number(c.dataset.i)]);
+  closeModal();
+  withUndo(()=>{
+    cookAndDeduct(r, keep);
+    const key = mealDate || datePlus(0);
+    if(mealPlan[key] && (mealDate || mealPlan[key].recipeId===r.id)) mealPlan[key].done = true;
+  }, keep.length ? `${keep.length}가지 재료를 줄였어요` : '잘 먹었어요!');
 }
 
 // 장보기 체크 → 저장고에 "넉넉"으로 추가 (체크 해제하면 되돌림)
@@ -822,10 +860,97 @@ function save(){
 }
   
 function daysLeft(date){if(!date)return null;return Math.ceil((new Date(date+'T00:00:00')-today)/86400000)}
-function expiryStatus(item){let d=daysLeft(item.expiry);if(d===null)return ['날짜 미등록','gray'];if(d<0)return ['기한 경과','danger'];if(d===0)return ['오늘까지','danger'];if(d<=3)return ['임박','danger'];if(d<=7)return ['소비 권장','warn'];return ['여유','good']}
-function navigate(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===page));if(page==='home')renderHome();if(page==='storage')renderStorage();if(page==='recipes')renderRecipes();if(page==='meal')renderMeal();if(page==='shopping')renderShopping();window.scrollTo({top:0,behavior:'smooth'})}
-function showToast(msg){let el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2200)}
-function itemRow(x){ensureRough(x);let d=daysLeft(x.expiry);let exp=d===null?'':d<0?'<span class="pill danger">! 지났어요</span>':d===0?'<span class="pill danger">! 오늘까지</span>':d<=1?'<span class="pill danger">! D-'+d+'</span>':d<=3?'<span class="pill warn">◷ D-'+d+'</span>':'';return `<div class="food-row"><div class="food-icon">${ingredientEmoji(x)}</div><div class="food-info"><b>${esc(x.name)}${isImportant(x)?' <span title="중요 품목" style="color:var(--warning)">★</span>':''} ${exp}</b><small>${levelBar(x.level)} · ${esc(x.location)}${x.expiry?' · ~'+x.expiry.slice(5).replace('-','/'):''}</small></div><div class="food-right" style="display:flex;gap:4px;align-items:center"><button class="btn small ghost" title="한 단계 줄이기" onclick="stepDown('${x.id}')">줄었어요</button><button class="text-btn" onclick="openItemDetail('${x.id}')">›</button></div></div>`}
+function expiryStatus(item){let d=daysLeft(item.expiry);if(d===null)return ['날짜 없음','gray'];if(d<0)return ['날짜 지났어요','danger'];if(d===0)return ['오늘까지','danger'];if(d<=3)return ['곧 먹어야 해요','danger'];if(d<=7)return ['이번 주에 먹어요','warn'];return ['넉넉해요','good']}
+function navigate(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===(page==='meal'?'recipes':page)));if(page==='home')renderHome();if(page==='storage')renderStorage();if(page==='recipes')renderRecipes();if(page==='meal')renderMeal();if(page==='shopping')renderShopping();window.scrollTo({top:0,behavior:'smooth'})}
+// 알림 한 줄. undo:true면 5초 동안 [되돌리기] 버튼이 붙어요.
+let toastTimer = null, undoSnap = null;
+function showToast(msg, opt){
+  const el = document.getElementById('toast');
+  clearTimeout(toastTimer);
+  if(opt && opt.undo){
+    el.innerHTML = `<span>${esc(msg)}</span><button class="toast-undo" onclick="undoLast()">되돌리기</button>`;
+    el.classList.add('has-action');
+  } else {
+    el.textContent = msg; el.classList.remove('has-action'); undoSnap = null;
+  }
+  el.classList.add('show');
+  toastTimer = setTimeout(()=>{ el.classList.remove('show'); el.classList.remove('has-action'); undoSnap = null; }, opt && opt.undo ? 5000 : 2200);
+}
+// 바꾸기 전 상태를 기억해 두고, 바꾼 뒤 [되돌리기]를 보여줍니다.
+function withUndo(fn, msg){
+  const snap = JSON.stringify({inventory, shopping, mealPlan, actLen: activity.length});
+  const ret = fn();
+  save(); renderAll();
+  showToast(typeof msg === 'function' ? msg(ret) : msg, {undo:true});
+  undoSnap = snap;
+  return ret;
+}
+function undoLast(){
+  if(!undoSnap) return;
+  const s = JSON.parse(undoSnap); undoSnap = null;
+  inventory = s.inventory; shopping = s.shopping; mealPlan = s.mealPlan;
+  activity = activity.slice(0, s.actLen);
+  logActivity('undo', {});
+  save(); renderAll(); closeModal();
+  showToast('되돌렸어요');
+}
+// 받침에 맞춰 조사 붙이기: josa('두부','을/를') → '두부를'
+function josa(word, pair){
+  const w = String(word||''); const c = w.charCodeAt(w.length-1);
+  const has = c>=0xAC00 && c<=0xD7A3 ? (c-0xAC00)%28>0 : false;
+  const [a,b] = pair.split('/');
+  return w + (has ? a : b);
+}
+function expiryText(x){
+  if(!x.expiry) return '';
+  const d = new Date(x.expiry+'T00:00:00');
+  const md = `${d.getMonth()+1}월 ${d.getDate()}일`;
+  return daysLeft(x.expiry) < 0 ? `${md}까지였어요` : `${md}까지 먹어요`;
+}
+function expiryPill(x){
+  const d = daysLeft(x.expiry);
+  if(d===null || d>3) return '';
+  if(d<0) return '<span class="pill danger">! 날짜 지났어요</span>';
+  if(d===0) return '<span class="pill danger">! 오늘까지</span>';
+  if(d===1) return '<span class="pill danger">! 내일까지</span>';
+  return `<span class="pill warn">◷ ${d}일 남았어요</span>`;
+}
+const CHEVRON = '<svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"/></svg>';
+function levelChip(x){
+  const [label, kind] = levelLabel(x.level);
+  return `<button class="lv-btn ${kind}" onclick="openLevelSheet('${x.id}')" aria-label="${esc(x.name)} 남은 양 바꾸기">${label}${CHEVRON}</button>`;
+}
+const LEVEL_OPTIONS = [['넉넉해요',80,'good'],['조금 남았어요',40,'warn'],['거의 없어요',10,'danger'],['다 썼어요',0,'gray']];
+function openLevelSheet(id){
+  const x = inventory.find(a=>a.id===id);
+  if(!x) return;
+  ensureRough(x);
+  const cur = levelLabel(x.level)[1];
+  openModal(`<h3>${ingredientEmoji(x)} ${esc(x.name)}, 지금 얼마나 있어요?</h3>
+    <p class="hint">잘못 눌러도 바로 되돌릴 수 있어요.</p>
+    <div class="lv-options">${LEVEL_OPTIONS.map(([t,v,k])=>{
+      const on = x.level>0 && k===cur;
+      return `<button class="lv-opt ${on?'on':''}" onclick="pickLevel('${x.id}',${v})"><span class="lv-meter ${k}"><i style="width:${v}%"></i></span>${t}${on?'<em>지금</em>':''}</button>`;
+    }).join('')}</div>
+    <div class="sheet-foot"><button class="text-btn" style="color:var(--muted)" onclick="pickLevel('${x.id}',0,'discarded')">상해서 버렸어요</button><button class="text-btn" onclick="openItemDetail('${x.id}')">자세히 보기 ›</button></div>`);
+}
+function pickLevel(id, level, reason){
+  const x = inventory.find(a=>a.id===id);
+  if(!x) return;
+  ensureRough(x);
+  closeModal();
+  if(!reason && level>0 && levelLabel(x.level)[1]===levelLabel(level)[1]) return;
+  const name = x.name;
+  const opt = LEVEL_OPTIONS.find(o=>o[1]===level);
+  const msg = level===0
+    ? (reason==='discarded' ? `${josa(name,'을/를')} 버렸다고 적었어요` : `${josa(name,'을/를')} 다 썼어요${isImportant(x)?' · 장보기에 넣었어요':''}`)
+    : `${name}: ${opt ? opt[0] : levelLabel(level)[0]}`;
+  withUndo(()=>{
+    setLevel(x, level, reason || 'used');
+    logActivity(reason==='discarded' ? 'discard_manual' : 'manual_adjust', {item:name, to:level});
+  }, msg);
+}
+function itemRow(x){ensureRough(x);return `<div class="food-row"><div class="food-icon">${ingredientEmoji(x)}</div><button class="food-info" onclick="openItemDetail('${x.id}')"><b>${esc(x.name)}${isImportant(x)?' <span title="중요 품목" style="color:var(--warning)">★</span>':''} ${expiryPill(x)}</b><small>${esc(x.location)}${x.expiry?' · '+expiryText(x):''}</small></button>${levelChip(x)}</div>`}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function renderHome(){
  normalizeInventory();renderRoughHome();
@@ -837,7 +962,7 @@ function renderHome(){
  let soon=inventory.filter(x=>{let d=daysLeft(x.expiry);return d!==null&&d<=7}).sort((a,b)=>(daysLeft(a.expiry)??999)-(daysLeft(b.expiry)??999)).slice(0,3);
  document.getElementById('homeExpiry').innerHTML=soon.length?soon.map(itemRow).join(''):'<div class="empty"><b>급하게 먹어야 할 재료가 없어요</b>냉장고가 잘 관리되고 있어요.</div>';
  let rec=rankRecipes()[0];document.getElementById('homeRecipe').innerHTML=rec?recipeCard(rec):'<div class="empty">재료를 등록하면 추천 메뉴가 보여요.</div>';
- let todayKey=datePlus(0),meal=mealPlan[todayKey];document.getElementById('homeMeal').innerHTML=meal?`<div class="food-row"><div class="food-icon">${meal.emoji}</div><div class="food-info"><b>${esc(meal.name)}</b><small>오늘 저녁 · ${meal.done?'조리 완료':'예정'}</small></div><button class="btn small secondary" onclick="navigate('meal')">확인</button></div>`:'<div class="empty"><b>오늘 저녁 메뉴가 아직 없어요</b>주간 식단에서 메뉴를 구성해 보세요.</div>';
+ let todayKey=datePlus(0),meal=mealPlan[todayKey];document.getElementById('homeMeal').innerHTML=meal?`<div class="food-row"><div class="food-icon">${meal.emoji}</div><div class="food-info"><b>${esc(meal.name)}</b><small>오늘 저녁 · ${meal.done?'먹었어요':'아직 안 했어요'}</small></div><button class="btn small secondary" onclick="navigate('meal')">확인</button></div>`:'<div class="empty"><b>오늘 저녁 메뉴가 아직 없어요</b>레시피 탭의 [이번 주 식단]에서 정할 수 있어요.</div>';
 }
 function setCategory(c,el){category=c;document.querySelectorAll('#categoryTabs .tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');renderStorage()}
 function renderStorage(){
@@ -857,7 +982,7 @@ function openIngredientModal(){
  <div class="field"><label>수량 *</label><input name="qty" type="number" min="0.01" step="any" required value="1"></div>
  <div class="field"><label>단위 *</label><select name="unit"><option>개</option><option>모</option><option>팩</option><option>봉</option><option>g</option><option>kg</option><option>ml</option><option>L</option><option>대</option></select></div>
  <div class="field"><label>구매일</label><input name="purchase" type="date" value="${datePlus(0)}"></div>
- <div class="field"><label>소비기한</label><input name="expiry" type="date"></div>
+ <div class="field"><label>언제까지 먹어요?</label><input name="expiry" type="date"></div>
  <div class="field full"><label>메모</label><input name="note" placeholder="예: 개봉 후 밀폐 용기에 보관"></div>
  </div><div class="modal-actions"><button type="button" class="btn ghost" onclick="closeModal()">취소</button><button class="btn">저장하기</button></div></form>`);
 }
@@ -1026,7 +1151,7 @@ async function handleReceiptFile(event){
       <div style="font-size:42px;margin-bottom:15px">🧾</div>
       <h3>영수증을 분석하고 있어요</h3>
       <p class="hint" style="margin-top:10px">
-        AI가 상품명, 수량, 단위, 구매일과 예상 소비기한을 확인하고 있어요.
+        AI가 상품명, 수량, 단위, 구매일, 언제까지 먹으면 되는지 확인하고 있어요.
       </p>
       <div class="pill" style="margin-top:10px">잠시만 기다려 주세요</div>
     </div>
@@ -1139,9 +1264,9 @@ function renderReceiptReview(purchaseDate){
         </div>
 
         <div class="field full">
-          <label>소비기한 (AI 예상 날짜 · 수정 가능)</label>
+          <label>언제까지 먹어요? (AI가 짐작한 날짜 · 고칠 수 있어요)</label>
           <input id="receipt_expiry_${index}" type="date" value="${esc(item.expiry)}">
-          <span class="sub">AI가 일반적인 보관 조건을 기준으로 추정한 날짜입니다. 실제 제품 표시기한을 확인해 주세요.</span>
+          <span class="sub">보통 보관하는 걸 기준으로 짐작한 날짜예요. 포장지 날짜와 다르면 고쳐 주세요.</span>
         </div>
 
       </div>
@@ -1254,33 +1379,17 @@ function openItemDetail(id){
   }
   ensureRough(x);
   const [status, kind] = expiryStatus(x);
-  const lv = x.level;
-  const pick = (label, value, on) => `<button type="button" class="btn small ${on?'':'ghost'}" style="flex:1" onclick="setItemLevel('${x.id}',${value})">${label}</button>`;
-
   openModal(`
     <h3>${ingredientEmoji(x)} ${esc(x.name)}</h3>
-    <p class="hint">지금 얼마나 남았는지만 골라 주세요.</p>
-
-    <div style="display:flex;gap:6px;margin-bottom:12px">
-      ${pick('넉넉', 80, lv>=60)}${pick('조금', 40, lv>=20&&lv<60)}${pick('거의 없음', 10, lv>0&&lv<20)}
-    </div>
-    <div style="display:flex;gap:6px;margin-bottom:14px">
-      <button type="button" class="btn small secondary" style="flex:1" onclick="setItemLevel('${x.id}',0,'used')">다 썼어요</button>
-      <button type="button" class="btn small ghost" style="flex:1" onclick="setItemLevel('${x.id}',0,'discarded')">버렸어요</button>
-    </div>
-
-    <details class="panel" style="box-shadow:none;padding:14px">
-      <summary style="cursor:pointer;font-size:13px;font-weight:700">상세 보기</summary>
-      <div style="display:grid;gap:12px;font-size:13px;margin-top:12px">
-        <div><span class="sub">분류 · 보관 위치</span><br><b>${esc(x.category)} · ${esc(x.location)}</b></div>
-        <div><span class="sub">수량 (대략)</span><br><b>${x.qty}${esc(x.unit)}</b></div>
-        <div><span class="sub">구매일</span><br><b>${esc(x.purchase || '미등록')}</b></div>
-        <div><span class="sub">소비기한</span><br><b>${esc(x.expiry || '미등록')}</b> <span class="pill ${kind === 'good' ? '' : kind}">${status}</span></div>
-        ${x.price?`<div><span class="sub">구매 가격</span><br><b>${Number(x.price).toLocaleString()}원</b></div>`:''}
-        <div><span class="sub">메모</span><br><b>${esc(x.note || '메모 없음')}</b></div>
-        <div><span class="sub">알림</span><br><button type="button" class="btn small ghost" onclick="toggleStar('${x.id}')">${isImportant(x)?'★ 중요 품목 (알림 받음)':'☆ 알림 받지 않음'}</button></div>
+    <div class="food-row" style="margin:6px 0 14px"><div class="food-info"><b>남은 양</b><small>눌러서 바꿀 수 있어요</small></div>${levelChip(x)}</div>
+      <div style="display:grid;gap:12px;font-size:13px">
+        <div><span class="sub">언제까지 먹어요?</span><br><b>${x.expiry ? expiryText(x) : '날짜 없음'}</b> <span class="pill ${kind === 'good' ? '' : kind}">${status}</span></div>
+        <div><span class="sub">어디에 있어요?</span><br><b>${esc(x.location)} · ${esc(x.category)}</b></div>
+        <div><span class="sub">산 날</span><br><b>${esc(x.purchase || '날짜 없음')}</b></div>
+        ${x.price?`<div><span class="sub">산 가격</span><br><b>${Number(x.price).toLocaleString()}원</b></div>`:''}
+        ${x.note?`<div><span class="sub">메모</span><br><b>${esc(x.note)}</b></div>`:''}
+        <div><span class="sub">알림</span><br><button type="button" class="btn small ghost" onclick="toggleStar('${x.id}')">${isImportant(x)?'★ 중요 재료 (알림 받아요)':'☆ 알림 안 받아요'}</button></div>
       </div>
-    </details>
 
     <div class="modal-actions">
       <button type="button" class="btn ghost" onclick="closeModal()">닫기</button>
@@ -1317,7 +1426,7 @@ function editItem(id){
         </div>
 
         <div class="field">
-          <label>소비기한</label>
+          <label>언제까지 먹어요?</label>
           <input name="expiry" type="date" value="${x.expiry||''}">
         </div>
 
@@ -1387,7 +1496,7 @@ function recipeCard(r){
       <p>보유 재료 ${r.matches.length}/${r.ingredients.length}개 · 부족 ${r.missing.length}개</p>
       <div class="recipe-meta">
         <span class="pill">${esc(r.category)}</span>${r.time?`<span class="pill">${r.time}분</span>`:''}
-        ${r.urgent.length?'<span class="pill warn">임박 재료 활용</span>':''}
+        ${r.urgent.length?'<span class="pill warn">곧 먹을 재료 사용</span>':''}
       </div>
       <button class="btn small" style="width:100%;margin-top:11px" onclick="showRecipe('${r.id}')">레시피 보기</button>
     </div>
@@ -1407,7 +1516,7 @@ function renderRecipes(){
   });
 
   const count=document.getElementById('recipeCount');
-  if(count) count.textContent=`총 ${arr.length}개 메뉴 · 보유 재료와 소비기한을 고려해 추천 순으로 표시`;
+  if(count) count.textContent=`총 ${arr.length}개 · 냉장고 재료와 먹을 날짜를 보고 고른 순서예요`;
   const shown=arr.slice(0,recipeLimit);
   document.getElementById('recipeList').innerHTML=
     (shown.map(recipeCard).join('') ||
@@ -1451,30 +1560,102 @@ function showRecipe(id){
     <ol style="font-size:13px;line-height:1.8;padding-left:20px">
       ${r.steps.map(step=>`<li>${esc(step)}</li>`).join('')}
     </ol>
-    <div class="modal-actions">
-      <button class="btn ghost" onclick="closeModal()">닫기</button>
-      <button class="btn" onclick="addRecipeToMeal('${r.id}')">식단에 추가</button>
-    </div>
-    <a class="btn secondary" href="${youtubeSearchUrl(r.name)}" target="_blank" rel="noopener noreferrer"
-       style="display:block;text-align:center;text-decoration:none;margin-top:9px">
-      ▶ 유튜브 조리 영상 찾아보기
+    <a class="text-btn" href="${youtubeSearchUrl(r.name)}" target="_blank" rel="noopener noreferrer"
+       style="display:block;text-align:center;text-decoration:none;margin:4px 0 14px">
+      ▶ 유튜브에서 만드는 영상 보기
     </a>
+    <button class="btn big" onclick="openCookConfirm('${r.id}')">이 요리 했어요</button>
+    <div class="modal-actions" style="margin-top:8px">
+      <button class="btn ghost" style="flex:1" onclick="closeModal()">닫기</button>
+      <button class="btn secondary" style="flex:1" onclick="addRecipeToMeal('${r.id}')">식단에 넣기</button>
+    </div>
   `);
 }
 
-function addRecipeToMeal(id){let r=recipes.find(x=>x.id===id),key=prompt('식단 날짜를 입력해 주세요. (YYYY-MM-DD)',datePlus(0));if(!key)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(key)){showToast('날짜 형식을 확인해 주세요');return}mealPlan[key]={recipeId:r.id,name:r.name,emoji:r.emoji,done:false};save();closeModal();showToast('식단에 메뉴를 추가했어요')}
-function getWeekDates(){let d=new Date(today),day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);return Array.from({length:7},(_,i)=>{let x=new Date(d);x.setDate(x.getDate()+i);return x.toISOString().slice(0,10)})}
-function renderMeal(){let dates=getWeekDates();document.getElementById('weekTitle').textContent=`${dates[0].slice(5).replace('-','.')} – ${dates[6].slice(5).replace('-','.')}`;document.getElementById('weekGrid').innerHTML=dates.map((d,i)=>{let m=mealPlan[d];return `<div class="day"><div class="dow">${['월','화','수','목','금','토','일'][i]}</div><div class="date">${Number(d.slice(8))}일</div>${m?`<div class="meal">${m.emoji} ${esc(m.name)}${m.done?'<br>✓ 완료':''}</div><button onclick="mealAction('${d}')">${m.done?'기록 보기':'관리'}</button>`:`<div class="meal" style="color:var(--faint)">메뉴 없음</div><button onclick="chooseMeal('${d}')">＋ 메뉴</button>`}</div>`}).join('')}
-function generateMealPlan(){let ranked=rankRecipes().filter(r=>r.score>0);if(!ranked.length){showToast('먼저 식재료를 등록해 주세요');return}let dates=getWeekDates();dates.forEach((d,i)=>{if(!mealPlan[d]||mealPlan[d].done){let r=ranked[i%ranked.length];mealPlan[d]={recipeId:r.id,name:r.name,emoji:r.emoji,done:false}}});save();renderMeal();renderHome();showToast('보유 재료 기반으로 식단을 구성했어요')}
-function chooseMeal(d){let options=recipes.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');openModal(`<h3>메뉴 선택</h3><p class="hint">${d} 저녁 메뉴를 선택하세요.</p><div class="field"><label>레시피</label><select id="chooseRecipe">${options}</select></div><div class="modal-actions"><button class="btn ghost" onclick="closeModal()">취소</button><button class="btn" onclick="saveChosenMeal('${d}')">식단에 추가</button></div>`)}
-function saveChosenMeal(d){let r=recipes.find(x=>x.id===document.getElementById('chooseRecipe').value);mealPlan[d]={recipeId:r.id,name:r.name,emoji:r.emoji,done:false};save();closeModal();renderMeal();renderHome()}
-function mealAction(d){let m=mealPlan[d];if(m.done){openModal(`<h3>조리 완료 기록</h3><p class="hint">${esc(m.name)} · 이미 완료된 메뉴입니다.</p><button class="btn ghost" style="width:100%" onclick="closeModal()">닫기</button>`);return}openModal(`<h3>${m.emoji} ${esc(m.name)}</h3><p class="hint">${d} 저녁 메뉴 관리</p><p class="sub">조리를 완료하면 이 레시피의 주재료를 한 번 쓴 만큼 냉장고에서 줄여요. 틀린 건 다음 화면에서 바로 고칠 수 있어요.</p><div class="modal-actions"><button class="btn ghost" onclick="deleteMeal('${d}')">메뉴 취소</button><button class="btn" onclick="completeMeal('${d}')">조리 완료</button></div>`)}
-function completeMeal(d){let m=mealPlan[d],r=recipes.find(x=>x.id===m.recipeId);let changed=r?cookAndDeduct(r):[];m.done=true;save();renderAll();showCookResult(changed)}
-function deleteMeal(d){delete mealPlan[d];save();closeModal();renderMeal();renderHome()}
+const DOW = ['일','월','화','수','목','금','토'];
+function dayLabel(key){
+  const d = new Date(key+'T00:00:00'), n = daysLeft(key);
+  return { main: n===0 ? '오늘' : n===1 ? '내일' : DOW[d.getDay()]+'요일', date: `${d.getMonth()+1}월 ${d.getDate()}일` };
+}
+// 오늘부터 7일
+function getWeekDates(){ return Array.from({length:7}, (_,i)=>datePlus(i)); }
+function addRecipeToMeal(id){
+  const r = recipes.find(x=>x.id===id);
+  if(!r) return;
+  openModal(`<h3>${r.emoji} ${esc(r.name)}</h3><p class="hint">언제 저녁으로 먹을까요?</p>
+    <div class="day-pick">${getWeekDates().map(d=>{
+      const L = dayLabel(d), m = mealPlan[d];
+      return `<button class="day-btn" ${m&&m.done?'disabled':''} onclick="setMeal('${d}','${r.id}')"><b>${L.main}</b><small>${L.date}</small>${m?`<em>${m.done?'이미 먹었어요':'지금: '+esc(m.name)}</em>`:''}</button>`;
+    }).join('')}</div>
+    <div class="modal-actions"><button class="btn ghost" style="flex:1" onclick="showRecipe('${r.id}')">뒤로</button></div>`);
+}
+function setMeal(d, id){
+  const r = recipes.find(x=>x.id===id);
+  if(!r) return;
+  closeModal();
+  const L = dayLabel(d);
+  withUndo(()=>{ mealPlan[d] = {recipeId:r.id, name:r.name, emoji:r.emoji, done:false}; }, `${L.main} 저녁: ${r.name}`);
+}
+function renderMeal(){
+  const dates = getWeekDates();
+  const t = document.getElementById('weekTitle');
+  if(t) t.textContent = `${dayLabel(dates[0]).date} ~ ${dayLabel(dates[6]).date}`;
+  document.getElementById('weekGrid').innerHTML = dates.map(d=>{
+    const m = mealPlan[d], L = dayLabel(d);
+    const name = m
+      ? `<button class="meal-name" onclick="showRecipe('${m.recipeId}')">${m.emoji} ${esc(m.name)}${m.done?' <span class="pill">먹었어요</span>':''}</button>`
+      : `<span class="meal-name none">아직 안 정했어요</span>`;
+    const acts = !m ? `<button class="btn small secondary" onclick="chooseMeal('${d}')">＋ 메뉴</button>`
+      : m.done ? '' : `<button class="btn small" onclick="completeMeal('${d}')">했어요</button><button class="btn small ghost" onclick="chooseMeal('${d}')">바꾸기</button>`;
+    return `<div class="meal-row${m?' has':''}${daysLeft(d)===0?' today':''}${m&&m.done?' done':''}"><div class="meal-day"><b>${L.main}</b><small>${L.date}</small></div>${name}<div class="meal-acts">${acts}</div></div>`;
+  }).join('');
+}
+function generateMealPlan(){
+  const ranked = rankRecipes().filter(r=>r.score>0);
+  if(!ranked.length){ showToast('먼저 냉장고에 재료를 넣어 주세요'); return; }
+  const empty = getWeekDates().filter(d=>!mealPlan[d]);
+  if(!empty.length){ showToast('7일 모두 메뉴가 있어요. 바꾸고 싶은 날만 [바꾸기]를 눌러 주세요'); return; }
+  const used = new Set(Object.values(mealPlan).map(m=>m.recipeId));
+  const pool = ranked.filter(r=>!used.has(r.id)).concat(ranked);
+  withUndo(()=>{ empty.forEach((d,i)=>{ const r = pool[i%pool.length]; mealPlan[d] = {recipeId:r.id, name:r.name, emoji:r.emoji, done:false}; }); },
+    `냉장고 재료로 ${empty.length}일 저녁을 짜 봤어요`);
+}
+function chooseMeal(d){
+  const m = mealPlan[d], L = dayLabel(d);
+  openModal(`<h3>${L.main} 저녁, 뭐 먹을까요?</h3><p class="hint">냉장고 재료로 만들기 좋은 것부터 보여줘요.</p>
+    <input class="search" id="mealSearch" style="width:100%" placeholder="메뉴 이름이나 재료로 찾기" oninput="renderMealPicks('${d}')">
+    <div id="mealPicks" class="pick-list" style="margin-top:10px"></div>
+    <div class="modal-actions">${m?`<button class="btn ghost" style="flex:1" onclick="deleteMeal('${d}')">이 날 메뉴 빼기</button>`:''}<button class="btn ghost" style="flex:1" onclick="closeModal()">닫기</button></div>`);
+  renderMealPicks(d);
+}
+function renderMealPicks(d){
+  const q = (document.getElementById('mealSearch')?.value||'').trim().toLowerCase();
+  let arr = rankRecipes();
+  if(q) arr = arr.filter(r=>[r.name, ...r.ingredients.map(x=>x[0])].join(' ').toLowerCase().includes(q));
+  arr = arr.slice(0,8);
+  document.getElementById('mealPicks').innerHTML = arr.length ? arr.map(r=>`<button class="pick-row" onclick="setMeal('${d}','${r.id}')"><span class="pick-emoji">${r.emoji}</span><span style="flex:1;min-width:0"><b>${esc(r.name)}</b><small>${r.missing.length?`재료 ${r.missing.length}개는 사야 해요`:'냉장고 재료로 만들 수 있어요'}${r.time?' · '+r.time+'분':''}</small></span></button>`).join('')
+    : '<div class="empty">찾는 메뉴가 없어요. 다른 말로 찾아 보세요.</div>';
+}
+function mealAction(d){ chooseMeal(d); }
+function completeMeal(d){ const m = mealPlan[d]; if(m) openCookConfirm(m.recipeId, d); }
+function deleteMeal(d){
+  closeModal();
+  const L = dayLabel(d);
+  withUndo(()=>{ delete mealPlan[d]; }, `${L.main} 저녁 메뉴를 뺐어요`);
+}
 function renderShopping(){document.getElementById('shoppingList').innerHTML=shopping.length?shopping.map(x=>`<div class="shopping-row ${x.checked?'done':''}"><input type="checkbox" ${x.checked?'checked':''} onchange="toggleShopping('${x.id}',this.checked)"><div class="grow"><b style="font-size:13px">${esc(x.name)}</b><div class="sub">${esc(x.qty||'수량 미정')}</div></div><button class="text-btn" onclick="removeShopping('${x.id}')">삭제</button></div>`).join(''):'<div class="empty"><b>장보기 목록이 비어 있어요</b>필요한 재료를 추가해 보세요.</div>'}
 function addShoppingItem(){openModal(`<h3>장보기 항목 추가</h3><p class="hint">구매할 식재료를 입력하세요.</p><form onsubmit="saveShopping(event)"><div class="form-grid"><div class="field full"><label>식재료명 *</label><input name="name" required placeholder="예: 우유"></div><div class="field full"><label>수량</label><input name="qty" placeholder="예: 1팩"></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="closeModal()">취소</button><button class="btn">추가하기</button></div></form>`)}
 function saveShopping(e){e.preventDefault();let f=new FormData(e.target);shopping.push({id:uid(),name:f.get('name'),qty:f.get('qty'),checked:false});save();closeModal();renderShopping();renderHome()}
-function toggleShopping(id,v){let x=shopping.find(a=>a.id===id);if(!x)return;x.checked=v;if(v){addFromShopping(x);showToast(`${x.name}을(를) 냉장고에 넣었어요`)}else if(x.addedItemId){inventory=inventory.filter(a=>a.id!==x.addedItemId);delete x.addedItemId}save();renderAll()}
+function toggleShopping(id,v){
+  const x = shopping.find(a=>a.id===id);
+  if(!x) return;
+  const name = x.name;
+  withUndo(()=>{
+    x.checked = v;
+    if(v) addFromShopping(x);
+    else if(x.addedItemId){ inventory = inventory.filter(a=>a.id!==x.addedItemId); delete x.addedItemId; }
+  }, v ? `${josa(name,'을/를')} 냉장고에 넣었어요` : `${josa(name,'을/를')} 냉장고에서 뺐어요`);
+}
 function removeShopping(id){shopping=shopping.filter(x=>x.id!==id);save();renderShopping();renderHome()}
 function addShortages(){let used=new Set();let count=0;getWeekDates().forEach(d=>{let m=mealPlan[d],r=m&&recipes.find(x=>x.id===m.recipeId);if(!r)return;r.ingredients.forEach(([n,q,u])=>{let have=inventory.filter(x=>sameIngredient(x.name,n)).reduce((s,x)=>s+x.qty,0);if(have<(q||1)&&!used.has(n)){used.add(n);if(!shopping.some(x=>x.name===n&&!x.checked)){shopping.push({id:uid(),name:n,qty:q?`${Math.max(0,q-have)}${u}`:'',checked:false});count++}}})});save();renderShopping();renderHome();showToast(count?`${count}개 부족 재료를 추가했어요`:'추가할 부족 재료가 없어요')}
 function resetDemo(){if(!confirm('샘플 데이터로 초기화할까요? 현재 브라우저에 저장된 변경 내용은 사라집니다.'))return;inventory=structuredClone(seedInventory);shopping=[];mealPlan={};save();renderAll();showToast('샘플 데이터를 초기화했어요')}
