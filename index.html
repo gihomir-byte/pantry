@@ -1082,7 +1082,7 @@ function openModal(content){document.getElementById('modalContent').innerHTML=co
 function closeModal(){document.getElementById('modalBackdrop').classList.remove('show')}
 function openIngredientModal(){
  openModal(`<h3>식재료 등록</h3>
- <button type="button" class="add-way" onclick="closeModal();openReceiptPicker()"><span class="add-way-ico">📷</span><span><b>사진으로 한 번에 넣기</b><small>영수증, 장 본 재료, 컬리·B마트 주문 화면 모두 돼요. 여러 장도 돼요</small></span><span class="add-way-go">›</span></button>
+ <button type="button" class="add-way" onclick="closeModal();openReceiptPicker()"><span class="add-way-ico">📷</span><span><b>사진으로 한 번에 넣기</b><small>영수증, 장 본 재료, 컬리, B마트, 주문 화면 모두 돼요.<br>여러 장도 가능해요</small></span><span class="add-way-go">›</span></button>
  <div class="or-line"><span>또는 직접 적기</span></div>
  <form id="ingredientForm" onsubmit="saveIngredient(event)"><div class="form-grid">
  <div class="field full"><label>식재료명 *</label><input name="name" required placeholder="예: 두부" autocomplete="off" oninput="autoFillIngredient(this.form)"><span class="sub" id="autoFillHint" style="min-height:16px"></span></div>
