@@ -69,6 +69,8 @@ button.food-info{border:0;background:transparent;text-align:left;padding:2px 0;f
 .day-pick{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.day-btn{border:1.5px solid var(--border);background:var(--surface);border-radius:var(--r-m);padding:12px;text-align:left;color:var(--text);min-height:64px}.day-btn b{display:block;font-size:15px}.day-btn small{font-size:12px;color:var(--muted)}.day-btn em{display:block;font-style:normal;font-size:11px;color:var(--warn-ink);margin-top:3px}.day-btn:disabled{opacity:.45}
 .cook-list{display:grid;gap:8px}.cook-row{display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--surface-2);border-radius:var(--r-m);cursor:pointer}.cook-row input{accent-color:var(--primary);width:22px;height:22px;flex-shrink:0}.cook-row .grow{flex:1;min-width:0}.cook-row b{display:block;font-size:14px}.cook-row small{font-size:13px;color:var(--muted)}.cook-row strong.warn{color:var(--warn-ink)}.cook-row strong.danger,.cook-row strong.gray{color:var(--danger-ink)}.cook-row strong.good{color:var(--soft-ink)}.cook-row:has(input:not(:checked)){opacity:.5}
 .note{display:flex;gap:8px;align-items:center;background:var(--soft);color:var(--soft-ink);border-radius:var(--r-m);padding:11px 12px;font-size:13px;font-weight:700;margin-bottom:6px}
+.add-way{display:flex;align-items:center;gap:12px;width:100%;border:1.5px solid var(--brand);background:var(--soft);border-radius:var(--r-l);padding:14px;text-align:left;color:var(--text);margin:6px 0 4px}.add-way b{display:block;font-size:15px}.add-way small{font-size:12px;color:var(--soft-ink)}.add-way-ico{font-size:26px}.add-way-go{margin-left:auto;font-size:20px;color:var(--primary);font-weight:800}
+.or-line{display:flex;align-items:center;gap:10px;color:var(--faint);font-size:12px;font-weight:700;margin:14px 0 10px}.or-line:before,.or-line:after{content:"";flex:1;height:1px;background:var(--border)}
 footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25px}
 
 /* ===== 첫 화면 (시작 ~ 완료) ===== */
@@ -294,7 +296,7 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
   <div class="welcome"><div class="eyebrow" id="homeEyebrow">우리 집 냉장고</div><h2>오늘 먼저 먹을 건<br>무엇일까요?</h2><p>가지고 있는 재료를 확인하고 오늘의 식탁을 준비해 보세요.</p></div>
   <div class="grid stats">
     <div class="stat"><span class="label">전체 식재료</span><strong id="statTotal">0</strong><em>가지 보관 중</em></div>
-    <div class="stat"><span class="label">곧 먹어야 해요</span><strong id="statSoon">0</strong><em>3일 안에</em></div>
+    <div class="stat"><span class="label">소비기한 임박</span><strong id="statSoon">0</strong><em>3일 안에</em></div>
     <div class="stat"><span class="label">장보기</span><strong id="statShopping">0</strong><em>구매 예정</em></div>
   </div>
   <div class="panel" id="homeAlerts" style="display:none"></div>
@@ -329,7 +331,7 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
   style="display:none"
   onchange="handleReceiptFile(event)"
 >
-    <div class="toolbar"><input class="search" id="searchInput" placeholder="식재료 검색" oninput="renderStorage()"><select class="select" id="storageFilter" onchange="renderStorage()"><option value="all">전체 위치</option><option>냉장</option><option>냉동</option><option>실온</option><option>김치냉장고</option></select><select class="select" id="sortFilter" onchange="renderStorage()"><option value="expiry">먹을 날짜 순</option><option value="name">이름순</option><option value="newest">최근 등록순</option></select></div>
+    <div class="toolbar"><input class="search" id="searchInput" placeholder="식재료 검색" oninput="renderStorage()"><select class="select" id="storageFilter" onchange="renderStorage()"><option value="all">전체 위치</option><option>냉장</option><option>냉동</option><option>실온</option><option>김치냉장고</option></select><select class="select" id="sortFilter" onchange="renderStorage()"><option value="expiry">소비기한순</option><option value="name">이름순</option><option value="newest">최근 등록순</option></select></div>
     <div class="tabs" id="categoryTabs"><button class="tab active" data-cat="all" onclick="setCategory('all',this)">전체</button><button class="tab" data-cat="채소" onclick="setCategory('채소',this)">채소</button><button class="tab" data-cat="과일" onclick="setCategory('과일',this)">과일</button><button class="tab" data-cat="육류" onclick="setCategory('육류',this)">육류</button><button class="tab" data-cat="유제품" onclick="setCategory('유제품',this)">유제품</button><button class="tab" data-cat="기타" onclick="setCategory('기타',this)">기타</button></div>
     <div id="storageList" class="item-list" style="margin-top:13px"></div>
   </div>
@@ -382,7 +384,7 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
     <p class="sub" id="myEmail" style="margin:10px 0 0"></p>
     <button class="btn small ghost" style="margin-top:12px" onclick="signOut()">로그아웃</button>
   </div>
-  <div class="panel"><div class="panel-head"><h3>알림 설정</h3></div><label style="display:flex;align-items:center;gap:9px;font-size:14px;margin:12px 0"><input type="checkbox" checked style="accent-color:var(--primary);width:18px;height:18px"> 곧 먹어야 할 재료 알려주기</label><label style="display:flex;align-items:center;gap:9px;font-size:14px;margin:12px 0"><input type="checkbox" checked style="accent-color:var(--primary);width:18px;height:18px"> 날짜 지난 재료 보여주기</label></div>
+  <div class="panel"><div class="panel-head"><h3>알림 설정</h3></div><label style="display:flex;align-items:center;gap:9px;font-size:14px;margin:12px 0"><input type="checkbox" checked style="accent-color:var(--primary);width:18px;height:18px"> 소비기한 임박 알림 표시</label><label style="display:flex;align-items:center;gap:9px;font-size:14px;margin:12px 0"><input type="checkbox" checked style="accent-color:var(--primary);width:18px;height:18px"> 소비기한 지난 재료 표시</label></div>
   <div class="panel"><div class="panel-head"><h3>서비스 정보</h3></div><p class="sub" style="line-height:1.7;margin:0">냉큼<br>냉장고에 뭐가 있는지, 가족이랑 냉큼 확인해요</p></div>
 </section>
 <footer>냉큼 · 가족이 함께 보는 냉장고</footer>
@@ -708,7 +710,7 @@ function importantAlerts(){
     const d = daysLeft(x.expiry);
     if(d!==null && d<=2){
       const rec = recipes.find(r=>r.ingredients.some(([n])=>sameIngredient(x.name,n)));
-      out.push({x, kind:'expiry', text: d<0 ? `${josa(x.name,'은/는')} 먹을 날짜가 지났어요. 괜찮은지 봐 주세요.` : `${['오늘','내일','모레'][d]}까지 ${josa(x.name,'을/를')} 먹으면 좋아요.${rec?` ${rec.name} 어때요?`:''}`, recipe: rec});
+      out.push({x, kind:'expiry', text: d<0 ? `${x.name} 소비기한이 지났어요. 괜찮은지 봐 주세요.` : `${['오늘','내일','모레'][d]}까지 ${josa(x.name,'을/를')} 먹으면 좋아요.${rec?` ${rec.name} 어때요?`:''}`, recipe: rec});
     } else if(x.level>0 && x.level<20){
       out.push({x, kind:'low', text:`${josa(x.name,'이/가')} 거의 떨어졌어요.`});
     }
@@ -824,12 +826,40 @@ function addFromShopping(item){
   item.addedItemId = x.id;
   logActivity('shopping_add', {item:name});
 }
+// 이름으로 보관 위치·단위 짐작 (분류는 guessCategory)
+function guessLocation(name, category){
+  const n = String(name).replace(/\s/g,'');
+  if(/냉동|만두|아이스|동그랑땡|너겟|돈까스|볶음밥/.test(n)) return '냉동';
+  if(/감자|고구마|양파|마늘|라면|쌀|밀가루|설탕|소금|식용유|참기름|간장|고추장|된장|통조림|참치캔|스팸|과자|바나나|국수|파스타/.test(n)) return '실온';
+  return '냉장';
+}
+function guessUnit(name){
+  const n = String(name).replace(/\s/g,'');
+  if(/두부/.test(n)) return '모';
+  if(/우유|주스/.test(n)) return '팩';
+  if(/대파|쪽파/.test(n)) return '대';
+  if(/콩나물|숙주|시금치|깻잎|상추|떡/.test(n)) return '봉';
+  if(/고기|삼겹|목살|앞다리|등심|안심|닭가슴|다짐육/.test(n)) return 'g';
+  return '개';
+}
+function autoFillIngredient(form){
+  const name = form.name.value.trim();
+  const hint = document.getElementById('autoFillHint');
+  if(!name){ if(hint) hint.textContent=''; return; }
+  const cat = guessCategory(name), loc = guessLocation(name, cat), unit = guessUnit(name);
+  const changed = [];
+  if(!form.category.dataset.touched){ form.category.value = cat; changed.push(cat); }
+  if(!form.location.dataset.touched){ form.location.value = loc; changed.push(loc); }
+  if(!form.unit.dataset.touched){ form.unit.value = unit; }
+  if(hint) hint.textContent = changed.length ? `${changed.join(' · ')}(으)로 골라 뒀어요. 다르면 바꿔 주세요.` : '';
+}
 function guessCategory(name){
   const n = String(name).replace(/\s/g,'');
-  if(/고기|닭|삼겹|베이컨|햄|소시지|생선|연어|고등어|새우|오징어/.test(n)) return '육류';
-  if(/우유|치즈|요거트|요구르트|버터|크림/.test(n)) return '유제품';
-  if(/사과|바나나|딸기|포도|귤|오렌지|레몬|수박|배|복숭아|토마토/.test(n)) return '과일';
-  if(/파|양파|마늘|배추|상추|시금치|깻잎|버섯|감자|고구마|당근|무|오이|호박|가지|고추|브로콜리|콩나물|숙주|부추/.test(n)) return '채소';
+  if(/파스타|라면|국수|소스|과자|빵|떡|쌀|밀가루/.test(n)) return '기타';
+  if(/고기|닭|삼겹|목살|앞다리|등심|안심|베이컨|햄|소시지|생선|연어|고등어|갈치|새우|오징어|조개|굴|게맛살|어묵|다짐육/.test(n)) return '육류';
+  if(/우유|치즈|요거트|요구르트|버터|크림|계란|달걀/.test(n)) return '유제품';
+  if(/사과|바나나|딸기|포도|귤|오렌지|레몬|수박|복숭아|토마토|키위|블루베리|망고|참외|감$|^배$/.test(n)) return '과일';
+  if(/파|양파|마늘|배추|상추|시금치|깻잎|버섯|감자|고구마|당근|무|오이|호박|가지|고추|브로콜리|콩나물|숙주|부추|양배추|파프리카|생강|두부|김치/.test(n)) return '채소';
   return '기타';
 }
 
@@ -860,7 +890,7 @@ function save(){
 }
   
 function daysLeft(date){if(!date)return null;return Math.ceil((new Date(date+'T00:00:00')-today)/86400000)}
-function expiryStatus(item){let d=daysLeft(item.expiry);if(d===null)return ['날짜 없음','gray'];if(d<0)return ['날짜 지났어요','danger'];if(d===0)return ['오늘까지','danger'];if(d<=3)return ['곧 먹어야 해요','danger'];if(d<=7)return ['이번 주에 먹어요','warn'];return ['넉넉해요','good']}
+function expiryStatus(item){let d=daysLeft(item.expiry);if(d===null)return ['날짜 미등록','gray'];if(d<0)return ['기한 지남','danger'];if(d===0)return ['오늘까지','danger'];if(d<=3)return ['임박','danger'];if(d<=7)return ['이번 주','warn'];return ['여유','good']}
 function navigate(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===(page==='meal'?'recipes':page)));if(page==='home')renderHome();if(page==='storage')renderStorage();if(page==='recipes')renderRecipes();if(page==='meal')renderMeal();if(page==='shopping')renderShopping();window.scrollTo({top:0,behavior:'smooth'})}
 // 알림 한 줄. undo:true면 5초 동안 [되돌리기] 버튼이 붙어요.
 let toastTimer = null, undoSnap = null;
@@ -905,12 +935,12 @@ function expiryText(x){
   if(!x.expiry) return '';
   const d = new Date(x.expiry+'T00:00:00');
   const md = `${d.getMonth()+1}월 ${d.getDate()}일`;
-  return daysLeft(x.expiry) < 0 ? `${md}까지였어요` : `${md}까지 먹어요`;
+  return `소비기한 ${md}`;
 }
 function expiryPill(x){
   const d = daysLeft(x.expiry);
   if(d===null || d>3) return '';
-  if(d<0) return '<span class="pill danger">! 날짜 지났어요</span>';
+  if(d<0) return '<span class="pill danger">! 기한 지남</span>';
   if(d===0) return '<span class="pill danger">! 오늘까지</span>';
   if(d===1) return '<span class="pill danger">! 내일까지</span>';
   return `<span class="pill warn">◷ ${d}일 남았어요</span>`;
@@ -974,15 +1004,17 @@ function renderStorage(){
 function openModal(content){document.getElementById('modalContent').innerHTML=content;document.getElementById('modalBackdrop').classList.add('show')}
 function closeModal(){document.getElementById('modalBackdrop').classList.remove('show')}
 function openIngredientModal(){
- openModal(`<h3>식재료 등록</h3><p class="hint">이름만 적어도 돼요. 수량은 대략이면 충분해요.</p>
+ openModal(`<h3>식재료 등록</h3>
+ <button type="button" class="add-way" onclick="closeModal();openReceiptPicker()"><span class="add-way-ico">🧾</span><span><b>영수증 찍어서 한 번에 넣기</b><small>산 재료를 AI가 읽어서 목록으로 만들어요</small></span><span class="add-way-go">›</span></button>
+ <div class="or-line"><span>또는 직접 적기</span></div>
  <form id="ingredientForm" onsubmit="saveIngredient(event)"><div class="form-grid">
- <div class="field full"><label>식재료명 *</label><input name="name" required placeholder="예: 두부"></div>
- <div class="field"><label>분류 *</label><select name="category"><option>채소</option><option>과일</option><option>육류</option><option>유제품</option><option>기타</option></select></div>
- <div class="field"><label>보관 위치 *</label><select name="location"><option>냉장</option><option>냉동</option><option>실온</option><option>김치냉장고</option></select></div>
+ <div class="field full"><label>식재료명 *</label><input name="name" required placeholder="예: 두부" autocomplete="off" oninput="autoFillIngredient(this.form)"><span class="sub" id="autoFillHint" style="min-height:16px"></span></div>
+ <div class="field"><label>분류 *</label><select name="category" onchange="this.dataset.touched=1"><option>채소</option><option>과일</option><option>육류</option><option>유제품</option><option>기타</option></select></div>
+ <div class="field"><label>보관 위치 *</label><select name="location" onchange="this.dataset.touched=1"><option>냉장</option><option>냉동</option><option>실온</option><option>김치냉장고</option></select></div>
  <div class="field"><label>수량 *</label><input name="qty" type="number" min="0.01" step="any" required value="1"></div>
- <div class="field"><label>단위 *</label><select name="unit"><option>개</option><option>모</option><option>팩</option><option>봉</option><option>g</option><option>kg</option><option>ml</option><option>L</option><option>대</option></select></div>
+ <div class="field"><label>단위 *</label><select name="unit" onchange="this.dataset.touched=1"><option>개</option><option>모</option><option>팩</option><option>봉</option><option>g</option><option>kg</option><option>ml</option><option>L</option><option>대</option></select></div>
  <div class="field"><label>구매일</label><input name="purchase" type="date" value="${datePlus(0)}"></div>
- <div class="field"><label>언제까지 먹어요?</label><input name="expiry" type="date"></div>
+ <div class="field"><label>소비기한</label><input name="expiry" type="date"></div>
  <div class="field full"><label>메모</label><input name="note" placeholder="예: 개봉 후 밀폐 용기에 보관"></div>
  </div><div class="modal-actions"><button type="button" class="btn ghost" onclick="closeModal()">취소</button><button class="btn">저장하기</button></div></form>`);
 }
@@ -1151,7 +1183,7 @@ async function handleReceiptFile(event){
       <div style="font-size:42px;margin-bottom:15px">🧾</div>
       <h3>영수증을 분석하고 있어요</h3>
       <p class="hint" style="margin-top:10px">
-        AI가 상품명, 수량, 단위, 구매일, 언제까지 먹으면 되는지 확인하고 있어요.
+        AI가 상품명, 수량, 단위, 구매일과 예상 소비기한을 확인하고 있어요.
       </p>
       <div class="pill" style="margin-top:10px">잠시만 기다려 주세요</div>
     </div>
@@ -1264,7 +1296,7 @@ function renderReceiptReview(purchaseDate){
         </div>
 
         <div class="field full">
-          <label>언제까지 먹어요? (AI가 짐작한 날짜 · 고칠 수 있어요)</label>
+          <label>소비기한 (AI가 짐작한 날짜 · 고칠 수 있어요)</label>
           <input id="receipt_expiry_${index}" type="date" value="${esc(item.expiry)}">
           <span class="sub">보통 보관하는 걸 기준으로 짐작한 날짜예요. 포장지 날짜와 다르면 고쳐 주세요.</span>
         </div>
@@ -1383,7 +1415,7 @@ function openItemDetail(id){
     <h3>${ingredientEmoji(x)} ${esc(x.name)}</h3>
     <div class="food-row" style="margin:6px 0 14px"><div class="food-info"><b>남은 양</b><small>눌러서 바꿀 수 있어요</small></div>${levelChip(x)}</div>
       <div style="display:grid;gap:12px;font-size:13px">
-        <div><span class="sub">언제까지 먹어요?</span><br><b>${x.expiry ? expiryText(x) : '날짜 없음'}</b> <span class="pill ${kind === 'good' ? '' : kind}">${status}</span></div>
+        <div><span class="sub">소비기한</span><br><b>${x.expiry ? expiryText(x).replace('소비기한 ','') : '날짜 미등록'}</b> <span class="pill ${kind === 'good' ? '' : kind}">${status}</span></div>
         <div><span class="sub">어디에 있어요?</span><br><b>${esc(x.location)} · ${esc(x.category)}</b></div>
         <div><span class="sub">산 날</span><br><b>${esc(x.purchase || '날짜 없음')}</b></div>
         ${x.price?`<div><span class="sub">산 가격</span><br><b>${Number(x.price).toLocaleString()}원</b></div>`:''}
@@ -1426,7 +1458,7 @@ function editItem(id){
         </div>
 
         <div class="field">
-          <label>언제까지 먹어요?</label>
+          <label>소비기한</label>
           <input name="expiry" type="date" value="${x.expiry||''}">
         </div>
 
@@ -1496,7 +1528,7 @@ function recipeCard(r){
       <p>보유 재료 ${r.matches.length}/${r.ingredients.length}개 · 부족 ${r.missing.length}개</p>
       <div class="recipe-meta">
         <span class="pill">${esc(r.category)}</span>${r.time?`<span class="pill">${r.time}분</span>`:''}
-        ${r.urgent.length?'<span class="pill warn">곧 먹을 재료 사용</span>':''}
+        ${r.urgent.length?'<span class="pill warn">임박 재료 활용</span>':''}
       </div>
       <button class="btn small" style="width:100%;margin-top:11px" onclick="showRecipe('${r.id}')">레시피 보기</button>
     </div>
@@ -1516,7 +1548,7 @@ function renderRecipes(){
   });
 
   const count=document.getElementById('recipeCount');
-  if(count) count.textContent=`총 ${arr.length}개 · 냉장고 재료와 먹을 날짜를 보고 고른 순서예요`;
+  if(count) count.textContent=`총 ${arr.length}개 · 냉장고 재료와 소비기한을 보고 고른 순서예요`;
   const shown=arr.slice(0,recipeLimit);
   document.getElementById('recipeList').innerHTML=
     (shown.map(recipeCard).join('') ||
