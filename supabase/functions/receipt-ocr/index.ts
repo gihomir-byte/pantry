@@ -50,7 +50,13 @@ C. photo: 사진에서 분명히 알아볼 수 있는 식재료만 넣습니다.
 
 [공통 규칙]
 
-1. 상품명은 재료 이름이 드러나게 짧게 정리합니다.
+1. name은 브랜드·상품명이 아닌 요리할 때 부르는 일반 재료 이름으로 씁니다.
+   브랜드, 대괄호 [ ], 등급, 용량·중량, 개수, 원산지, 광고 문구는 모두 뺍니다.
+   예: 달보드레쌀 4kg → 쌀 / [청정원] 매실청 650g → 매실청 / [해찬들] 100% 태양초 우리쌀 고추장 → 고추장
+       [몬] 스위트 칠리소스 → 칠리소스 / 서울우유 1L → 우유 / 국산콩두부 300g → 두부 / 특란 15구 → 계란
+       한돈 앞다리살 600g → 돼지고기 앞다리살 / 무농약 시금치 → 시금치
+   요리에서 구분이 필요한 종류(앞다리살, 방울토마토, 다진마늘 등)는 남깁니다.
+   원래 상품명 전체는 original에 그대로 넣습니다.
 2. 식품 및 식재료가 아닌 상품은 제외합니다.
 3. 카페와 식당의 즉석 제조 메뉴는 제외합니다.
    예: 아메리카노, 플랫화이트, 라떼, 에이드 등
@@ -84,7 +90,8 @@ C. photo: 사진에서 분명히 알아볼 수 있는 식재료만 넣습니다.
   "purchaseDate": "YYYY-MM-DD",
   "items": [
     {
-      "name": "상품명",
+      "name": "고추장",
+      "original": "[해찬들] 100% 태양초 우리쌀 고추장 1.5KG+300G",
       "category": "채소",
       "location": "냉장",
       "qty": 1,
@@ -333,6 +340,7 @@ function normalize(parsed: any) {
     .filter((item: any) => typeof item?.name === "string" && item.name.trim())
     .map((item: any) => ({
       name: item.name.trim().slice(0, 100),
+      original: typeof item.original === "string" ? item.original.trim().slice(0, 150) : "",
       category: allowedCategories.includes(item.category)
         ? item.category
         : "기타",

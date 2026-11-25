@@ -1303,6 +1303,7 @@ async function handleReceiptFile(event){
 
     receiptDraft = data.items.map(item=>({
       name:String(item.name||''),
+      original:String(item.original||''),
       category:item.category||'기타',
       location:item.location||'냉장',
       qty:Number(item.qty)||1,
@@ -1357,8 +1358,9 @@ function renderReceiptReview(purchaseDate){
       <div class="form-grid">
 
         <div class="field full">
-          <label>상품명</label>
+          <label>재료 이름</label>
           <input id="receipt_name_${index}" value="${esc(item.name)}" required>
+          ${item.original && item.original!==item.name ? `<span class="sub">원래 상품명: ${esc(item.original)}</span>` : ''}
         </div>
 
         <div class="field">
@@ -1479,7 +1481,7 @@ function saveReceiptItems(){
       expiry,
       emoji:ingredientEmoji({name, category, emoji:receiptDraft[i].emoji}),
       price:Number(receiptDraft[i].price)||0,
-      note:'사진 AI 등록'
+      note: receiptDraft[i].original && receiptDraft[i].original!==name ? receiptDraft[i].original : '사진 AI 등록'
     });
   }
 
