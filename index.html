@@ -453,7 +453,17 @@ async function handleReceiptFile(event){
       }
     );
 
-    if(error)throw error;
+    if(error){
+      // 서버가 보낸 실제 오류 문구를 꺼내서 보여줍니다.
+      let serverMessage = '';
+      try{
+        const body = await error.context?.json?.();
+        serverMessage = body?.error || '';
+      }catch(_){}
+      throw new Error(
+        serverMessage || '영수증 인식 서버에 연결하지 못했어요. 잠시 후 다시 시도해 주세요.'
+      );
+    }
 
     if(!data || !Array.isArray(data.items)){
       throw new Error('AI 인식 결과를 확인할 수 없어요.');
