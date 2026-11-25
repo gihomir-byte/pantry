@@ -25,13 +25,28 @@ function thinkingLevelFor(model: string): string | null {
 const REQUEST_TIMEOUT_MS = 45_000;
 
 const prompt = `
-당신은 한국 마트 영수증을 분석하는 식재료 관리 AI입니다.
+당신은 가족 냉장고 앱의 식재료 등록 AI입니다.
 
-첨부된 영수증 이미지를 분석하고 식품 및 식재료 구매 항목만 추출하세요.
+첨부된 사진은 아래 셋 중 하나입니다. 먼저 어떤 사진인지 판단하고 식품 및 식재료 항목만 추출하세요.
+- receipt: 마트·시장 종이 영수증
+- order: 컬리, B마트(배민), 쿠팡, SSG 같은 온라인 장보기 앱의 주문 상세 화면 캡처
+- photo: 장 본 재료나 냉장고 안을 찍은 실제 사진
 
-[분석 규칙]
+[사진 종류별 규칙]
 
-1. 영수증에 인쇄된 상품명을 알아보기 쉽게 정리합니다.
+A. receipt: 영수증에 인쇄된 상품명을 알아보기 쉽게 정리합니다.
+B. order: 화면에 보이는 상품명에서 브랜드·광고 문구·용량 표기는 줄이고 재료 이름이 드러나게 정리합니다.
+   예: "[KF365] 1+등급 무항생제 신선한 대란 20구" → 이름 "계란", 수량 20, 단위 "개"
+   주문 수량(예: 2개, 수량 2)은 qty에 반영합니다. 배송비, 쿠폰, 포장재, 합계 줄은 제외합니다.
+   취소·품절된 상품은 제외합니다. 주문일이 보이면 purchaseDate로 씁니다.
+C. photo: 사진에서 분명히 알아볼 수 있는 식재료만 넣습니다. 확실하지 않은 것은 넣지 않습니다.
+   이름은 일반적인 재료 이름(예: 양파, 두부, 우유)으로 씁니다. 개수는 보이는 만큼 셉니다.
+   포장에 날짜가 또렷하게 인쇄되어 보이면 그 날짜를 expiry로 씁니다.
+   price는 0, purchaseDate는 빈 문자열로 둡니다.
+
+[공통 규칙]
+
+1. 상품명은 재료 이름이 드러나게 짧게 정리합니다.
 2. 식품 및 식재료가 아닌 상품은 제외합니다.
 3. 카페와 식당의 즉석 제조 메뉴는 제외합니다.
    예: 아메리카노, 플랫화이트, 라떼, 에이드 등
@@ -39,7 +54,7 @@ const prompt = `
    별도로 보관하거나 소비하는 제품은 포함합니다.
 5. 상품별 실제 구매 수량과 단위를 구분합니다.
 6. 묶음 상품은 가능한 경우 구성 수량을 반영합니다.
-7. 구매일은 영수증에 인쇄된 날짜를 사용합니다.
+7. 구매일은 영수증이나 주문 화면에 적힌 날짜를 사용합니다. 사진(photo)이면 빈 문자열입니다.
 8. 상품별 카테고리를 다음 중 하나로 분류합니다.
    채소, 과일, 육류, 유제품, 기타
 9. 보관 위치를 다음 중 하나로 추천합니다.
@@ -51,7 +66,7 @@ const prompt = `
 12. 추정이 매우 어려운 경우에만 소비기한을 빈 문자열로 반환합니다.
 13. 수량은 숫자로, 단위는 문자열로 반환합니다.
 14. 날짜 형식은 반드시 YYYY-MM-DD로 반환합니다.
-15. 영수증에 없는 상품이나 정보를 만들어내지 마세요.
+15. 사진에 없는 상품이나 정보를 만들어내지 마세요.
 16. 식재료나 보관식품이 없다면 items를 빈 배열로 반환합니다.
 17. 상품별 결제 금액(원, 할인 반영 후)을 price에 숫자로 넣습니다. 알 수 없으면 0입니다.
 
@@ -61,6 +76,7 @@ const prompt = `
 마크다운이나 별도 설명은 출력하지 마세요.
 
 {
+  "source": "receipt",
   "purchaseDate": "YYYY-MM-DD",
   "items": [
     {
@@ -244,7 +260,7 @@ async function callGemini(
   if (candidate?.finishReason === "MAX_TOKENS") {
     console.error(`[${model}] 출력 한도 초과로 응답이 잘림`);
     throw new AttemptError(
-      "영수증 항목이 너무 많아 분석이 중간에 끊겼습니다. 영수증을 나눠서 찍어 주세요.",
+      "항목이 너무 많아 분석이 중간에 끊겼습니다. 사진을 나눠서 찍어 주세요.",
       502,
       true,
     );
@@ -255,7 +271,7 @@ async function callGemini(
       `[${model}] 빈 응답, finishReason=${candidate?.finishReason}`,
     );
     throw new AttemptError(
-      "AI 분석 결과가 비어 있습니다. 영수증 사진을 다시 촬영해 주세요.",
+      "AI 분석 결과가 비어 있습니다. 사진을 다시 찍어 주세요.",
       502,
       true,
     );
@@ -304,7 +320,11 @@ function normalize(parsed: any) {
     ? parsed.purchaseDate
     : todayKorea;
 
-  return { purchaseDate, items };
+  const source = ["receipt", "order", "photo"].includes(parsed.source)
+    ? parsed.source
+    : "receipt";
+
+  return { source, purchaseDate, items };
 }
 
 export default {
@@ -324,7 +344,7 @@ export default {
         const { imageData }: ReqPayload = await req.json();
 
         if (typeof imageData !== "string" || !imageData.startsWith("data:image/")) {
-          throw new HttpError("영수증 이미지 형식이 올바르지 않습니다.", 400);
+          throw new HttpError("사진 형식이 올바르지 않습니다.", 400);
         }
         if (imageData.length > 12_000_000) {
           throw new HttpError("이미지 용량이 너무 큽니다.", 413);
@@ -392,12 +412,12 @@ export default {
         }
 
         throw lastError ||
-          new HttpError("영수증 분석에 실패했습니다. 다시 시도해 주세요.", 502);
+          new HttpError("사진 분석에 실패했습니다. 다시 시도해 주세요.", 502);
       } catch (error) {
         const status = error instanceof HttpError ? error.status : 500;
         const message = error instanceof Error
           ? error.message
-          : "영수증 분석 중 오류가 발생했습니다.";
+          : "사진 분석 중 오류가 발생했습니다.";
 
         console.error(`Receipt OCR error (${status}):`, message);
         return Response.json({ error: message }, { status });
