@@ -27,7 +27,7 @@
   --radius:var(--r-l);
   --font:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Segoe UI",Roboto,sans-serif;
 }
-*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased;letter-spacing:-.2px}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased;letter-spacing:-.2px;word-break:keep-all;overflow-wrap:break-word}h1,h2,h3,h4,.title{text-wrap:balance}p,.sub,.hint,.muted{text-wrap:pretty}
 button,input,select,textarea{font:inherit;letter-spacing:inherit} button{cursor:pointer}
 :focus-visible{outline:2px solid var(--primary);outline-offset:2px}
 .svg-ico{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block}
@@ -72,7 +72,7 @@ button.food-info{border:0;background:transparent;text-align:left;padding:2px 0;f
 .rc-search-btn{display:flex;align-items:center;gap:8px;width:100%;border:1px solid var(--border);background:var(--surface);border-radius:var(--r-m);padding:12px 13px;color:var(--faint);font-size:14px;margin:0 0 6px;text-align:left}.rc-search-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2}
 .rc-row{margin:18px 0 4px}.rc-row-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}.rc-row-head h3{margin:0;font-size:16px}.rc-row-head small{display:block;font-size:12px;color:var(--muted);font-weight:500;margin-top:2px}
 .rc-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory;margin:0 -16px;padding-left:16px;padding-right:16px}.rc-scroll::-webkit-scrollbar{display:none}
-.rc-mini{flex:0 0 138px;scroll-snap-align:start;border:1px solid var(--border);border-radius:var(--r-l);background:var(--surface);overflow:hidden;text-align:left;padding:0;color:var(--text);position:relative}.rc-mini .art{height:92px;background:var(--surface-2);display:grid;place-items:center;font-size:38px;overflow:hidden}.rc-mini .art img{width:100%;height:100%;object-fit:cover}.rc-mini b{display:block;font-size:13px;line-height:1.35;padding:8px 9px 2px;height:43px;overflow:hidden}.rc-mini small{display:block;font-size:11px;color:var(--muted);padding:0 9px 9px}.rc-mini small.ok{color:var(--primary);font-weight:700}.rc-mini small.warn{color:var(--warn-ink);font-weight:700}.chips.wrap{flex-wrap:wrap;overflow:visible}.pantry-row{display:flex;align-items:center;gap:12px}.pantry-row .grow{flex:1;min-width:0}.pantry-row b{display:block;font-size:15px}.pantry-row small{display:block;color:var(--muted);font-size:12px;margin-top:2px}.rd-hero{margin:-22px -22px 14px;height:210px;overflow:hidden;background:var(--surface-2);border-radius:var(--r-xl) var(--r-xl) 0 0}.rd-hero img{width:100%;height:100%;object-fit:cover}.rd-sec{border:1px solid var(--border);border-radius:var(--r-l);padding:13px;margin-bottom:16px}.rd-sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.rd-sec-head small{color:var(--muted);font-size:12px}.rd-ing{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;padding:6px 0;border-top:1px dashed var(--border)}.yn{flex-shrink:0;border-radius:var(--r-xs);padding:3px 8px;font-size:11px;font-weight:800;white-space:nowrap}.yn.have{background:var(--primary);color:#fff;border:0;font-family:inherit;cursor:pointer}.yn.no{background:var(--warn-bg);color:var(--warn-ink);border:1px solid #F3D19C}.cam-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.cam-head h3{margin:0}.cam-view{position:relative;background:#111;border-radius:var(--r-l);overflow:hidden;aspect-ratio:3/4;max-height:56vh;margin:0 auto}.cam-view video{width:100%;height:100%;object-fit:cover;display:block}.cam-msg{position:absolute;inset:0;display:grid;place-content:center;text-align:center;color:#fff;font-size:14px;padding:20px;line-height:1.6}.cam-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}.cam-flash.on{animation:camflash .25s}@keyframes camflash{from{opacity:.8}to{opacity:0}}.cam-thumbs{display:flex;gap:6px;min-height:0;overflow-x:auto}.cam-thumb{position:relative;flex:0 0 54px;height:54px;border-radius:var(--r-s);overflow:hidden;border:1px solid var(--border)}.cam-thumb img{width:100%;height:100%;object-fit:cover}.cam-thumb button{position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:11px;padding:0;line-height:20px}.cam-bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-top:12px}.cam-shutter{width:66px;height:66px;border-radius:50%;border:4px solid var(--primary);background:#fff;box-shadow:inset 0 0 0 4px #fff,inset 0 0 0 30px var(--primary);padding:0}.cam-shutter:active{transform:scale(.94)}.cam-shutter:disabled{opacity:.35}.pchip i{font-style:normal;display:inline-block;width:14px;margin-right:3px;opacity:.18;font-weight:900}.pchip.on i{opacity:1}.ptabs{display:flex;gap:2px;overflow-x:auto;border-bottom:1px solid var(--border);margin-top:6px}.ptabs::-webkit-scrollbar{display:none}.ptab{flex-shrink:0;border:0;background:none;padding:10px 10px 9px;font-size:14px;font-weight:700;color:var(--muted);border-bottom:2.5px solid transparent;margin-bottom:-1px;white-space:nowrap;font-family:inherit}.ptab.on{color:var(--text);border-bottom-color:var(--primary)}.ptab em{font-style:normal;font-size:11px;color:var(--primary);margin-left:3px;font-weight:800}.ptab-head{font-size:12px;color:var(--muted);margin:12px 0 8px}.ptab-head b{color:var(--primary)}.ptab-head span{float:right}.todo-list{display:grid;gap:6px}.todo-row{display:flex;align-items:center;gap:10px;padding:9px 10px;background:var(--surface-2);border-radius:var(--r-m)}.todo-row.wrap{flex-wrap:wrap}.todo-ico{width:34px;height:34px;flex-shrink:0;border-radius:var(--r-s);background:var(--surface);display:grid;place-items:center;font-size:18px}.todo-txt{flex:1;min-width:0}.todo-txt b{display:block;font-size:13px;font-weight:600;line-height:1.4}.todo-txt b span{font-weight:700}.todo-txt .urgent{color:var(--danger-ink,#c0392b)}.todo-txt .warn{color:var(--warn-ink)}.todo-txt .ask{color:var(--primary)}.todo-txt small{display:block;font-size:11.5px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.todo-btn{flex-shrink:0;border:0;border-radius:var(--r-s);background:var(--soft);color:var(--soft-ink);font-weight:700;font-size:12px;padding:7px 10px;font-family:inherit}.todo-btn.ghost{background:var(--surface);color:var(--muted);border:1px solid var(--border)}.todo-ans{display:flex;gap:5px;width:100%;padding-left:44px}.rd-steps{list-style:none;padding:0;margin:6px 0 10px;display:grid;gap:14px}.rd-steps li{display:flex;gap:10px;align-items:flex-start}.rd-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--soft-ink);display:grid;place-items:center;font-weight:800;font-size:13px}.rd-steps p{margin:2px 0 0;font-size:14px;line-height:1.65}.rd-step-img{margin-top:8px;border-radius:var(--r-m);overflow:hidden}.rd-step-img img{width:100%;max-height:220px;object-fit:cover;display:block}.cook-hist{background:var(--surface-2);border-radius:var(--r-m,12px);padding:10px 12px;margin:0 0 10px;font-size:13px}.cook-hist b{display:block}.cook-hist small{color:var(--muted)}
+.rc-mini{flex:0 0 138px;scroll-snap-align:start;border:1px solid var(--border);border-radius:var(--r-l);background:var(--surface);overflow:hidden;text-align:left;padding:0;color:var(--text);position:relative}.rc-mini .art{height:92px;background:var(--surface-2);display:grid;place-items:center;font-size:38px;overflow:hidden}.rc-mini .art img{width:100%;height:100%;object-fit:cover}.rc-mini b{display:block;font-size:13px;line-height:1.35;padding:8px 9px 2px;height:43px;overflow:hidden}.rc-mini small{display:block;font-size:11px;color:var(--muted);padding:0 9px 9px}.rc-mini small.ok{color:var(--primary);font-weight:700}.rc-mini small.warn{color:var(--warn-ink);font-weight:700}.chips.wrap{flex-wrap:wrap;overflow:visible}.pantry-row{display:flex;align-items:center;gap:12px}.pantry-row .grow{flex:1;min-width:0}.pantry-row b{display:block;font-size:15px}.pantry-row small{display:block;color:var(--muted);font-size:12px;margin-top:2px}.rd-hero{margin:-22px -22px 14px;height:210px;overflow:hidden;background:var(--surface-2);border-radius:var(--r-xl) var(--r-xl) 0 0}.rd-hero img{width:100%;height:100%;object-fit:cover}.rd-sec{border:1px solid var(--border);border-radius:var(--r-l);padding:13px;margin-bottom:16px}.rd-sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.rd-sec-head small{color:var(--muted);font-size:12px}.rd-ing{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;padding:6px 0;border-top:1px dashed var(--border)}.yn{flex-shrink:0;border-radius:var(--r-xs);padding:3px 8px;font-size:11px;font-weight:800;white-space:nowrap}.yn.have{background:var(--primary);color:#fff;border:0;font-family:inherit;cursor:pointer}.yn.no{background:var(--warn-bg);color:var(--warn-ink);border:1px solid #F3D19C}.cam-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.cam-head h3{margin:0}.cam-view{position:relative;background:#111;border-radius:var(--r-l);overflow:hidden;aspect-ratio:3/4;max-height:56vh;margin:0 auto}.cam-view video{width:100%;height:100%;object-fit:cover;display:block}.cam-msg{position:absolute;inset:0;display:grid;place-content:center;text-align:center;color:#fff;font-size:14px;padding:20px;line-height:1.6}.cam-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}.cam-flash.on{animation:camflash .25s}@keyframes camflash{from{opacity:.8}to{opacity:0}}.cam-thumbs{display:flex;gap:6px;min-height:0;overflow-x:auto}.cam-thumb{position:relative;flex:0 0 54px;height:54px;border-radius:var(--r-s);overflow:hidden;border:1px solid var(--border)}.cam-thumb img{width:100%;height:100%;object-fit:cover}.cam-thumb button{position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:11px;padding:0;line-height:20px}.cam-bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-top:12px}.cam-shutter{width:66px;height:66px;border-radius:50%;border:4px solid var(--primary);background:#fff;box-shadow:inset 0 0 0 4px #fff,inset 0 0 0 30px var(--primary);padding:0}.cam-shutter:active{transform:scale(.94)}.cam-shutter:disabled{opacity:.35}.pchip i{font-style:normal;display:inline-block;width:14px;margin-right:3px;opacity:.18;font-weight:900}.pchip.on i{opacity:1}.ptabs{display:flex;gap:2px;overflow-x:auto;border-bottom:1px solid var(--border);margin-top:6px}.ptabs::-webkit-scrollbar{display:none}.ptab{flex-shrink:0;border:0;background:none;padding:10px 10px 9px;font-size:14px;font-weight:700;color:var(--muted);border-bottom:2.5px solid transparent;margin-bottom:-1px;white-space:nowrap;font-family:inherit}.ptab.on{color:var(--text);border-bottom-color:var(--primary)}.ptab em{font-style:normal;font-size:11px;color:var(--primary);margin-left:3px;font-weight:800}.ptab-head{font-size:12px;color:var(--muted);margin:12px 0 8px}.ptab-head b{color:var(--primary)}.ptab-head span{float:right}.todo-list{display:grid;grid-template-columns:minmax(0,1fr);gap:6px}.todo-row{display:flex;align-items:center;gap:10px;padding:9px 10px;background:var(--surface-2);border-radius:var(--r-m)}.todo-row.wrap{flex-wrap:wrap}.todo-row.risk{background:#FFF1E6}.icon-btn{position:relative}.bell-dot{position:absolute;top:7px;right:8px;width:8px;height:8px;border-radius:50%;background:#E5484D}.todo-ico{width:34px;height:34px;flex-shrink:0;border-radius:var(--r-s);background:var(--surface);display:grid;place-items:center;font-size:18px}.todo-txt{flex:1;min-width:0}.todo-txt b{display:block;font-size:13px;font-weight:600;line-height:1.4}.todo-txt b span{font-weight:700}.todo-txt .urgent{color:var(--danger-ink,#c0392b)}.todo-txt .warn{color:var(--warn-ink)}.todo-txt .ask{color:var(--primary)}.todo-txt small{display:block;font-size:11.5px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.todo-btn{flex-shrink:0;border:0;border-radius:var(--r-s);background:var(--soft);color:var(--soft-ink);font-weight:700;font-size:12px;padding:7px 10px;font-family:inherit}.todo-btn.ghost{background:var(--surface);color:var(--muted);border:1px solid var(--border)}.todo-ans{display:flex;gap:5px;width:100%;padding-left:44px}.stamp-card{background:linear-gradient(180deg,var(--soft) 0,var(--surface) 70%)}.stamp-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.stamp-head b{display:block;font-size:16px}.stamp-head small{display:block;color:var(--muted);font-size:12.5px;margin-top:3px}.streak{flex-shrink:0;background:#FFF1E6;color:#C2410C;font-weight:800;font-size:12px;border-radius:99px;padding:5px 10px}.stamp-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin:12px 0 0}.badge-wrap{margin-top:10px}.badge-wrap summary{font-size:12px;color:var(--muted);cursor:pointer;list-style:none;text-align:center}.badge-wrap summary::-webkit-details-marker{display:none}.badge-wrap summary::after{content:' ▾'}.lg-report{font-size:13px;font-weight:700;margin-top:10px;background:var(--soft);color:var(--soft-ink);border-radius:var(--r-s);padding:8px 10px}.ins-list{list-style:none;margin:0;padding:0}.ins-list li,.cele-ins li{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-top:1px dashed var(--border);font-size:14px}.ins-list li:first-child{border-top:0}.ins-list small{color:var(--muted);font-size:12px}.ins-list b,.cele-ins b{font-size:13px;white-space:nowrap}b.up{color:var(--danger-ink,#c0392b)}b.down{color:var(--primary)}b.same{color:var(--muted);font-weight:600}.cele-ico{width:64px;height:64px;margin:4px auto 8px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:32px}.cele-ins{text-align:left;background:var(--surface-2);border-radius:var(--r-m);padding:12px;margin-bottom:10px}.cele-ins-head{font-size:15px;font-weight:700;margin-bottom:4px}.cele-ins ul{list-style:none;margin:0;padding:0}.cele-ins small{color:var(--muted);font-size:12px}.cele-mini{font-size:13px;color:var(--muted);margin-bottom:10px}.stamp{width:100%;max-width:30px;justify-self:center;aspect-ratio:1;border-radius:50%;border:2px dashed var(--border);display:grid;place-items:center;font-size:12px;font-weight:800;color:var(--muted);background:var(--surface);position:relative}.stamp.on{border:2px solid var(--primary);background:var(--primary);color:#fff;transform:rotate(-8deg);animation:stampin .35s ease-out}@keyframes stampin{from{transform:scale(1.6) rotate(-20deg);opacity:0}to{transform:scale(1) rotate(-8deg);opacity:1}}.stamp-who{font-size:12px;color:var(--muted);margin-top:10px;text-align:center}.badge-row{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-top:14px;border-top:1px dashed var(--border);padding-top:12px}.badge{border:0;background:none;padding:0;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;filter:grayscale(1);opacity:.4}.badge.on{filter:none;opacity:1}.badge span{font-size:22px}.badge small{font-size:10px;color:var(--text);line-height:1.2;text-align:center}.stamp-nudge{display:flex;align-items:center;gap:10px;background:var(--soft);border-radius:var(--r-m);padding:10px 12px;margin-bottom:10px}.stamp-nudge>span{font-size:22px}.stamp-nudge .grow{flex:1;min-width:0}.stamp-nudge b{display:block;font-size:14px}.stamp-nudge small{display:block;font-size:12px;color:var(--muted)}.stamp-cele{text-align:center}.stamp-big{position:relative;width:96px;height:96px;margin:6px auto 10px;border-radius:50%;background:var(--primary);display:grid;place-items:center;font-size:44px;transform:rotate(-8deg);animation:stampin .45s ease-out}.stamp-big span{position:absolute;right:-18px;top:-6px;background:#FFF1E6;color:#C2410C;font-weight:900;font-size:14px;border-radius:99px;padding:3px 8px}.stamp-cele h3{margin:0 0 6px;font-size:22px}.stamp-cele p{color:var(--muted);font-size:14px;margin:0 0 12px}.cele-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}.cele-stats div{background:var(--surface-2);border-radius:var(--r-m);padding:10px}.cele-stats b{display:block;font-size:17px}.cele-stats small{color:var(--muted);font-size:12px}.cele-badge{display:flex;gap:10px;align-items:center;text-align:left;background:#FFF8E1;border-radius:var(--r-m);padding:10px 12px;margin-bottom:10px}.cele-badge>span{font-size:28px}.cele-badge b{display:block;font-size:14px}.cele-badge small{color:var(--muted);font-size:12px}.lg-month{display:flex;align-items:center;justify-content:center;gap:18px;margin:4px 0 12px}.lg-month b{font-size:17px;min-width:110px;text-align:center}.lg-month .icon-btn{font-size:20px;width:36px;height:36px}.lg-sum small{color:var(--muted);font-size:13px}.lg-total{font-size:30px;font-weight:800;letter-spacing:-.5px;margin:4px 0 4px}.lg-sub{font-size:13px;color:var(--muted)}.lg-sub b.up{color:var(--danger-ink)}.lg-sub b.down{color:var(--primary)}.lg-note{font-size:12px;color:var(--muted);background:var(--surface-2);border-radius:var(--r-s);padding:8px 10px;margin-top:10px}.lg-waste-row{display:flex;align-items:center;gap:12px}.lg-waste-row .grow{flex:1;min-width:0}.lg-waste-row b{display:block;font-size:15px}.lg-waste-row small{display:block;color:var(--muted);font-size:12px;margin-top:2px}.lg-bar{display:flex;align-items:center;gap:10px;font-size:13px;padding:5px 0}.lg-bar-name{width:52px;color:var(--muted)}.lg-bar-track{flex:1;height:8px;background:var(--surface-2);border-radius:9px;overflow:hidden}.lg-bar-track span{display:block;height:100%;background:var(--primary);border-radius:9px}.lg-bar-val{width:78px;text-align:right;font-weight:700}.lg-day{margin-bottom:12px}.lg-day-head{display:flex;justify-content:space-between;font-size:13px;padding:6px 2px;border-bottom:1px solid var(--border)}.lg-day-head span{color:var(--muted);font-weight:700}.lg-item{display:flex;width:100%;align-items:center;gap:8px;border:0;background:none;padding:9px 2px;font:inherit;font-size:14px;color:var(--text);text-align:left;border-bottom:1px dashed var(--border)}.lg-item .grow{flex:1;min-width:0}.lg-item small{color:var(--muted);font-size:12px}.lg-noprice{color:var(--primary);font-size:12px;font-weight:700}.rd-steps{list-style:none;padding:0;margin:6px 0 10px;display:grid;gap:14px}.rd-steps li{display:flex;gap:10px;align-items:flex-start}.rd-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--soft-ink);display:grid;place-items:center;font-weight:800;font-size:13px}.rd-steps p{margin:2px 0 0;font-size:14px;line-height:1.65}.rd-step-img{margin-top:8px;border-radius:var(--r-m);overflow:hidden}.rd-step-img img{width:100%;max-height:220px;object-fit:cover;display:block}.cook-hist{background:var(--surface-2);border-radius:var(--r-m,12px);padding:10px 12px;margin:0 0 10px;font-size:13px}.cook-hist b{display:block}.cook-hist small{color:var(--muted)}
 .rc-fav{position:absolute;top:6px;right:6px;width:30px;height:30px;border-radius:var(--r-s);border:0;background:rgba(255,255,255,.92);font-size:15px;color:var(--danger);display:grid;place-items:center}
 .chips{display:flex;gap:6px;overflow-x:auto;padding:8px 0 2px}.chips::-webkit-scrollbar{display:none}.chip{border:1px solid var(--border);background:var(--surface);border-radius:var(--r-s);padding:7px 11px;font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap}.chip.on{background:var(--text);border-color:var(--text);color:#fff}
 .rc-top{display:flex;justify-content:space-between;align-items:center;margin:0 0 8px}
@@ -297,7 +297,7 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
 <div class="app">
 <header>
   <div class="brand"><div class="brand-mark" data-logo></div><div><h1>냉큼</h1><small id="householdLabel">우리 집 냉장고</small></div></div>
-  <div class="header-actions"><button class="icon-btn" title="알림" aria-label="알림" onclick="showToast('새로운 알림이 없어요')"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M18 16V11a6 6 0 10-12 0v5l-1.5 2h15z"/><path d="M10 20.5a2 2 0 004 0"/></svg></button><button class="icon-btn" title="내 정보" aria-label="내 정보" onclick="navigate('more')"><svg class="svg-ico" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c1-3.5 3.8-5 7-5s6 1.5 7 5"/></svg></button></div>
+  <div class="header-actions"><button class="icon-btn" title="알림" aria-label="알림" onclick="bellClick()"><span class="bell-dot" id="bellDot" hidden></span><svg class="svg-ico" viewBox="0 0 24 24"><path d="M18 16V11a6 6 0 10-12 0v5l-1.5 2h15z"/><path d="M10 20.5a2 2 0 004 0"/></svg></button><button class="icon-btn" title="내 정보" aria-label="내 정보" onclick="navigate('more')"><svg class="svg-ico" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c1-3.5 3.8-5 7-5s6 1.5 7 5"/></svg></button></div>
 </header>
 <main>
 <section class="page active" id="page-home">
@@ -374,8 +374,15 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
 </section>
 
 <section class="page" id="page-shopping">
+  <div class="seg" role="tablist"><button class="on" onclick="navigate('shopping')">장보기 목록</button><button onclick="navigate('ledger')">가계부</button></div>
   <div class="welcome"><div class="eyebrow">장보기</div><h2>장보기 목록</h2><p>살 재료를 적어 두고, 산 건 체크하세요.</p></div>
-  <div class="panel"><div class="panel-head"><h3>살 재료</h3><button class="btn small" onclick="addShoppingItem()">＋ 직접 추가</button></div><div class="note">✓ 산 건 체크만 하면 냉장고에 들어가요</div><div id="shoppingList"></div><div style="margin-top:12px"><button class="btn secondary" style="width:100%" onclick="addShortages()">식단에 필요한 재료 가져오기</button></div></div>
+  <div class="panel"><div class="panel-head"><h3>살 재료</h3><button class="btn small" onclick="addShoppingItem()">＋ 직접 추가</button></div><div class="note">✓ 산 건 체크만 하면 냉장고에 들어가요</div><div id="shopStampNudge"></div><div id="shoppingList"></div><div style="margin-top:12px"><button class="btn secondary" style="width:100%" onclick="addShortages()">식단에 필요한 재료 가져오기</button></div></div>
+</section>
+
+<section class="page" id="page-ledger">
+  <div class="seg" role="tablist"><button onclick="navigate('shopping')">장보기 목록</button><button class="on" onclick="navigate('ledger')">가계부</button></div>
+  <div class="lg-month"><button class="icon-btn" aria-label="이전 달" onclick="moveLedgerMonth(-1)">‹</button><b id="ledgerMonth"></b><button class="icon-btn" aria-label="다음 달" onclick="moveLedgerMonth(1)">›</button></div>
+  <div id="ledgerBody"></div>
 </section>
 
 <section class="page" id="page-more">
@@ -430,6 +437,7 @@ const LOCAL_RECIPES = [];
 let inventory,shopping,mealPlan,category='all',household='우리 집 냉장고';
 let favorites=[]; // 우리 집 단골 레시피 이름
 let pantry={setup:false, items:{}}; // 우리 집 양념: {setup:체크 했는지, items:{간장:'have'|'out'}}
+let ledger={purchases:[], stamps:[]}; // 가계부: 산 기록과 영수증 도장
 let cookStats={}; // 해 먹은 기록: {요리 이름: {n:횟수, last:'YYYY-MM-DD'}}
 
 // ===== 외부 레시피(식품안전나라) 재료 정리 =====
@@ -492,7 +500,7 @@ function parseIngredientsText(text, title){
 }
 
 // 같은 재료를 부르는 다른 이름
-const INGREDIENT_SYNONYMS = {'달걀':'계란','계란':'계란','쇠고기':'소고기','소고기':'소고기','파':'대파'};
+const INGREDIENT_SYNONYMS = {'달걀':'계란','계란':'계란','특란':'계란','대란':'계란','왕란':'계란','유정란':'계란','쇠고기':'소고기','소고기':'소고기','파':'대파'};
 function canonIngredient(name){
   const n = normIngredientName(name);
   return INGREDIENT_SYNONYMS[n] || n;
@@ -651,6 +659,7 @@ function hasStock(name){ return stockFor(name).length>0; }
 
 function setLevel(x, level, reason){
   ensureRough(x);
+  x._prevLevel = x.level;
   x.level = Math.max(0, Math.min(100, Math.round(level)));
   if(x.initialQty>0) x.qty = Math.round(x.initialQty * x.level / 100 * 100) / 100;
   x.lastTouched = datePlus(0);
@@ -660,6 +669,7 @@ function setLevel(x, level, reason){
 // 다 쓴 재료: 목록에서 빼고 기록, 중요 품목은 장보기에 넣습니다.
 function finishItem(x, reason){
   inventory = inventory.filter(a=>a.id!==x.id);
+  delete x._prevLevel;
   logActivity(reason==='discarded' ? 'discard' : 'used_up', {item:x.name, base:canonIngredient(x.name)});
   if(reason!=='discarded' && isImportant(x) && !shopping.some(s=>!s.checked && sameIngredient(s.name, x.name))){
     shopping.push({id:uid(), name:x.name, qty:'', checked:false, auto:true});
@@ -738,15 +748,23 @@ function renderRoughHome(){
   const stale = staleItems().slice(0,3);
   const el = document.getElementById('homeAlerts');
   if(!el) return;
-  if(!alerts.length && !stale.length){ el.innerHTML=''; el.style.display='none'; return; }
+  const st = stampState();
+  const risk = streakAtRisk();
+  const askStamp = !!risk || st.daysSince===null || st.daysSince>=7;
+  const dot = document.getElementById('bellDot'); if(dot) dot.hidden = !risk;
+  if(!alerts.length && !stale.length && !askStamp && !dueToBuy().length){ el.innerHTML=''; el.style.display='none'; return; }
   el.style.display='';
   const short = a => a.kind==='low' ? ['거의 떨어졌어요', ''] :
     (()=>{ const d = daysLeft(a.x.expiry); return [d<0 ? '소비기한이 지났어요' : `${['오늘','내일','모레'][d]}까지 먹기`, d>=0 && a.recipe ? `${a.recipe.name} 어때요?` : (d<0 ? '괜찮은지 봐 주세요' : '')]; })();
+  setTimeout(maybeNotifyStreak, 0);
   el.innerHTML = `<div class="panel-head"><h3>오늘 챙길 것</h3></div><div class="todo-list">` +
+    (risk ? `<div class="todo-row risk"><div class="todo-ico">🔥</div><div class="todo-txt"><b><span class="urgent">${risk.streak}주 연속이 끊겨요</span></b><small>${risk.last?'오늘':'내일'}까지 영수증 한 장이면 이어져요</small></div><button class="todo-btn" onclick="openReceiptPicker()">찍기</button></div>` : '') +
     alerts.map(a=>{ const [t,sub] = short(a); return `<div class="todo-row"><div class="todo-ico">${ingredientEmoji(a.x)}</div><div class="todo-txt"><b>${esc(a.x.name)} <span class="${a.kind==='low'?'warn':'urgent'}">${esc(t)}</span></b>${sub?`<small>${esc(sub)}</small>`:''}</div>${a.kind==='low'
       ? `<button class="todo-btn" onclick="addToShoppingFromAlert('${a.x.id}')">장보기</button>`
       : a.recipe ? `<button class="todo-btn" onclick="showRecipe('${a.recipe.id}')">레시피</button>` : `<button class="todo-btn" onclick="openItemDetail('${a.x.id}')">확인</button>`}</div>`; }).join('') +
-    stale.map(x=>`<div class="todo-row wrap"><div class="todo-ico">${ingredientEmoji(x)}</div><div class="todo-txt"><b>${esc(x.name)} <span class="ask">아직 있나요?</span></b><small>${STALE_DAYS}일 넘게 확인하지 않았어요</small></div><div class="todo-ans"><button class="todo-btn" onclick="answerStale('${x.id}','have')">있어요</button><button class="todo-btn ghost" onclick="answerStale('${x.id}','used')">다 썼어요</button><button class="todo-btn ghost" onclick="answerStale('${x.id}','discarded')">버렸어요</button></div></div>`).join('') + '</div>';
+    stale.map(x=>`<div class="todo-row wrap"><div class="todo-ico">${ingredientEmoji(x)}</div><div class="todo-txt"><b>${esc(x.name)} <span class="ask">아직 있나요?</span></b><small>${STALE_DAYS}일 넘게 확인하지 않았어요</small></div><div class="todo-ans"><button class="todo-btn" onclick="answerStale('${x.id}','have')">있어요</button><button class="todo-btn ghost" onclick="answerStale('${x.id}','used')">다 썼어요</button><button class="todo-btn ghost" onclick="answerStale('${x.id}','discarded')">버렸어요</button></div></div>`).join('') +
+    dueToBuy().slice(0,2).map(c=>`<div class="todo-row"><div class="todo-ico">🛒</div><div class="todo-txt"><b>${esc(c.name)} <span class="warn">살 때 됐어요</span></b><small>보통 ${c.avg}일마다 사요 · 마지막 ${shortDate(c.last)}</small></div><button class="todo-btn" onclick="addDueToShopping('${esc(c.name)}')">장보기</button></div>`).join('') +
+    (!risk && askStamp ? `<div class="todo-row"><div class="todo-ico">🧾</div><div class="todo-txt"><b>장 봤으면 <span class="ask">영수증 찍기</span></b><small>${st.streak ? `🔥 ${st.streak}주 연속 · 지난번 가격과 비교해 드려요` : '가격이 적히고 지난번 가격과 비교해 드려요'}</small></div><button class="todo-btn" onclick="openReceiptPicker()">찍기</button></div>` : '') + '</div>';
 }
 
 function levelBar(level){
@@ -831,6 +849,7 @@ function confirmCook(){
 function addFromShopping(item){
   const name = item.name;
   const sk = seasonKey(name);
+  item.purchaseId = recordPurchase({name, purchase:datePlus(0)}, 'shopping');
   if(sk){ item.seasoningKey = sk; item.prevSeason = (pantry.items||{})[sk] || ''; setSeasoning(sk,'have'); logActivity('shopping_add', {item:name}); return; }
   const category = guessCategory(name);
   const x = ensureRough({id:uid(), name, category, location: category==='기타' ? '실온' : '냉장', qty:1, unit:'개', purchase:datePlus(0), expiry:'', note:'장보기에서 추가', emoji:getIngredientEmoji(name, category)});
@@ -987,6 +1006,20 @@ function renderPantry(){
   const buyKeys = allSeasoningKeys().filter(k=>shopping.some(s=>!s.checked && seasonKey(s.name)===k));
   el.innerHTML = `<div class="pantry-row"><span class="food-icon">🧂</span><span class="grow"><b>있는 양념 ${have}가지</b><small>${buyKeys.length ? '장보기에 담긴 양념: '+buyKeys.slice(0,6).map(esc).join(', ')+(buyKeys.length>6?` 외 ${buyKeys.length-6}개`:'') : '다 떨어진 양념은 [고치기]에서 꺼 주세요. 장보기에 자동으로 담아 드려요.'}</small></span><button class="btn small secondary" onclick="openPantrySheet()">고치기</button></div>`;
 }
+// ===== 가계부: 산 기록 =====
+function recordPurchase(it, source){
+  const rec = {id:uid(), itemId:it.id||'', date:it.purchase||datePlus(0), name:it.name, category:it.category||guessCategory(it.name), qty:it.qty||'', unit:it.unit||'', price:Number(it.price)||0, source};
+  ledger.purchases.push(rec);
+  return rec.id;
+}
+// 처음 한 번: 가격이 적힌 냉장고 재료를 산 기록으로 옮겨 와요
+function seedLedger(){
+  ledger.purchases = ledger.purchases || []; ledger.stamps = ledger.stamps || [];
+  if(ledger.seeded || !inventory.length) return;
+  const known = new Set(ledger.purchases.map(p=>p.itemId).filter(Boolean));
+  inventory.filter(x=>Number(x.price)>0 && !known.has(x.id)).forEach(x=>recordPurchase(x, 'seed'));
+  ledger.seeded = true;
+}
 // 이름으로 보관 위치·단위 짐작 (분류는 guessCategory)
 function guessLocation(name, category){
   const n = String(name).replace(/\s/g,'');
@@ -1026,7 +1059,7 @@ function guessCategory(name){
 
 // 새 사용자는 빈 저장고로 시작합니다. (샘플 데이터 없음)
 function load(){
- try{inventory=JSON.parse(localStorage.getItem('ms_inventory'))||[];shopping=JSON.parse(localStorage.getItem('ms_shopping'))||[];mealPlan=JSON.parse(localStorage.getItem('ms_meal'))||{};household=localStorage.getItem('ms_household')||'우리 집 냉장고';activity=JSON.parse(localStorage.getItem('ms_activity'))||[];favorites=JSON.parse(localStorage.getItem('ms_favorites'))||[];cookStats=JSON.parse(localStorage.getItem('ms_cookstats'))||{};pantry=JSON.parse(localStorage.getItem('ms_pantry'))||pantry;migratePantry();seedCookStats()}
+ try{inventory=JSON.parse(localStorage.getItem('ms_inventory'))||[];shopping=JSON.parse(localStorage.getItem('ms_shopping'))||[];mealPlan=JSON.parse(localStorage.getItem('ms_meal'))||{};household=localStorage.getItem('ms_household')||'우리 집 냉장고';activity=JSON.parse(localStorage.getItem('ms_activity'))||[];favorites=JSON.parse(localStorage.getItem('ms_favorites'))||[];cookStats=JSON.parse(localStorage.getItem('ms_cookstats'))||{};pantry=JSON.parse(localStorage.getItem('ms_pantry'))||pantry;migratePantry();ledger=JSON.parse(localStorage.getItem('ms_ledger'))||ledger;seedLedger();seedCookStats()}
  catch(e){inventory=[];shopping=[];mealPlan={}}
 }
 
@@ -1047,6 +1080,7 @@ function save(){
   localStorage.setItem('ms_favorites', JSON.stringify(favorites));
   localStorage.setItem('ms_cookstats', JSON.stringify(cookStats));
   localStorage.setItem('ms_pantry', JSON.stringify(pantry));
+  localStorage.setItem('ms_ledger', JSON.stringify(ledger));
 
   if (typeof queueCloudSave === 'function') {
     queueCloudSave();
@@ -1055,7 +1089,7 @@ function save(){
   
 function daysLeft(date){if(!date)return null;return Math.ceil((new Date(date+'T00:00:00')-today)/86400000)}
 function expiryStatus(item){let d=daysLeft(item.expiry);if(d===null)return ['날짜 미등록','gray'];if(d<0)return ['기한 지남','danger'];if(d===0)return ['오늘까지','danger'];if(d<=3)return ['임박','danger'];if(d<=7)return ['이번 주','warn'];return ['여유','good']}
-function navigate(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===(page==='meal'?'recipes':page)));if(page==='home')renderHome();if(page==='storage')renderStorage();if(page==='recipes')renderRecipes();if(page==='meal')renderMeal();if(page==='shopping')renderShopping();window.scrollTo({top:0,behavior:'smooth'})}
+function navigate(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===(page==='meal'?'recipes':page==='ledger'?'shopping':page)));if(page==='home')renderHome();if(page==='storage')renderStorage();if(page==='recipes')renderRecipes();if(page==='meal')renderMeal();if(page==='shopping')renderShopping();if(page==='ledger')renderLedger();window.scrollTo({top:0,behavior:'smooth'})}
 // 알림 한 줄. undo:true면 5초 동안 [되돌리기] 버튼이 붙어요.
 let toastTimer = null, undoSnap = null;
 function showToast(msg, opt){
@@ -1072,7 +1106,7 @@ function showToast(msg, opt){
 }
 // 바꾸기 전 상태를 기억해 두고, 바꾼 뒤 [되돌리기]를 보여줍니다.
 function withUndo(fn, msg){
-  const snap = JSON.stringify({inventory, shopping, mealPlan, cookStats, pantry, actLen: activity.length});
+  const snap = JSON.stringify({inventory, shopping, mealPlan, cookStats, pantry, ledger, actLen: activity.length});
   const ret = fn();
   save(); renderAll();
   showToast(typeof msg === 'function' ? msg(ret) : msg, {undo:true});
@@ -1082,7 +1116,7 @@ function withUndo(fn, msg){
 function undoLast(){
   if(!undoSnap) return;
   const s = JSON.parse(undoSnap); undoSnap = null;
-  inventory = s.inventory; shopping = s.shopping; mealPlan = s.mealPlan; if(s.cookStats) cookStats = s.cookStats; if(s.pantry) pantry = s.pantry;
+  inventory = s.inventory; shopping = s.shopping; mealPlan = s.mealPlan; if(s.cookStats) cookStats = s.cookStats; if(s.pantry) pantry = s.pantry; if(s.ledger) ledger = s.ledger;
   activity = activity.slice(0, s.actLen);
   logActivity('undo', {});
   save(); renderAll(); closeModal();
@@ -1254,7 +1288,7 @@ function openIngredientModal(){
  <div class="field"><label>단위 *</label><select name="unit" onchange="this.dataset.touched=1"><option>개</option><option>모</option><option>팩</option><option>봉</option><option>g</option><option>kg</option><option>ml</option><option>L</option><option>대</option></select></div>
  <div class="field"><label>구매일</label><input name="purchase" type="date" value="${datePlus(0)}"></div>
  <div class="field"><label>소비기한</label><input name="expiry" type="date"></div>
- <div class="field full"><label>메모</label><input name="note" placeholder="예: 개봉 후 밀폐 용기에 보관"></div>
+ <div class="field"><label>가격 (원)</label><input name="price" type="number" min="0" step="10" inputmode="numeric" placeholder="가계부용 · 선택"></div><div class="field full"><label>메모</label><input name="note" placeholder="예: 개봉 후 밀폐 용기에 보관"></div>
  </div><div class="modal-actions"><button type="button" class="btn ghost" onclick="closeModal()">취소</button><button class="btn">저장하기</button></div></form>`);
 }
 function specificIngredientEmoji(name) {
@@ -1329,9 +1363,11 @@ function saveIngredient(e) {
     purchase: f.get('purchase'),
     expiry: f.get('expiry'),
     note: f.get('note'),
+    price: Number(f.get('price'))||0,
     emoji: getIngredientEmoji(name, category)
   });
   ensureRough(inventory[inventory.length-1]);
+  recordPurchase(inventory[inventory.length-1], 'manual');
   if(seasonKey(name)) setSeasoning(seasonKey(name), 'have');
   logActivity('add_manual', {item:name});
 
@@ -1632,6 +1668,11 @@ function renderReceiptReview(purchaseDate){
           <input id="receipt_unit_${index}" type="text" value="${esc(item.unit)}" required placeholder="예: 개, 팩, g">
         </div>
 
+        <div class="field">
+          <label>가격 (원)</label>
+          <input id="receipt_price_${index}" type="number" min="0" step="10" inputmode="numeric" value="${Number(item.price)||''}" placeholder="모르면 비워 두세요">
+        </div>
+
         <div class="field full">
           <label>소비기한 (AI가 짐작한 날짜 · 고칠 수 있어요)</label>
           <input id="receipt_expiry_${index}" type="date" value="${esc(item.expiry)}">
@@ -1721,11 +1762,16 @@ function saveReceiptItems(){
       purchase:purchaseDate,
       expiry,
       emoji:ingredientEmoji({name, category, emoji:receiptDraft[i].emoji}),
-      price:Number(receiptDraft[i].price)||0,
+      price:Number(document.getElementById(`receipt_price_${i}`)?.value)||0,
       note: receiptDraft[i].original && receiptDraft[i].original!==name ? receiptDraft[i].original : '사진 AI 등록'
     });
   }
 
+  // 가계부에 산 기록 (양념 포함). 기록 전에 지난번 가격과 비교
+  const insights = priceInsights(newItems);
+  newItems.forEach(it=>recordPurchase(it, 'photo'));
+  const stampBefore = stampState();
+  ledger.stamps.push({id:uid(), date:datePlus(0), by:myName()||'', items:newItems.length, priced:newItems.filter(it=>it.price>0).length});
   // 간장·고추장 같은 양념은 냉장고 목록 대신 '우리 집 양념'에 있음으로
   const seasonItems = newItems.filter(it=>seasonKey(it.name));
   seasonItems.forEach(it=>setSeasoning(seasonKey(it.name),'have'));
@@ -1750,7 +1796,7 @@ function saveReceiptItems(){
 
   receiptDraft=[];
 
-  showToast(`${newItems.length}개 재료를 냉장고에 넣었어요${seasonItems.length?` · 양념 ${seasonItems.length}개 있음 표시`:''}${boughtCount?` · 장보기 ${boughtCount}개 체크`:''}`);
+  showStampCelebration(stampBefore, {items:newItems.length+seasonItems.length, seasons:seasonItems.length, bought:boughtCount, priced:ledger.stamps[ledger.stamps.length-1].priced, insights});
 }
 // 식재료 관리 상세 화면
 function openItemDetail(id){
@@ -2222,7 +2268,216 @@ function deleteMeal(d){
   const L = dayLabel(d);
   withUndo(()=>{ delete mealPlan[d]; }, `${L.main} 저녁 메뉴를 뺐어요`);
 }
-function renderShopping(){document.getElementById('shoppingList').innerHTML=shopping.length?shopping.map(x=>`<div class="shopping-row ${x.checked?'done':''}"><input type="checkbox" ${x.checked?'checked':''} onchange="toggleShopping('${x.id}',this.checked)"><div class="grow"><b style="font-size:13px">${esc(x.name)}</b><div class="sub">${esc(x.qty||'수량 미정')}</div></div><button class="text-btn" onclick="removeShopping('${x.id}')">삭제</button></div>`).join(''):'<div class="empty"><b>장보기 목록이 비어 있어요</b>필요한 재료를 추가해 보세요.</div>'}
+// ===== 영수증이 쌓이면 보이는 것: 가격 비교 · 사는 주기 =====
+function lastPriced(name, beforeDate){
+  return (ledger.purchases||[]).filter(p=>p.price>0 && sameIngredient(p.name,name) && (!beforeDate || p.date<=beforeDate))
+    .sort((a,b)=>b.date.localeCompare(a.date))[0];
+}
+// 같은 재료를 지난번엔 얼마에 샀는지 (단위가 같으면 같은 양으로 맞춰 비교)
+function comparePrice(it, prev){
+  const sameUnit = (prev.unit||'')===(it.unit||'') && Number(prev.qty)>0 && Number(it.qty)>0;
+  const prevAdj = sameUnit ? prev.price/Number(prev.qty)*Number(it.qty) : prev.price;
+  const diff = Math.round((it.price - prevAdj)/10)*10;
+  return {name:it.name, diff, prev, same: Math.abs(diff) < Math.max(50, prevAdj*0.03)};
+}
+function priceInsights(items){
+  return items.filter(it=>Number(it.price)>0).map(it=>{ const prev = lastPriced(it.name); return prev ? comparePrice({...it, price:Number(it.price)}, prev) : null; }).filter(Boolean);
+}
+const shortDate = d => { const [,m,dd] = String(d).split('-'); return `${Number(m)}월 ${Number(dd)}일`; };
+function insightLine(x){
+  const nm = esc(shortName(x.name));
+  return x.same ? `<li><span>${nm}</span><b class="same">지난번(${shortDate(x.prev.date)})과 비슷해요</b></li>`
+    : `<li><span>${nm}</span><b class="${x.diff>0?'up':'down'}">지난번보다 ${won(Math.abs(x.diff))} ${x.diff>0?'비싸요':'싸요'}</b></li>`;
+}
+function shortName(n){ return String(n).replace(/\s*\d+(\.\d+)?\s*(g|kg|ml|L|l|개|구|입|팩|봉)(?=\s|$).*$/,'').trim() || n; }
+// 세 번 넘게 산 재료는 평소 사는 간격을 알아요
+function buyCycles(){
+  const groups = {};
+  (ledger.purchases||[]).forEach(p=>{ const k = canonIngredient(shortName(p.name)); if(!k) return; (groups[k] = groups[k] || {name:shortName(p.name), dates:new Set()}).dates.add(p.date); });
+  return Object.entries(groups).map(([k,g])=>{
+    const ds = [...g.dates].sort(); if(ds.length<3) return null;
+    const gaps = ds.slice(1).map((d,i)=>Math.round((new Date(d+'T00:00:00')-new Date(ds[i]+'T00:00:00'))/864e5));
+    const avg = Math.round(gaps.reduce((a,b)=>a+b,0)/gaps.length);
+    const last = ds[ds.length-1], since = -(daysLeft(last)??0);
+    return avg>=2 ? {key:k, name:g.name, avg, last, since, due: since>=Math.round(avg*0.9)} : null;
+  }).filter(Boolean);
+}
+function dueToBuy(){
+  return buyCycles().filter(c=>c.due && !inventory.some(x=>x.level>0 && sameIngredient(x.name,c.name)) && !shopping.some(s=>!s.checked && sameIngredient(s.name,c.name)));
+}
+function addDueToShopping(name){
+  if(!shopping.some(s=>!s.checked && sameIngredient(s.name,name))) shopping.push({id:uid(), name, qty:'', checked:false});
+  save(); renderAll(); showToast(`${josa(name,'을/를')} 장보기에 넣었어요`);
+}
+// ===== 영수증 도장 챌린지 =====
+const STAMP_GOAL = 8;
+const BADGES = [
+  {k:'first',  ico:'🌱', name:'첫 도장',        how:'영수증을 처음 찍으면 받아요'},
+  {k:'streak3',ico:'🔥', name:'3주 연속',       how:'3주 동안 매주 한 번 이상 찍으면 받아요'},
+  {k:'board',  ico:'🏅', name:'도장판 완성',    how:`한 달에 도장 ${STAMP_GOAL}개를 모으면 받아요`},
+  {k:'ten',    ico:'🧾', name:'영수증 10장',     how:'영수증을 모두 10장 찍으면 받아요'},
+  {k:'clean',  ico:'✨', name:'빈칸 없는 가계부', how:'한 달 동안 가격 모르는 기록 없이 5개 넘게 적으면 받아요'},
+  {k:'family', ico:'👨‍👩‍👧', name:'다 같이 찍기',  how:'가족 두 명 이상이 같은 달에 찍으면 받아요'}
+];
+const ymdLocal = dt => `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+function weekKey(d){ const dt = new Date(d+'T00:00:00'); const day = (dt.getDay()+6)%7; dt.setDate(dt.getDate()-day); return ymdLocal(dt); }
+function stampState(){
+  const stamps = (ledger.stamps||[]);
+  const today = datePlus(0), month = today.slice(0,7);
+  const weeks = new Set(stamps.map(s=>weekKey(s.date)));
+  // 이번 주(아직 없으면 지난주)부터 거꾸로 이어진 주 수
+  let streak = 0; const d = new Date(weekKey(today)+'T00:00:00');
+  if(!weeks.has(ymdLocal(d))) d.setDate(d.getDate()-7);
+  while(weeks.has(ymdLocal(d))){ streak++; d.setDate(d.getDate()-7); }
+  let best = 0, run = 0; [...weeks].sort().forEach((w,i,arr)=>{ run = i && Math.round((new Date(w+'T00:00:00')-new Date(arr[i-1]+'T00:00:00'))/864e5)===7 ? run+1 : 1; best = Math.max(best, run); });
+  const byMonth = {}; stamps.forEach(s=>{ const m=String(s.date).slice(0,7); byMonth[m]=(byMonth[m]||0)+1; });
+  const buysByMonth = {}; (ledger.purchases||[]).forEach(p=>{ const m=String(p.date).slice(0,7); (buysByMonth[m]=buysByMonth[m]||[]).push(p); });
+  const famMonths = {}; stamps.forEach(s=>{ if(s.by){ const m=String(s.date).slice(0,7); (famMonths[m]=famMonths[m]||new Set()).add(s.by); } });
+  const earned = new Set();
+  if(stamps.length) earned.add('first');
+  if(best>=3) earned.add('streak3');
+  if(Object.values(byMonth).some(n=>n>=STAMP_GOAL)) earned.add('board');
+  if(stamps.length>=10) earned.add('ten');
+  if(Object.entries(buysByMonth).some(([m,l])=>byMonth[m] && l.length>=5 && l.every(p=>p.price>0))) earned.add('clean');
+  if(Object.values(famMonths).some(s=>s.size>=2)) earned.add('family');
+  const last = stamps.length ? stamps.map(s=>s.date).sort().pop() : null;
+  return {total:stamps.length, month:byMonth[month]||0, byMonth, streak, best, earned, daysSince: last ? -(daysLeft(last)??0) : null};
+}
+// 주말인데 이번 주 영수증이 없으면 연속 기록이 끊기기 직전
+function streakAtRisk(){
+  const st = stampState();
+  const today = datePlus(0), dow = new Date(today+'T00:00:00').getDay();
+  const thisWeek = (ledger.stamps||[]).some(s=>weekKey(s.date)===weekKey(today));
+  return st.streak>0 && !thisWeek && (dow===6 || dow===0) ? {streak:st.streak, last: dow===0} : null;
+}
+function streakRiskText(r){ return `🔥 ${r.streak}주 연속이 끊겨요`; }
+function bellClick(){
+  const r = streakAtRisk();
+  if(r){ showToast(`${streakRiskText(r)} · ${r.last?'오늘':'내일'}까지 영수증 한 장이면 이어져요`); return; }
+  showToast('새로운 알림이 없어요');
+}
+// 앱을 열었을 때 한 주에 한 번, 휴대폰 알림으로도 알려요 (알림 허용한 경우)
+function maybeNotifyStreak(){
+  const r = streakAtRisk(); if(!r) return;
+  const key = 'ms_streak_notified', wk = weekKey(datePlus(0));
+  try{ if(localStorage.getItem(key)===wk) return; }catch(e){}
+  if(!('Notification' in window) || Notification.permission!=='granted') return;
+  const body = `이번 주 영수증이 아직이에요. ${r.last?'오늘':'내일'}까지 한 장만 찍으면 이어져요.`;
+  navigator.serviceWorker && navigator.serviceWorker.ready.then(reg=>reg.showNotification(streakRiskText(r), {body, icon:'icons/icon-192.png', tag:'streak'})).catch(()=>{});
+  try{ localStorage.setItem(key, wk); }catch(e){}
+}
+function stampCardHtml(monthKey){
+  const st = stampState();
+  const list = (ledger.stamps||[]).filter(s=>String(s.date).startsWith(monthKey)).sort((a,b)=>a.date.localeCompare(b.date));
+  const n = list.length, isNow = monthKey===datePlus(0).slice(0,7);
+  const cells = Array.from({length:Math.max(STAMP_GOAL, n)}, (_,i)=>{ const s=list[i]; return s ? `<span class="stamp on" title="${esc(s.date)}">${s.by?esc(s.by.slice(0,1)):'✓'}</span>` : `<span class="stamp"></span>`; }).join('');
+  const who = {}; list.forEach(s=>{ if(s.by) who[s.by]=(who[s.by]||0)+1; });
+  const whoTxt = Object.keys(who).length>1 ? ` · ${Object.entries(who).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`${esc(k)} ${v}`).join(', ')}` : '';
+  return `<div class="panel stamp-card">
+    <div class="stamp-head"><div><b>이번 달 영수증 ${n}장</b><small>${n>=STAMP_GOAL ? `${STAMP_GOAL}장 다 모았어요 🎉` : `${STAMP_GOAL}장 모으면 도장판 완성`}${whoTxt}</small></div>${isNow && st.streak ? `<span class="streak">🔥 ${st.streak}주 연속</span>` : ''}</div>
+    <div class="stamp-grid">${cells}</div>
+    ${isNow ? `<button class="btn" style="width:100%;margin-top:12px" onclick="openReceiptPicker()">📷 영수증 찍기</button>` : ''}
+    <details class="badge-wrap"><summary>배지 ${st.earned.size}/${BADGES.length}</summary><div class="badge-row">${BADGES.map(b=>`<button class="badge ${st.earned.has(b.k)?'on':''}" onclick="showToast('${b.ico} ${b.name}: ${st.earned.has(b.k)?'받았어요!':b.how}')"><span>${b.ico}</span><small>${b.name}</small></button>`).join('')}</div></details>
+  </div>`;
+}
+function showStampCelebration(before, r){
+  const st = stampState();
+  const newBadges = BADGES.filter(b=>st.earned.has(b.k) && !before.earned.has(b.k));
+  const ins = (r.insights||[]).slice().sort((a,b)=>Math.abs(b.diff)-Math.abs(a.diff));
+  const saved = ins.filter(x=>!x.same && x.diff<0).reduce((s,x)=>s-x.diff,0), more = ins.filter(x=>!x.same && x.diff>0).reduce((s,x)=>s+x.diff,0);
+  openModal(`<div class="stamp-cele">
+    <div class="cele-ico">🧾</div>
+    <h3>가계부에 적었어요</h3>
+    <p>${r.items}개 재료를 넣었어요${r.priced?` · 가격 ${r.priced}개 자동 기록`:''}${r.bought?` · 장보기 ${r.bought}개 체크`:''}</p>
+    ${ins.length ? `<div class="cele-ins"><div class="cele-ins-head">${saved>more ? `지난번보다 <b class="down">${won(saved-more)}</b> 아꼈어요` : more>saved ? `지난번보다 <b class="up">${won(more-saved)}</b> 더 줬어요` : '지난번과 값이 비슷해요'}</div><ul>${ins.slice(0,4).map(insightLine).join('')}</ul>${ins.length>4?`<small>외 ${ins.length-4}개는 가계부에서 볼 수 있어요</small>`:''}</div>`
+      : r.priced ? `<div class="cele-ins"><div class="cele-ins-head">다음에 같은 재료를 사면 지난번 가격과 비교해 드려요</div></div>` : ''}
+    <div class="cele-mini">🧾 이번 달 영수증 ${st.month}장째${st.streak?` · 🔥 ${st.streak}주 연속`:''}</div>
+    ${newBadges.map(b=>`<div class="cele-badge"><span>${b.ico}</span><div><b>새 배지: ${b.name}</b><small>${b.how.replace('받아요','받았어요')}</small></div></div>`).join('')}
+    <div class="modal-actions"><button class="btn ghost" style="flex:1" onclick="closeModal();navigate('ledger')">가계부 보기</button><button class="btn" style="flex:1" onclick="closeModal()">좋아요</button></div>
+  </div>`);
+}
+// ===== 가계부 화면 =====
+let ledgerMonth = datePlus(0).slice(0,7);
+function moveLedgerMonth(n){
+  const [y,m] = ledgerMonth.split('-').map(Number);
+  const d = new Date(y, m-1+n, 1);
+  ledgerMonth = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+  renderLedger();
+}
+const won = n => `${Math.round(n).toLocaleString()}원`;
+function renderLedger(){
+  const body = document.getElementById('ledgerBody');
+  if(!body) return;
+  const [y,m] = ledgerMonth.split('-').map(Number);
+  document.getElementById('ledgerMonth').textContent = `${y}년 ${m}월`;
+  const prevKey = (()=>{ const d=new Date(y,m-2,1); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; })();
+  const inMonth = (arr,k)=>(arr||[]).filter(x=>String(x.date).startsWith(k));
+  const buys = inMonth(ledger.purchases, ledgerMonth), prevBuys = inMonth(ledger.purchases, prevKey);
+  const total = buys.reduce((s,x)=>s+(x.price||0),0), prevTotal = prevBuys.reduce((s,x)=>s+(x.price||0),0);
+  const days = new Set(buys.map(x=>x.date)).size;
+  const noPrice = buys.filter(x=>!x.price).length;
+  const diff = total - prevTotal;
+  const cmp = prevTotal ? (diff===0 ? '지난달과 같아요' : `지난달보다 ${won(Math.abs(diff))} ${diff>0?'더 썼어요':'덜 썼어요'}`) : '';
+  // 분류별
+  const cats = {};
+  buys.forEach(x=>{ if(x.price) cats[x.category||'기타'] = (cats[x.category||'기타']||0) + x.price; });
+  const catRows = Object.entries(cats).sort((a,b)=>b[1]-a[1]);
+  const max = catRows.length ? catRows[0][1] : 1;
+  // 날짜별
+  const byDate = {};
+  buys.slice().sort((a,b)=>b.date.localeCompare(a.date)).forEach(x=>{ (byDate[x.date] = byDate[x.date] || []).push(x); });
+  const dayLabel2 = d => { const dt = new Date(d+'T00:00:00'); return `${dt.getMonth()+1}월 ${dt.getDate()}일 ${DOW[dt.getDay()]}요일`; };
+  // 분류별로 지난달과 가장 많이 달라진 것
+  const prevCats = {}; prevBuys.forEach(x=>{ if(x.price) prevCats[x.category||'기타'] = (prevCats[x.category||'기타']||0) + x.price; });
+  const catDiff = prevTotal ? Object.keys({...cats, ...prevCats}).map(c=>[c,(cats[c]||0)-(prevCats[c]||0)]).sort((a,b)=>Math.abs(b[1])-Math.abs(a[1]))[0] : null;
+  const report = catDiff && Math.abs(catDiff[1])>=1000 ? `${catDiff[0]}에 지난달보다 ${won(Math.abs(catDiff[1]))} ${catDiff[1]>0?'더 썼어요':'덜 썼어요'}` : '';
+  // 이 달에 산 것 중 지난번 가격과 비교되는 것
+  const changes = buys.filter(x=>x.price>0).sort((a,b)=>b.date.localeCompare(a.date)).map(x=>{ const prev = (ledger.purchases||[]).filter(p=>p.id!==x.id && p.price>0 && p.date<x.date && sameIngredient(p.name,x.name)).sort((a,b)=>b.date.localeCompare(a.date))[0]; return prev ? comparePrice(x, prev) : null; }).filter(Boolean).filter((c,i,arr)=>arr.findIndex(o=>sameIngredient(o.name,c.name))===i).sort((a,b)=>Math.abs(b.diff)-Math.abs(a.diff));
+  const cycles = buyCycles().sort((a,b)=>(b.since/b.avg)-(a.since/a.avg)).slice(0,4);
+  body.innerHTML = `
+    <div class="panel lg-sum">
+      <small>${m}월 장보기에 쓴 돈</small>
+      <div class="lg-total">${won(total)}</div>
+      <div class="lg-sub">${days ? `${days}번 장 봤어요 · 재료 ${buys.length}개` : '아직 기록이 없어요'}${cmp ? ` · <b class="${diff>0?'up':'down'}">${cmp}</b>` : ''}</div>
+      ${report ? `<div class="lg-report">📊 ${report}</div>` : ''}
+      ${noPrice ? `<div class="lg-note">가격을 모르는 기록이 ${noPrice}개 있어요. 아래 목록에서 눌러 적을 수 있어요.</div>` : ''}
+    </div>
+    ${changes.length ? `<div class="panel"><div class="panel-head"><h3>값이 달라진 재료</h3></div><ul class="ins-list">${changes.slice(0,5).map(insightLine).join('')}</ul></div>` : ''}
+    ${cycles.length ? `<div class="panel"><div class="panel-head"><h3>우리 집 장보기 주기</h3></div><ul class="ins-list">${cycles.map(c=>`<li><span>${esc(c.name)} <small>보통 ${c.avg}일마다</small></span><b class="${c.due?'up':'same'}">${c.due?'살 때 됐어요':`${Math.max(1,c.avg-c.since)}일 뒤쯤`}</b></li>`).join('')}</ul></div>` : ''}
+    ${stampCardHtml(ledgerMonth)}
+    ${catRows.length ? `<div class="panel"><div class="panel-head"><h3>분류별</h3></div>${catRows.map(([c,v])=>`<div class="lg-bar"><span class="lg-bar-name">${esc(c)}</span><span class="lg-bar-track"><span style="width:${Math.max(4,Math.round(v/max*100))}%"></span></span><span class="lg-bar-val">${won(v)}</span></div>`).join('')}</div>` : ''}
+    <div class="panel">
+      <div class="panel-head"><h3>산 기록</h3><button class="btn small secondary" onclick="openPurchaseEdit()">＋ 직접 적기</button></div>
+      ${Object.keys(byDate).length ? Object.entries(byDate).map(([d,list])=>`<div class="lg-day"><div class="lg-day-head"><b>${dayLabel2(d)}</b><span>${won(list.reduce((s,x)=>s+(x.price||0),0))}</span></div>${list.map(x=>`<button class="lg-item" onclick="openPurchaseEdit('${x.id}')"><span class="grow">${esc(x.name)}${x.qty?` <small>${esc(String(x.qty))}${esc(x.unit||'')}</small>`:''}</span><span class="${x.price?'':'lg-noprice'}">${x.price?won(x.price):'가격 적기'}</span></button>`).join('')}</div>`).join('') : '<div class="empty"><b>이 달에는 산 기록이 없어요</b>영수증을 찍거나 장보기에서 체크하면 자동으로 적혀요.</div>'}
+    </div>`;
+}
+function openPurchaseEdit(id){
+  const x = id ? ledger.purchases.find(p=>p.id===id) : null;
+  openModal(`<h3>${x ? '산 기록 고치기' : '산 기록 직접 적기'}</h3>
+    <form onsubmit="savePurchaseEdit(event,'${id||''}')"><div class="form-grid">
+      <div class="field full"><label>이름 *</label><input name="name" required value="${x?esc(x.name):''}" placeholder="예: 두부"></div>
+      <div class="field"><label>가격 (원)</label><input name="price" type="number" min="0" step="10" inputmode="numeric" value="${x&&x.price?x.price:''}"></div>
+      <div class="field"><label>산 날</label><input name="date" type="date" value="${x?x.date:datePlus(0)}"></div>
+      <div class="field full"><label>분류</label><select name="category">${['채소','과일','육류','유제품','기타'].map(c=>`<option ${x&&x.category===c?'selected':''}>${c}</option>`).join('')}</select></div>
+    </div>
+    <div class="modal-actions">${x?`<button type="button" class="btn ghost" style="flex:1;color:var(--danger)" onclick="deletePurchase('${id}')">지우기</button>`:''}<button type="button" class="btn ghost" style="flex:1" onclick="closeModal()">취소</button><button class="btn" style="flex:2">저장</button></div></form>`);
+}
+function savePurchaseEdit(e, id){
+  e.preventDefault();
+  const f = new FormData(e.target);
+  closeModal();
+  withUndo(()=>{
+    const data = {name:String(f.get('name')).trim(), price:Number(f.get('price'))||0, date:f.get('date')||datePlus(0), category:f.get('category')};
+    const x = id && ledger.purchases.find(p=>p.id===id);
+    if(x) Object.assign(x, data); else ledger.purchases.push({id:uid(), qty:'', unit:'', source:'manual', ...data});
+    ledgerMonth = data.date.slice(0,7);
+  }, id ? '고쳤어요' : '가계부에 적었어요');
+}
+function deletePurchase(id){
+  closeModal();
+  withUndo(()=>{ ledger.purchases = ledger.purchases.filter(p=>p.id!==id); }, '기록을 지웠어요');
+}
+function renderShopping(){const nudge=document.getElementById('shopStampNudge');if(nudge){const today=datePlus(0);const n=shopping.filter(x=>x.checked&&x.checkedOn===today).length;const stamped=(ledger.stamps||[]).some(s=>s.date===today);nudge.innerHTML=n&&!stamped?`<div class="stamp-nudge"><span>🧾</span><div class="grow"><b>오늘 ${n}개 사셨네요!</b><small>영수증 한 장이면 가격이 다 적히고 지난번보다 싸게 샀는지 알려 드려요</small></div><button class="btn small" onclick="openReceiptPicker()">찍기</button></div>`:''}document.getElementById('shoppingList').innerHTML=shopping.length?shopping.map(x=>`<div class="shopping-row ${x.checked?'done':''}"><input type="checkbox" ${x.checked?'checked':''} onchange="toggleShopping('${x.id}',this.checked)"><div class="grow"><b style="font-size:13px">${esc(x.name)}</b><div class="sub">${esc(x.qty||'수량 미정')}</div></div><button class="text-btn" onclick="removeShopping('${x.id}')">삭제</button></div>`).join(''):'<div class="empty"><b>장보기 목록이 비어 있어요</b>필요한 재료를 추가해 보세요.</div>'}
 function addShoppingItem(){openModal(`<h3>장보기 항목 추가</h3><p class="hint">구매할 식재료를 입력하세요.</p><form onsubmit="saveShopping(event)"><div class="form-grid"><div class="field full"><label>식재료명 *</label><input name="name" required placeholder="예: 우유"></div><div class="field full"><label>수량</label><input name="qty" placeholder="예: 1팩"></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="closeModal()">취소</button><button class="btn">추가하기</button></div></form>`)}
 function saveShopping(e){e.preventDefault();let f=new FormData(e.target);shopping.push({id:uid(),name:f.get('name'),qty:f.get('qty'),checked:false});save();closeModal();renderShopping();renderHome()}
 function toggleShopping(id,v){
@@ -2231,15 +2486,17 @@ function toggleShopping(id,v){
   const name = x.name;
   withUndo(()=>{
     x.checked = v;
+    if(v) x.checkedOn = datePlus(0); else delete x.checkedOn;
     if(v) addFromShopping(x);
     else if(x.addedItemId){ inventory = inventory.filter(a=>a.id!==x.addedItemId); delete x.addedItemId; }
     else if(x.seasoningKey){ setSeasoning(x.seasoningKey, x.prevSeason || 'out'); delete x.seasoningKey; }
+    if(!v && x.purchaseId){ ledger.purchases = ledger.purchases.filter(p=>p.id!==x.purchaseId); delete x.purchaseId; }
   }, x.seasoningKey || (v && seasonKey(name)) ? (v ? `${name}: 우리 집 양념에 있다고 표시했어요` : `${name}: 다시 없다고 표시했어요`) : v ? `${josa(name,'을/를')} 냉장고에 넣었어요` : `${josa(name,'을/를')} 냉장고에서 뺐어요`);
 }
 function removeShopping(id){shopping=shopping.filter(x=>x.id!==id);save();renderShopping();renderHome()}
 function addShortages(){let used=new Set();let count=0;getWeekDates().forEach(d=>{let m=mealPlan[d],r=m&&recipes.find(x=>x.id===m.recipeId);if(!r)return;r.ingredients.forEach(([n,q,u])=>{let have=inventory.filter(x=>sameIngredient(x.name,n)).reduce((s,x)=>s+x.qty,0);if(have<(q||1)&&!used.has(n)){used.add(n);if(!shopping.some(x=>x.name===n&&!x.checked)){shopping.push({id:uid(),name:n,qty:q?`${Math.max(0,q-have)}${u}`:'',checked:false});count++}}})});save();renderShopping();renderHome();showToast(count?`${count}개 부족 재료를 추가했어요`:'추가할 부족 재료가 없어요')}
 function resetDemo(){if(!confirm('샘플 데이터로 초기화할까요? 현재 브라우저에 저장된 변경 내용은 사라집니다.'))return;inventory=structuredClone(seedInventory);shopping=[];mealPlan={};save();renderAll();showToast('샘플 데이터를 초기화했어요')}
-function renderAll(){normalizeInventory();renderHome();renderStorage();renderPantry();renderRecipes();renderMeal();renderShopping()}
+function renderAll(){normalizeInventory();renderHome();renderStorage();renderPantry();renderRecipes();renderMeal();renderShopping();renderLedger()}
 
 // --- Supabase + PWA + Family Shared Storage ---
 
@@ -2934,6 +3191,8 @@ async function pullCloudState() {
     cookStats = state.cookStats && typeof state.cookStats==='object' ? state.cookStats : cookStats;
     pantry = state.pantry && typeof state.pantry==='object' ? state.pantry : pantry;
     migratePantry();
+    ledger = state.ledger && Array.isArray(state.ledger.purchases) ? state.ledger : ledger;
+    seedLedger();
     seedCookStats();
     household = data.name || '우리 집 냉장고';
 
@@ -2976,6 +3235,7 @@ async function persistCloudState() {
     favorites,
     cookStats,
     pantry,
+    ledger,
     updatedBy: currentUser.id,
     updatedAt: new Date().toISOString()
   };
@@ -3033,6 +3293,8 @@ function subscribeFamily() {
         favorites = Array.isArray(state.favorites) ? state.favorites : favorites;
         cookStats = state.cookStats && typeof state.cookStats==='object' ? state.cookStats : cookStats;
         pantry = state.pantry && typeof state.pantry==='object' ? state.pantry : pantry;
+        ledger = state.ledger && Array.isArray(state.ledger.purchases) ? state.ledger : ledger;
+        seedLedger();
         household = newData.name || household;
 
         localStorage.setItem('ms_inventory', JSON.stringify(inventory));
