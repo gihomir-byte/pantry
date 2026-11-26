@@ -119,6 +119,8 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
 .ob-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .ob-chip{border:1px solid var(--border);background:var(--surface);border-radius:var(--r-s);padding:8px 12px;font-size:14px;font-weight:600;color:var(--text);min-height:38px}
 .ob-chip:hover{border-color:var(--primary);color:var(--primary)}
+.ob-chip.on{background:var(--primary);border-color:var(--primary);color:#fff}
+.ob-chip.on:hover{color:#fff}
 .ob-help{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.5}
 .ob-code{background:var(--surface-2);border-radius:var(--r-l);padding:20px 16px;text-align:center;margin-top:16px}
 .ob-code small{display:block;font-size:13px;color:var(--muted);font-weight:600}
@@ -297,24 +299,15 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
   <!-- ⑧ 완료 -->
   <section class="ob-screen" data-screen="done">
     <div class="ob-top"><span></span><div class="ob-steps-dots" id="obDoneDots"><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
-    <div class="ob-done-ico"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
-    <h2 class="ob-title">이제 가족이랑<br>같은 냉장고를 봐요</h2>
-    <p class="ob-desc">오늘은 3개만 넣어도 충분해요.</p>
-    <div class="ob-actions">
-      <button class="btn big" onclick="obFinish('receipt')">사진 찍어서 넣기</button>
-    </div>
-    <p class="ob-help" style="margin-top:18px">자주 사는 재료를 눌러 바로 넣을 수 있어요</p>
-    <div class="ob-chips" id="obQuickChips">
-      <button type="button" class="ob-chip" onclick="obQuickAdd(this,'계란','유제품','개',10)">🥚 계란</button>
-      <button type="button" class="ob-chip" onclick="obQuickAdd(this,'우유','유제품','팩',1)">🥛 우유</button>
-      <button type="button" class="ob-chip" onclick="obQuickAdd(this,'두부','기타','모',1)">⬜ 두부</button>
-      <button type="button" class="ob-chip" onclick="obQuickAdd(this,'대파','채소','대',1)">🥬 대파</button>
-      <button type="button" class="ob-chip" onclick="obQuickAdd(this,'양파','채소','개',3)">🧅 양파</button>
-    </div>
+    <h2 class="ob-title" id="obDoneTitle">집에 있는 양념을<br>골라 주세요</h2>
+    <p class="ob-desc" id="obDoneDesc">있는 것만 누르면 돼요. 레시피를 볼 때 없는 양념을 알려 드려요.</p>
+    <p class="ob-help" id="obSeasonCount" style="margin-top:4px"></p>
+    <div class="ob-chips" id="obSeasonChips"></div>
+    <button class="ob-link" style="margin-top:10px;text-align:left;padding-left:0" onclick="obMoreSeasonings()">더 많은 양념 보기 (76가지)</button>
     <div class="ob-spacer"></div>
     <div class="ob-actions">
-      <button class="btn big ghost" onclick="obFinish('manual')">하나씩 넣기</button>
-      <button class="ob-link" onclick="obFinish('home')">냉장고 둘러보기</button>
+      <button class="btn big" id="obSeasonSave" onclick="obSaveSeasonings()">이대로 시작하기</button>
+      <button class="ob-link" onclick="obSkipSeasonings()">나중에 할게요</button>
     </div>
   </section>
 
@@ -3254,7 +3247,11 @@ function obGo(screen, opts = {}) {
 
   if (screen === 'done') {
     document.getElementById('obDoneDots').style.display = opts.joined ? 'none' : '';
-    document.querySelectorAll('#obQuickChips .ob-chip').forEach(b => { b.disabled = false; b.dataset.added = ''; });
+    obSeasonDraft = new Set(POPULAR_SEASONINGS.filter(k => seasonStatus(k) === 'have'));
+    const fam = opts.joined && pantry.setup;
+    document.getElementById('obDoneTitle').innerHTML = fam ? '가족이 골라 둔<br>양념이에요' : '집에 있는 양념을<br>골라 주세요';
+    document.getElementById('obDoneDesc').textContent = fam ? '빠진 게 있으면 눌러서 고쳐 주세요.' : '있는 것만 누르면 돼요. 레시피를 볼 때 없는 양념을 알려 드려요.';
+    renderObSeasonings();
   }
 }
 
@@ -3499,6 +3496,49 @@ function obQuickAdd(btn, name, cat, unit, qty) {
   btn.disabled = true;
   btn.textContent = '✓ ' + name;
   showToast(`${name}을(를) 냉장고에 넣었어요`);
+}
+
+// 3단계: 처음 쓰는 사람도 바로 할 수 있게 양념부터 골라요
+let obSeasonDraft = new Set();
+function renderObSeasonings() {
+  const el = document.getElementById('obSeasonChips');
+  if (!el) return;
+  el.innerHTML = POPULAR_SEASONINGS.map(k => `<button type="button" class="ob-chip ${obSeasonDraft.has(k) ? 'on' : ''}" data-k="${esc(k)}" onclick="obToggleSeason(this)">${esc(k)}</button>`).join('');
+  document.getElementById('obSeasonCount').textContent = `자주 쓰는 양념 ${POPULAR_SEASONINGS.length}가지 · ${obSeasonDraft.size}개 있음`;
+  document.getElementById('obSeasonSave').textContent = obSeasonDraft.size ? `${obSeasonDraft.size}개 있음으로 시작하기` : '이대로 시작하기';
+}
+function obToggleSeason(btn) {
+  const k = btn.dataset.k;
+  if (obSeasonDraft.has(k)) obSeasonDraft.delete(k); else obSeasonDraft.add(k);
+  renderObSeasonings();
+}
+function obApplySeasonings() {
+  // 자주 쓰는 목록에서 고른 것만 바꾸고, 목록 밖 양념은 그대로 둬요.
+  pantry.items = pantry.items || {};
+  POPULAR_SEASONINGS.forEach(k => setSeasoning(k, obSeasonDraft.has(k) ? 'have' : 'out'));
+  pantry.setup = true;
+}
+function obSaveSeasonings() {
+  obApplySeasonings();
+  save();
+  hideOnboard();
+  navigate('home');
+  renderAll();
+  showToast(`양념 ${obSeasonDraft.size}개 있다고 저장했어요`);
+}
+function obSkipSeasonings() {
+  pantry.skipped = true;
+  save();
+  hideOnboard();
+  navigate('home');
+  showToast('양념은 냉장고 탭에서 언제든 고를 수 있어요');
+}
+function obMoreSeasonings() {
+  obApplySeasonings();
+  save();
+  hideOnboard();
+  navigate('home');
+  setTimeout(() => openPantrySheet(), 200);
 }
 
 function obFinish(kind) {
