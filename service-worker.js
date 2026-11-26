@@ -1,5 +1,5 @@
-const CACHE_NAME = 'naengkeum-shell-v21';
-const APP_SHELL = ['/', '/index.html', '/manifest.json', '/config.js', '/icons/icon-192.png', '/icons/icon-512.png'];
+const CACHE_NAME = 'naengkeum-shell-v22';
+const APP_SHELL = ['/', '/index.html', '/manifest.json', '/config.js', '/icons/icon-192.png', '/icons/icon-512.png', '/design-system/tokens.css', '/design-system/components.css', '/design-system/nk.js'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)));
   self.skipWaiting();

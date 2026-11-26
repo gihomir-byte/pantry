@@ -13,15 +13,19 @@
 <meta name="apple-mobile-web-app-title" content="냉큼">
 <title>냉큼</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/design-system/tokens.css">
+<link rel="stylesheet" href="/design-system/components.css">
+<script src="/design-system/nk.js"></script>
 <style>
 :root{
   /* 냉큼 디자인 값: 냉장 민트 + 또렷한 둥근 사각형 */
-  --bg:#FFFFFF;--surface:#FFFFFF;--surface-2:#F4F7F6;--surface-3:#EBF0EE;
-  --brand:#12B89A;--primary:#087F6D;--primary-dark:#066A5B;--soft:#E3F5F0;--soft-ink:#0A6B5C;
+  /* 예전 이름은 그대로 두고 값은 design-system/tokens.css 를 가리켜요 */
+  --bg:var(--nk-bg);--surface:var(--nk-surface);--surface-2:var(--nk-gray-50);--surface-3:var(--nk-gray-100);
+  --brand:var(--nk-logo);--primary:var(--nk-brand);--primary-dark:var(--nk-brand-strong);--soft:var(--nk-brand-soft);--soft-ink:var(--nk-brand-ink);
   --accent:#FF7A45;
-  --warning:#E8890C;--warn-bg:#FFF4E0;--warn-ink:#9A5B00;
-  --danger:#D93A3F;--danger-bg:#FFEDED;--danger-ink:#C5282F;
-  --text:#16201E;--muted:#66726F;--faint:#98A3A0;--border:#E4EAE8;
+  --warning:var(--nk-warning);--warn-bg:var(--nk-warning-soft);--warn-ink:var(--nk-warning-ink);
+  --danger:var(--nk-danger);--danger-bg:var(--nk-danger-soft);--danger-ink:var(--nk-danger-ink);
+  --text:var(--nk-text);--muted:var(--nk-text-secondary);--faint:#98A3A0;--border:var(--nk-border);
   --shadow:0 1px 2px rgba(16,32,30,.04),0 4px 14px rgba(16,32,30,.05);
   --r-xs:4px;--r-s:6px;--r-m:8px;--r-l:12px;--r-xl:16px;
   --radius:var(--r-l);
@@ -54,7 +58,7 @@ main{padding:22px}.page{display:none}.page.active{display:block}.welcome{margin-
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-top:1px solid var(--border);padding:6px max(12px,env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));display:flex;justify-content:center}
 .nav-inner{width:min(100%,680px);display:grid;grid-template-columns:repeat(4,1fr);gap:4px}.nav-btn{border:0;background:transparent;color:var(--faint);padding:6px 2px;border-radius:var(--r-m);font-size:11px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:48px}.nav-btn .svg-ico{width:22px;height:22px}.nav-btn.active{color:var(--primary);font-weight:800}
 .empty{padding:24px 12px;text-align:center;color:var(--muted);font-size:13px}.empty b{display:block;color:var(--text);font-size:15px;margin-bottom:5px}
-.modal-backdrop{position:fixed;inset:0;background:rgba(16,28,26,.42);z-index:50;display:none;align-items:flex-end;justify-content:center;padding:12px}.modal-backdrop.show{display:flex}.modal{background:var(--surface);border-radius:var(--r-xl) var(--r-xl) var(--r-l) var(--r-l);width:min(100%,520px);max-height:90vh;overflow:auto;padding:22px;box-shadow:0 20px 70px rgba(0,0,0,.2)}.modal h3{margin:0 0 5px;font-size:19px}.modal .hint{font-size:13px;color:var(--muted);margin:0 0 17px}
+.modal h3{margin:0 0 4px;font-size:var(--nk-subtitle-size);line-height:var(--nk-subtitle-line);font-weight:var(--nk-subtitle-weight)}.modal .hint{font-size:var(--nk-secondary-size);line-height:var(--nk-secondary-line);color:var(--muted);margin:0 0 16px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;color:var(--muted);font-weight:700}.field input,.field select,.field textarea{width:100%;border:1px solid var(--border);border-radius:var(--r-m);padding:12px;background:var(--surface);outline:none;color:var(--text);font-size:16px}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--soft)}.field textarea{min-height:70px;resize:vertical}.modal-actions{display:flex;gap:8px;margin-top:18px}.modal-actions>*{flex:1}
 .toast{position:fixed;left:50%;bottom:94px;transform:translateX(-50%);background:var(--text);color:#fff;border-radius:var(--r-m);padding:12px 16px;font-size:13px;font-weight:600;z-index:200;opacity:0;pointer-events:none;transition:.2s;max-width:calc(100% - 32px);text-align:center}.toast.show{opacity:1}
 .toast.has-action{width:max-content;display:flex;align-items:center;gap:14px;text-align:left;padding:10px 10px 10px 16px}.toast.has-action.show{pointer-events:auto}.toast-undo{border:0;background:rgba(255,255,255,.14);color:#8FF0DC;font-weight:800;font-size:13px;padding:8px 12px;border-radius:var(--r-s);white-space:nowrap;min-height:36px}
@@ -139,7 +143,7 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
 .ob-steps-dots i{width:16px;height:4px;border-radius:2px;background:var(--border)}
 .ob-steps-dots i.on{background:var(--primary)}
 
-@media(min-width:760px){main{padding:28px}.dashboard-cols{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.dashboard-cols .panel{height:100%}.modal-backdrop{align-items:center}.modal{border-radius:var(--r-xl)}.recipe-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:760px){main{padding:28px}.dashboard-cols{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.dashboard-cols .panel{height:100%}.recipe-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:430px){header{padding:12px 16px}main{padding:18px 16px}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:21px}.week{gap:4px}.day{padding:8px 2px;min-height:112px}.day .meal{font-size:10px}.day button{font-size:10px;padding:4px}.panel{padding:15px}.welcome h2{font-size:22px}}
 
 /* 우리 가족 · 아기 */
@@ -359,7 +363,7 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
   style="display:none"
   onchange="handleReceiptFile(event)"
 >
-    <div class="toolbar"><input class="search" id="searchInput" placeholder="식재료 검색" oninput="renderStorage()"><select class="select" id="storageFilter" onchange="renderStorage()"><option value="all">전체 위치</option><option>냉장</option><option>냉동</option><option>실온</option><option>김치냉장고</option></select><select class="select" id="sortFilter" onchange="renderStorage()"><option value="expiry">소비기한순</option><option value="name">이름순</option><option value="newest">최근 등록순</option></select></div>
+    <div class="toolbar"><input class="search" id="searchInput" placeholder="식재료 검색" oninput="renderStorage()"><select class="select" id="storageFilter" onchange="renderStorage();rememberStorageView()"><option value="all">전체 위치</option><option>냉장</option><option>냉동</option><option>실온</option><option>김치냉장고</option></select><select class="select" id="sortFilter" onchange="renderStorage();rememberStorageView()"><option value="expiry">소비기한순</option><option value="name">이름순</option><option value="newest">최근 등록순</option></select></div>
     <div class="tabs" id="categoryTabs"><button class="tab active" data-cat="all" onclick="setCategory('all',this)">전체</button><button class="tab" data-cat="채소" onclick="setCategory('채소',this)">채소</button><button class="tab" data-cat="과일" onclick="setCategory('과일',this)">과일</button><button class="tab" data-cat="육류" onclick="setCategory('육류',this)">육류</button><button class="tab" data-cat="유제품" onclick="setCategory('유제품',this)">유제품</button><button class="tab" data-cat="기타" onclick="setCategory('기타',this)">기타</button></div>
     <div id="storageList" class="item-list" style="margin-top:13px"></div>
   </div>
@@ -442,7 +446,7 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
 <button class="nav-btn" data-page="shopping" onclick="navigate('shopping')"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M3.5 4.5h2.5l2 11h10l2-8H7"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>장보기</button>
 </div></nav>
 
-<div class="modal-backdrop" id="modalBackdrop" onclick="if(event.target===this)closeModal()"><div class="modal" id="modalContent"></div></div>
+<div class="modal-backdrop nk-sheet-scrim" id="modalBackdrop"><div class="modal nk-sheet"><div class="nk-sheet__body" id="modalContent"></div></div></div>
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1125,7 +1129,25 @@ function save(){
   
 function daysLeft(date){if(!date)return null;return Math.ceil((new Date(date+'T00:00:00')-today)/86400000)}
 function expiryStatus(item){let d=daysLeft(item.expiry);if(d===null)return ['날짜 미등록','gray'];if(d<0)return ['기한 지남','danger'];if(d===0)return ['오늘까지','danger'];if(d<=3)return ['임박','danger'];if(d<=7)return ['이번 주','warn'];return ['여유','good']}
-function navigate(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===(page==='meal'?'recipes':page==='ledger'?'shopping':page)));if(page==='home')renderHome();if(page==='storage')renderStorage();if(page==='recipes')renderRecipes();if(page==='meal')renderMeal();if(page==='shopping')renderShopping();if(page==='ledger')renderLedger();if(page==='baby')renderBaby();if(page==='more')renderFamily();window.scrollTo({top:0,behavior:'smooth'})}
+function navigate(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===(page==='meal'?'recipes':page==='ledger'?'shopping':page)));if(page==='home')renderHome();if(page==='storage')renderStorage();if(page==='recipes')renderRecipes();if(page==='meal')renderMeal();if(page==='shopping')renderShopping();if(page==='ledger')renderLedger();if(page==='baby')renderBaby();if(page==='more')renderFamily();rememberPage(page);window.scrollTo({top:0,behavior:quietNav?'auto':'smooth'})}
+// 새로고침해도 보던 화면에 머물게: 주소 끝(#storage 등)에 지금 화면을 적어 둬요.
+const VIEW_PAGES=['home','storage','recipes','meal','shopping','ledger','baby','more'];
+let quietNav=false;
+window.addEventListener('popstate',()=>{const a=document.querySelector('.page.active');if(a)rememberPage(a.id.replace('page-',''))});
+function rememberPage(page){try{history.replaceState(history.state,'',location.pathname+location.search+(page==='home'?'':'#'+page))}catch(e){}}
+// 냉장고 탭의 종류·위치·정렬도 이 창이 열려 있는 동안 기억해요.
+function rememberStorageView(){try{sessionStorage.setItem('nk_storage_view',JSON.stringify({category,loc:document.getElementById('storageFilter')?.value||'all',sort:document.getElementById('sortFilter')?.value||'expiry'}))}catch(e){}}
+function restoreView(){
+ try{const v=JSON.parse(sessionStorage.getItem('nk_storage_view')||'null');if(v){
+  const tab=document.querySelector(`#categoryTabs .tab[data-cat="${CSS.escape(v.category||'all')}"]`);if(tab){category=v.category;document.querySelectorAll('#categoryTabs .tab').forEach(x=>x.classList.toggle('active',x===tab))}
+  const lf=document.getElementById('storageFilter');if(lf&&[...lf.options].some(o=>(o.value||o.text)===v.loc))lf.value=v.loc;
+  const sf=document.getElementById('sortFilter');if(sf&&[...sf.options].some(o=>o.value===v.sort))sf.value=v.sort;
+ }}catch(e){}
+ const page=(location.hash||'').slice(1);
+ if(!VIEW_PAGES.includes(page)||page==='home'){renderStorage();return}
+ if(page==='baby'&&!hasBaby()){rememberPage('home');renderStorage();return}
+ quietNav=true;try{navigate(page)}finally{quietNav=false}
+}
 // 알림 한 줄. undo:true면 5초 동안 [되돌리기] 버튼이 붙어요.
 let toastTimer = null, undoSnap = null;
 function showToast(msg, opt){
@@ -1304,16 +1326,20 @@ function renderHome(){
  let rec=rankRecipes()[0];document.getElementById('homeRecipe').innerHTML=rec?recipeCard(rec):'<div class="empty">재료를 등록하면 추천 메뉴가 보여요.</div>';
  let todayKey=datePlus(0),meal=mealPlan[todayKey];(document.getElementById('homeMeal')||{}).innerHTML=meal?`<div class="food-row"><div class="food-icon">${meal.emoji}</div><div class="food-info"><b>${esc(meal.name)}</b><small>오늘 저녁 · ${meal.done?'먹었어요':'아직 안 했어요'}</small></div><button class="btn small secondary" onclick="navigate('meal')">확인</button></div>`:'<div class="empty"><b>오늘 저녁 메뉴가 아직 없어요</b>레시피 탭의 [이번 주 식단]에서 정할 수 있어요.</div>';
 }
-function setCategory(c,el){category=c;document.querySelectorAll('#categoryTabs .tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');renderStorage()}
+function setCategory(c,el){category=c;document.querySelectorAll('#categoryTabs .tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');renderStorage();rememberStorageView()}
 function renderStorage(){
  let q=(document.getElementById('searchInput')?.value||'').toLowerCase(),loc=document.getElementById('storageFilter')?.value||'all',sort=document.getElementById('sortFilter')?.value||'expiry';
  let arr=inventory.filter(x=>(category==='all'||x.category===category)&&(loc==='all'||x.location===loc)&&x.name.toLowerCase().includes(q));
  arr.sort((a,b)=>sort==='name'?a.name.localeCompare(b.name,'ko'):sort==='newest'?b.id.localeCompare(a.id):(daysLeft(a.expiry)??9999)-(daysLeft(b.expiry)??9999));
  document.getElementById('storageList').innerHTML=arr.length?arr.map(itemRow).join(''):'<div class="empty"><b>등록된 식재료가 없어요</b>재료 등록 버튼으로 냉장고를 채워 보세요.</div>';
 }
-function openModal(content){stopCamera();document.getElementById('modalContent').innerHTML=content;document.getElementById('modalBackdrop').classList.add('show')}
+// 팝업은 모두 디자인 시스템의 시트(nk.sheet)로 열어요: 아래에서 올라오고, X·바깥·뒤로가기·끌어내리기로 닫혀요.
+let sheetCtl=null;
+function modalSheet(){if(!sheetCtl)sheetCtl=nk.sheet(document.getElementById('modalBackdrop'),{openClass:'show',onBeforeOpen:stopCamera,onClose:afterModalClosed});return sheetCtl}
+function openModal(content){modalSheet().open(content)}
 function modalOpen(){return document.getElementById('modalBackdrop').classList.contains('show')}
-function closeModal(){stopCamera();document.getElementById('modalBackdrop').classList.remove('show');if(typeof missionCelePending!=='undefined'&&missionCelePending)setTimeout(()=>{if(!modalOpen())showMissionCele()},250)}
+function closeModal(){const s=modalSheet();if(s.isOpen())s.close();else afterModalClosed()}
+function afterModalClosed(){stopCamera();if(typeof missionCelePending!=='undefined'&&missionCelePending)setTimeout(()=>{if(!modalOpen())showMissionCele()},250)}
 function openIngredientModal(){
  openModal(`<h3>식재료 등록</h3>
  <button type="button" class="add-way" onclick="closeModal();openReceiptPicker()"><span class="add-way-ico">📷</span><span><b>사진으로 한 번에 넣기</b><small>영수증, 장 본 재료, 컬리, B마트, 주문 화면 모두 돼요.<br>여러 장도 가능해요</small></span><span class="add-way-go">›</span></button>
@@ -2340,8 +2366,7 @@ function showRecipe(id, fallbackName){
       <button class="btn secondary" style="flex:1" onclick="addRecipeToMeal('${r.id}')">식단에 넣기</button>
     </div>
   `);
-  document.getElementById('modalContent').parentElement?.scrollTo?.({top:0});
-  document.querySelector('.modal')?.scrollTo?.({top:0});
+  document.getElementById('modalContent').scrollTo?.({top:0});
   loadStepImages(r);
 }
 
@@ -3633,6 +3658,7 @@ async function initApp() {
   document.getElementById('householdName').value = household;
 
   renderAll();
+  restoreView();
 
   // PWA 서비스 워커 등록
   if ('serviceWorker' in navigator) {
@@ -4215,6 +4241,9 @@ async function signOut() {
   // 다음 사람이 이 기기에서 로그인해도 내 데이터가 보이지 않게 합니다.
   clearLocalData();
   localStorage.removeItem(PREF_HOUSEHOLD_KEY);
+  // 다음 사람은 홈에서 시작해요.
+  try { sessionStorage.removeItem('nk_storage_view'); } catch (e) {}
+  navigate('home');
 
   showOnboard('start');
 }

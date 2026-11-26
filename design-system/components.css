@@ -221,3 +221,79 @@ button.nk-list-item:active, a.nk-list-item:active { background: var(--nk-surface
 }
 .nk-toast__action::before { content: ""; position: absolute; inset: -4px 0; }
 .nk-toast__action:active { background: rgba(127, 127, 127, .2); }
+
+
+/* =========================================================
+   Sheet — 아래에서 올라오는 팝업 (넓은 화면에서는 가운데)
+   구조:
+   <div class="nk-sheet-scrim">
+     <div class="nk-sheet" role="dialog" aria-modal="true" tabindex="-1">
+       <div class="nk-sheet__grab"><span class="nk-sheet__handle"></span></div>
+       <button class="nk-sheet__close" aria-label="닫기">…</button>
+       <div class="nk-sheet__body">내용</div>
+     </div>
+   </div>
+   열고 닫기·뒤로가기·끌어내리기는 nk.sheet()이 맡아요.
+   ========================================================= */
+.nk-sheet-scrim {
+  position: fixed; inset: 0; z-index: 50;
+  display: none; align-items: flex-end; justify-content: center;
+  background: var(--nk-overlay);
+}
+.nk-sheet-scrim.is-open, .nk-sheet-scrim.is-closing { display: flex; }
+.nk-sheet-scrim.is-open { animation: nk-fade-in var(--nk-duration-base) var(--nk-ease); }
+.nk-sheet-scrim.is-closing { animation: nk-fade-out var(--nk-duration-base) var(--nk-ease-exit) forwards; pointer-events: none; }
+
+.nk-sheet {
+  position: relative; display: flex; flex-direction: column;
+  width: 100%; max-width: 520px; max-height: calc(100dvh - var(--nk-space-40));
+  background: var(--nk-surface); color: var(--nk-text);
+  border-radius: var(--nk-radius-l) var(--nk-radius-l) 0 0;
+  box-shadow: var(--nk-shadow-2); outline: none;
+}
+@supports not (height: 100dvh) { .nk-sheet { max-height: 90vh; } }
+.nk-sheet-scrim.is-open .nk-sheet { animation: nk-sheet-in var(--nk-duration-base) var(--nk-ease); }
+.nk-sheet-scrim.is-closing .nk-sheet { animation: nk-sheet-out var(--nk-duration-base) var(--nk-ease-exit) forwards; }
+.nk-sheet-scrim.is-closing .nk-sheet.is-dragged { animation: none; }
+
+/* 손잡이: 위쪽 띠 전체를 잡고 끌어내릴 수 있어요 */
+.nk-sheet__grab { flex: none; height: var(--nk-space-20); display: flex; align-items: center; justify-content: center; touch-action: none; cursor: grab; }
+.nk-sheet__handle { width: 36px; height: 4px; border-radius: var(--nk-radius-full); background: var(--nk-gray-300); }
+
+.nk-sheet__close {
+  position: absolute; z-index: 2; top: var(--nk-space-12); right: var(--nk-space-12);
+  width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+  border: 0; border-radius: var(--nk-radius-full); padding: 0;
+  background: var(--nk-surface-muted); color: var(--nk-text-secondary); cursor: pointer;
+  transition: background-color var(--nk-duration-fast) var(--nk-ease);
+}
+.nk-sheet__close::before { content: ""; position: absolute; inset: -4px; } /* 누르는 범위 44px */
+.nk-sheet__close:active { background: var(--nk-surface-pressed); }
+.nk-sheet__close:focus-visible { outline: 2px solid var(--nk-focus, var(--nk-brand)); outline-offset: 2px; }
+.nk-sheet__close svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2.2; fill: none; stroke-linecap: round; }
+
+.nk-sheet__body {
+  flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+  padding: var(--nk-space-4) var(--nk-space-20) calc(var(--nk-space-20) + env(safe-area-inset-bottom, 0px));
+}
+/* 첫 제목은 닫기 버튼과 겹치지 않게 */
+.nk-sheet__body > :first-child { margin-right: var(--nk-space-40); }
+
+html.nk-sheet-lock, html.nk-sheet-lock body { overflow: hidden; }
+
+@media (min-width: 760px) {
+  .nk-sheet-scrim { align-items: center; padding: var(--nk-space-24); }
+  .nk-sheet { border-radius: var(--nk-radius-l); max-height: calc(100dvh - var(--nk-space-40)); }
+  .nk-sheet__grab { cursor: default; }
+  .nk-sheet__handle { visibility: hidden; }
+  .nk-sheet__body { padding-bottom: var(--nk-space-24); }
+}
+
+@keyframes nk-fade-in { from { opacity: 0; } }
+@keyframes nk-fade-out { to { opacity: 0; } }
+@keyframes nk-sheet-in { from { transform: translateY(100%); } }
+@keyframes nk-sheet-out { to { transform: translateY(100%); } }
+@media (min-width: 760px) {
+  @keyframes nk-sheet-in { from { transform: translateY(16px); opacity: 0; } }
+  @keyframes nk-sheet-out { to { transform: translateY(16px); opacity: 0; } }
+}
