@@ -3296,7 +3296,8 @@ function isMissingFunction(error) {
 
 // 초대장 미리보기 (누가, 어느 냉장고로, 몇 명이) — 서버에 기능이 없으면 null
 async function fetchInvitePreview(code) {
-  if (!sb || !code) return null;
+  // 새 6자리 번호만 미리보기가 돼요. 예전 12자리 코드는 미리보기 없이 바로 들어가기로 보내요.
+  if (!sb || !code || code.length !== 6) return null;
   try {
     const { data, error } = await sb.rpc('peek_invite', { p_code: code });
     if (error) return null;
@@ -3957,6 +3958,8 @@ async function createFamily() {
 
 function joinErrorText(error) {
   const m = (error && error.message) || '';
+  // 예전 12자리 코드는 이미 냉장고가 있는 사람을 받지 않아요.
+  if (/already belongs to a household/i.test(m)) return '예전 초대 코드는 이미 냉장고가 있으면 쓸 수 없어요. 가족에게 새 6자리 초대 번호를 받아 주세요.';
   if (/INVITE_EXPIRED|만료|expired/i.test(m)) return '초대장 기한(7일)이 지났어요. 가족에게 새 초대장을 부탁해 보세요.';
   if (/INVITE_INVALID|올바르지|invalid|not found|없는|찾을 수/i.test(m)) return '번호가 맞지 않아요. 카톡 메시지의 번호를 다시 확인해 주세요.';
   if (/LOGIN_REQUIRED|JWT|not authenticated|로그인/i.test(m)) return '로그인이 풀렸어요. 다시 로그인한 뒤 들어가 주세요.';
@@ -3968,7 +3971,7 @@ function joinErrorText(error) {
 // 이미 그 냉장고의 가족인데 다시 들어가려 한 경우
 function isAlreadyMember(error) {
   const m = (error && error.message) || '';
-  return !!error && (error.code === '23505' || /already|이미|duplicate/i.test(m));
+  return !!error && !/belongs to a household/i.test(m) && (error.code === '23505' || /already|이미|duplicate/i.test(m));
 }
 
 // 내가 이미 속한 냉장고 중 이 초대 번호의 냉장고 찾기 (예전 12자리 코드)
