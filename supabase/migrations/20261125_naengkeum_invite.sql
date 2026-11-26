@@ -24,7 +24,8 @@ returns text language plpgsql volatile set search_path = public as $$
 declare
   alphabet constant text := 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
   result text := '';
-  b bytea := gen_random_bytes(6);
+  -- Supabase는 pgcrypto를 extensions 스키마에 두므로 기본 내장 gen_random_uuid()로 무작위 바이트를 만들어요.
+  b bytea := decode(replace(gen_random_uuid()::text, '-', ''), 'hex');
   i int;
 begin
   for i in 0..5 loop
