@@ -359,7 +359,7 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
   style="display:none"
   onchange="handleReceiptFile(event)"
 >
-    <div class="toolbar"><input class="search" id="searchInput" placeholder="식재료 검색" oninput="renderStorage()"><select class="select" id="storageFilter" onchange="renderStorage()"><option value="all">전체 위치</option><option>냉장</option><option>냉동</option><option>실온</option><option>김치냉장고</option></select><select class="select" id="sortFilter" onchange="renderStorage()"><option value="expiry">소비기한순</option><option value="name">이름순</option><option value="newest">최근 등록순</option></select></div>
+    <div class="toolbar"><input class="search" id="searchInput" placeholder="식재료 검색" oninput="renderStorage()"><select class="select" id="storageFilter" onchange="renderStorage();rememberStorageView()"><option value="all">전체 위치</option><option>냉장</option><option>냉동</option><option>실온</option><option>김치냉장고</option></select><select class="select" id="sortFilter" onchange="renderStorage();rememberStorageView()"><option value="expiry">소비기한순</option><option value="name">이름순</option><option value="newest">최근 등록순</option></select></div>
     <div class="tabs" id="categoryTabs"><button class="tab active" data-cat="all" onclick="setCategory('all',this)">전체</button><button class="tab" data-cat="채소" onclick="setCategory('채소',this)">채소</button><button class="tab" data-cat="과일" onclick="setCategory('과일',this)">과일</button><button class="tab" data-cat="육류" onclick="setCategory('육류',this)">육류</button><button class="tab" data-cat="유제품" onclick="setCategory('유제품',this)">유제품</button><button class="tab" data-cat="기타" onclick="setCategory('기타',this)">기타</button></div>
     <div id="storageList" class="item-list" style="margin-top:13px"></div>
   </div>
@@ -1125,7 +1125,24 @@ function save(){
   
 function daysLeft(date){if(!date)return null;return Math.ceil((new Date(date+'T00:00:00')-today)/86400000)}
 function expiryStatus(item){let d=daysLeft(item.expiry);if(d===null)return ['날짜 미등록','gray'];if(d<0)return ['기한 지남','danger'];if(d===0)return ['오늘까지','danger'];if(d<=3)return ['임박','danger'];if(d<=7)return ['이번 주','warn'];return ['여유','good']}
-function navigate(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===(page==='meal'?'recipes':page==='ledger'?'shopping':page)));if(page==='home')renderHome();if(page==='storage')renderStorage();if(page==='recipes')renderRecipes();if(page==='meal')renderMeal();if(page==='shopping')renderShopping();if(page==='ledger')renderLedger();if(page==='baby')renderBaby();if(page==='more')renderFamily();window.scrollTo({top:0,behavior:'smooth'})}
+function navigate(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===(page==='meal'?'recipes':page==='ledger'?'shopping':page)));if(page==='home')renderHome();if(page==='storage')renderStorage();if(page==='recipes')renderRecipes();if(page==='meal')renderMeal();if(page==='shopping')renderShopping();if(page==='ledger')renderLedger();if(page==='baby')renderBaby();if(page==='more')renderFamily();rememberPage(page);window.scrollTo({top:0,behavior:quietNav?'auto':'smooth'})}
+// 새로고침해도 보던 화면에 머물게: 주소 끝(#storage 등)에 지금 화면을 적어 둬요.
+const VIEW_PAGES=['home','storage','recipes','meal','shopping','ledger','baby','more'];
+let quietNav=false;
+function rememberPage(page){try{history.replaceState(history.state,'',location.pathname+location.search+(page==='home'?'':'#'+page))}catch(e){}}
+// 냉장고 탭의 종류·위치·정렬도 이 창이 열려 있는 동안 기억해요.
+function rememberStorageView(){try{sessionStorage.setItem('nk_storage_view',JSON.stringify({category,loc:document.getElementById('storageFilter')?.value||'all',sort:document.getElementById('sortFilter')?.value||'expiry'}))}catch(e){}}
+function restoreView(){
+ try{const v=JSON.parse(sessionStorage.getItem('nk_storage_view')||'null');if(v){
+  const tab=document.querySelector(`#categoryTabs .tab[data-cat="${CSS.escape(v.category||'all')}"]`);if(tab){category=v.category;document.querySelectorAll('#categoryTabs .tab').forEach(x=>x.classList.toggle('active',x===tab))}
+  const lf=document.getElementById('storageFilter');if(lf&&[...lf.options].some(o=>(o.value||o.text)===v.loc))lf.value=v.loc;
+  const sf=document.getElementById('sortFilter');if(sf&&[...sf.options].some(o=>o.value===v.sort))sf.value=v.sort;
+ }}catch(e){}
+ const page=(location.hash||'').slice(1);
+ if(!VIEW_PAGES.includes(page)||page==='home'){renderStorage();return}
+ if(page==='baby'&&!hasBaby()){rememberPage('home');renderStorage();return}
+ quietNav=true;try{navigate(page)}finally{quietNav=false}
+}
 // 알림 한 줄. undo:true면 5초 동안 [되돌리기] 버튼이 붙어요.
 let toastTimer = null, undoSnap = null;
 function showToast(msg, opt){
@@ -1304,7 +1321,7 @@ function renderHome(){
  let rec=rankRecipes()[0];document.getElementById('homeRecipe').innerHTML=rec?recipeCard(rec):'<div class="empty">재료를 등록하면 추천 메뉴가 보여요.</div>';
  let todayKey=datePlus(0),meal=mealPlan[todayKey];(document.getElementById('homeMeal')||{}).innerHTML=meal?`<div class="food-row"><div class="food-icon">${meal.emoji}</div><div class="food-info"><b>${esc(meal.name)}</b><small>오늘 저녁 · ${meal.done?'먹었어요':'아직 안 했어요'}</small></div><button class="btn small secondary" onclick="navigate('meal')">확인</button></div>`:'<div class="empty"><b>오늘 저녁 메뉴가 아직 없어요</b>레시피 탭의 [이번 주 식단]에서 정할 수 있어요.</div>';
 }
-function setCategory(c,el){category=c;document.querySelectorAll('#categoryTabs .tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');renderStorage()}
+function setCategory(c,el){category=c;document.querySelectorAll('#categoryTabs .tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');renderStorage();rememberStorageView()}
 function renderStorage(){
  let q=(document.getElementById('searchInput')?.value||'').toLowerCase(),loc=document.getElementById('storageFilter')?.value||'all',sort=document.getElementById('sortFilter')?.value||'expiry';
  let arr=inventory.filter(x=>(category==='all'||x.category===category)&&(loc==='all'||x.location===loc)&&x.name.toLowerCase().includes(q));
@@ -3633,6 +3650,7 @@ async function initApp() {
   document.getElementById('householdName').value = household;
 
   renderAll();
+  restoreView();
 
   // PWA 서비스 워커 등록
   if ('serviceWorker' in navigator) {
@@ -4215,6 +4233,9 @@ async function signOut() {
   // 다음 사람이 이 기기에서 로그인해도 내 데이터가 보이지 않게 합니다.
   clearLocalData();
   localStorage.removeItem(PREF_HOUSEHOLD_KEY);
+  // 다음 사람은 홈에서 시작해요.
+  try { sessionStorage.removeItem('nk_storage_view'); } catch (e) {}
+  navigate('home');
 
   showOnboard('start');
 }
