@@ -159,5 +159,108 @@
     return { hide };
   }
 
-  window.nk = { esc, button, withLoading, textField, setFieldError, card, listItem, skeleton, emptyState, errorState, errorText, toast };
+
+  /* ---------- Sheet ---------- */
+  // 아래에서 올라오는 팝업. 열기·닫기 움직임, 뒤로가기·Esc·바깥 누르기·끌어내리기로 닫기,
+  // 열 때 포커스 옮기고 닫으면 돌려주기, 뒤 화면 스크롤 막기를 한곳에서 해요.
+  // 사용: const s = nk.sheet(scrimEl, { openClass: 'show', onClose() {} }); s.open(html); s.close();
+  const CLOSE_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+  function sheet(scrim, { openClass, onBeforeOpen, onClose, closeLabel = '닫기' } = {}) {
+    let panel = scrim.querySelector('.nk-sheet');
+    let body = scrim.querySelector('.nk-sheet__body');
+    if (!scrim.querySelector('.nk-sheet__grab')) panel.insertAdjacentHTML('afterbegin', '<div class="nk-sheet__grab" aria-hidden="true"><span class="nk-sheet__handle"></span></div>');
+    if (!scrim.querySelector('.nk-sheet__close')) body.insertAdjacentHTML('beforebegin', `<button type="button" class="nk-sheet__close" aria-label="${attr(closeLabel)}">${CLOSE_ICON}</button>`);
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-modal', 'true');
+    panel.tabIndex = -1;
+
+    let open = false, hideTimer = 0, lastFocus = null, ignorePop = false;
+    const pushEntry = () => { try { history.pushState({ nkSheet: true }, '', location.href); } catch (e) { /* 막힌 환경이면 뒤로가기만 안 돼요 */ } };
+    const dur = () => parseFloat(getComputedStyle(scrim).animationDuration) * 1000 || 0;
+
+    function label() {
+      const h = body.querySelector('h1,h2,h3');
+      if (h) { if (!h.id) h.id = 'nk-sheet-title'; panel.setAttribute('aria-labelledby', h.id); }
+      else panel.removeAttribute('aria-labelledby');
+    }
+    function show(html) {
+      if (onBeforeOpen) onBeforeOpen();
+      if (html !== undefined) body.innerHTML = html;
+      label();
+      if (open) return;
+      open = true;
+      clearTimeout(hideTimer);
+      lastFocus = document.activeElement;
+      panel.classList.remove('is-dragged');
+      panel.style.transform = ''; panel.style.transition = '';
+      scrim.classList.remove('is-closing');
+      scrim.classList.add('is-open');
+      if (openClass) scrim.classList.add(openClass);
+      document.documentElement.classList.add('nk-sheet-lock');
+      body.scrollTop = 0;
+      // 방금 닫으면서 보낸 '뒤로'가 아직 안 끝났으면, 끝난 뒤에 자리를 다시 만들어요.
+      if (!ignorePop) pushEntry();
+      try { panel.focus({ preventScroll: true }); } catch (e) { /* 무시 */ }
+    }
+    function hide({ fromHistory = false } = {}) {
+      if (!open) return;
+      open = false;
+      scrim.classList.remove('is-open');
+      if (openClass) scrim.classList.remove(openClass);
+      scrim.classList.add('is-closing');
+      document.documentElement.classList.remove('nk-sheet-lock');
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => {
+        scrim.classList.remove('is-closing');
+        panel.classList.remove('is-dragged');
+        panel.style.transform = ''; panel.style.transition = '';
+      }, dur() + 20);
+      if (!fromHistory && history.state && history.state.nkSheet) { ignorePop = true; history.back(); }
+      if (lastFocus && document.contains(lastFocus) && lastFocus.focus) { try { lastFocus.focus({ preventScroll: true }); } catch (e) { /* 무시 */ } }
+      lastFocus = null;
+      if (onClose) onClose();
+    }
+
+    scrim.addEventListener('click', (e) => { if (e.target === scrim) hide(); });
+    scrim.querySelector('.nk-sheet__close').addEventListener('click', () => hide());
+    document.addEventListener('keydown', (e) => { if (open && e.key === 'Escape') { e.preventDefault(); hide(); } });
+    window.addEventListener('popstate', () => {
+      if (ignorePop) { ignorePop = false; if (open) pushEntry(); return; }
+      if (open) hide({ fromHistory: true });
+    });
+
+    // 손잡이를 잡고 끌어내리면 닫혀요. 조금만 끌면 제자리로 돌아가요.
+    const grab = scrim.querySelector('.nk-sheet__grab');
+    let startY = null, startT = 0, dy = 0;
+    grab.addEventListener('pointerdown', (e) => {
+      if (!open || window.matchMedia('(min-width: 760px)').matches) return;
+      startY = e.clientY; startT = e.timeStamp; dy = 0;
+      grab.setPointerCapture(e.pointerId);
+      panel.style.transition = 'none';
+    });
+    grab.addEventListener('pointermove', (e) => {
+      if (startY === null) return;
+      dy = Math.max(0, e.clientY - startY);
+      panel.style.transform = `translateY(${dy}px)`;
+    });
+    const endDrag = (e) => {
+      if (startY === null) return;
+      const fast = dy > 30 && dy / Math.max(1, e.timeStamp - startT) > 0.5;
+      startY = null;
+      panel.style.transition = 'transform var(--nk-duration-base) var(--nk-ease)';
+      if (dy > 96 || fast) {
+        panel.classList.add('is-dragged');
+        panel.style.transform = 'translateY(100%)';
+        hide();
+      } else {
+        panel.style.transform = '';
+      }
+    };
+    grab.addEventListener('pointerup', endDrag);
+    grab.addEventListener('pointercancel', endDrag);
+
+    return { open: show, close: hide, isOpen: () => open, body, panel };
+  }
+
+  window.nk = { esc, button, withLoading, textField, setFieldError, card, listItem, skeleton, emptyState, errorState, errorText, toast, sheet };
 })();

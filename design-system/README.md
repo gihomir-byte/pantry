@@ -1,7 +1,7 @@
 # 냉큼 디자인 시스템 (기초)
 
-지금 앱(`index.html`)은 **아직 이 파일들을 쓰지 않아요.** 화면은 하나도 바뀌지 않았어요.
-다음 단계부터 화면을 하나씩 이 기준으로 옮겨요.
+지금 앱(`index.html`)은 이 파일들을 불러와요. 예전 색 이름(`--primary` 등)은 새 값을 가리키고, **모든 팝업은 Sheet로 옮겼어요.**
+나머지 화면은 하나씩 이 기준으로 옮겨요.
 
 | 파일 | 하는 일 |
 |---|---|
@@ -84,6 +84,7 @@
 | EmptyState | `.nk-state` | `nk.emptyState()` | 아이콘 + 제목 + 설명 + 버튼 하나 |
 | ErrorState | `.nk-state--error` | `nk.errorState()`, `nk.errorText()` | 개발자 문구 대신 "무슨 일 + 할 일 + 다시 해 보기" |
 | Toast | `.nk-toast` | `nk.toast(msg, {actionLabel, onAction})` | 하단 탭·홈 막대 위로. 나타날 때 움직임. 낭독기가 읽어요 |
+| Sheet | `.nk-sheet-scrim` > `.nk-sheet` > `__grab`, `__close`, `__body` | `nk.sheet(scrim, {onClose})` → `open(html)`, `close()` | 아래에서 올라오는 움직임, 손잡이 끌어내리기·X·바깥·뒤로가기·Esc로 닫기, 홈 막대 여백, 뒤 화면 스크롤 막기, 닫으면 포커스 돌려주기 |
 | (덤) Badge | `.nk-badge--success/warning/danger/info` | | 상태 알약 색을 의미색으로 통일 |
 
 모든 컴포넌트는 밝게/어둡게 둘 다 자동으로 맞춰져요.
@@ -92,8 +93,8 @@
 
 ## 3. 앱에 옮기는 순서 (다음 단계)
 
-1. `index.html` `<head>`에 `tokens.css`, `components.css`, `<script src="/design-system/nk.js">`를 넣고, `service-worker.js`의 캐시 목록에도 추가해요.
-2. 지금 `:root` 변수(`--primary`, `--muted` 등)를 새 토큰을 가리키게 바꿔요. (예: `--primary: var(--nk-brand)`) 화면이 거의 그대로인 채로 값만 한곳에 모여요.
-3. 화면 하나씩 클래스를 바꿔요: 공통(토스트·팝업) → 홈 → 냉장고 → 레시피 → 장보기·가계부 → 아기 → 첫 화면.
+1. ✅ `index.html` `<head>`에 `tokens.css`, `components.css`, `<script src="/design-system/nk.js">`를 넣고, `service-worker.js`의 캐시 목록에도 추가해요.
+2. ✅ 지금 `:root` 변수(`--primary`, `--muted` 등)를 새 토큰을 가리키게 바꿔요. (예: `--primary: var(--nk-brand)`) 화면이 거의 그대로인 채로 값만 한곳에 모여요.
+3. 화면 하나씩 클래스를 바꿔요: 공통(토스트·✅ 팝업) → 홈 → 냉장고 → 레시피 → 장보기·가계부 → 아기 → 첫 화면.
 4. 하드코딩 색 18종, 인라인 `style` 137곳을 정리해요.
 5. 모든 화면이 옮겨진 뒤에 `<html data-theme="auto">`로 다크모드를 켜요. 그 전에 켜면 반쯤만 어두워져요. 그래서 지금은 `data-theme`이 `dark` 또는 `auto`일 때만 다크 값이 적용돼요.
