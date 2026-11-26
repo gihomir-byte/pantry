@@ -2730,7 +2730,7 @@ async function getInvite() {
     obInviteCache = data;
     return data;
   }
-  if (error && !isMissingFunction(error)) throw error;
+  if (error && !isMissingFunction(error)) console.warn("create_invite failed, using legacy code", error);
   const legacy = await sb.from('households').select('invite_code').eq('id', currentHouseholdId).single();
   if (legacy.error) throw legacy.error;
   obInviteCache = { code: legacy.data.invite_code, expires_at: null };
