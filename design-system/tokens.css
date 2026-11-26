@@ -1,0 +1,209 @@
+/* =========================================================
+   냉큼 디자인 토큰 (Design Tokens)
+   - 모든 화면은 이 값만 써요. 새 색·크기를 직접 적지 않아요.
+   - 이름은 모두 --nk- 로 시작해서 지금 index.html의 변수와 겹치지 않아요.
+   - 값을 정한 이유는 design-system/README.md에 있어요.
+   ========================================================= */
+
+:root {
+  /* ---------- 색: 브랜드 (민트 한 가지) ---------- */
+  --nk-brand: #087F6D;          /* 버튼, 링크, 선택된 것 */
+  --nk-brand-strong: #066A5B;   /* 누르는 순간 */
+  --nk-brand-soft: #E3F5F0;     /* 연한 배경 (선택된 칩, 안내 띠) */
+  --nk-brand-ink: #065F52;      /* 연한 배경 위 글자 (6.7:1) */
+  --nk-on-brand: #FFFFFF;       /* 브랜드 배경 위 글자 (4.9:1) */
+  --nk-logo: #12B89A;           /* 로고 전용. 글자·버튼에는 쓰지 않아요 (흰 글자 대비 2.5:1) */
+
+  /* ---------- 색: 회색 10단계 (살짝 민트 기운) ---------- */
+  --nk-gray-50:  #F4F7F6;  /* 회색 바탕 줄, 입력 비활성 바탕 */
+  --nk-gray-100: #EBF0EE;  /* 누른 바탕, 스켈레톤 */
+  --nk-gray-200: #E4EAE8;  /* 테두리, 구분선 */
+  --nk-gray-300: #CBD4D1;  /* 진한 테두리, 비활성 버튼 바탕 */
+  --nk-gray-400: #A3AEAB;  /* 장식 아이콘 (글자에 쓰지 않아요) */
+  --nk-gray-500: #7D8986;  /* 입력 예시 글자, 비활성 글자 (3.6:1) */
+  --nk-gray-600: #5F6B68;  /* 보조 글자 — 글자는 여기까지만 연하게 (흰 바탕 5.5:1, 회색 바탕 4.8:1 이상) */
+  --nk-gray-700: #46514E;
+  --nk-gray-800: #2C3634;
+  --nk-gray-900: #16201E;  /* 본문 글자. 순수 #000은 쓰지 않아요 */
+
+  /* ---------- 색: 의미 (성공은 브랜드와 같아요) ---------- */
+  --nk-success: var(--nk-brand);
+  --nk-success-soft: var(--nk-brand-soft);
+  --nk-success-ink: var(--nk-brand-ink);
+  --nk-warning: #C46A00;        /* 막대·아이콘용 진한 주황 (흰 바탕 3.9:1) */
+  --nk-warning-soft: #FFF4E0;
+  --nk-warning-ink: #9A5B00;    /* 연한 배경 위 글자 (5.0:1) */
+  --nk-danger: #D93A3F;         /* 아이콘·테두리 (4.5:1) */
+  --nk-danger-soft: #FFEDED;
+  --nk-danger-ink: #C5282F;     /* 글자 (흰 바탕 5.7:1, 연한 배경 5.0:1) */
+  --nk-info: #1F5FD1;
+  --nk-info-soft: #EAF1FF;
+  --nk-info-ink: #1F5FD1;       /* 연한 배경 위 글자 (5.1:1) */
+
+  /* ---------- 색: 역할 이름 (화면은 이 이름으로 써요) ---------- */
+  --nk-bg: #FFFFFF;             /* 화면 바탕 */
+  --nk-surface: #FFFFFF;        /* 카드·시트 바탕 */
+  --nk-surface-muted: var(--nk-gray-50);
+  --nk-surface-pressed: var(--nk-gray-100);
+  --nk-border: var(--nk-gray-200);
+  --nk-border-strong: var(--nk-gray-300);
+  --nk-text: var(--nk-gray-900);
+  --nk-text-secondary: var(--nk-gray-600);
+  --nk-text-disabled: var(--nk-gray-500);
+  --nk-icon-muted: var(--nk-gray-400);
+  --nk-overlay: rgba(14, 20, 18, .48);
+  --nk-toast-bg: var(--nk-gray-900);
+  --nk-toast-text: #FFFFFF;
+  --nk-toast-action: #8FF0DC;
+  --nk-focus: var(--nk-brand);
+
+  /* ---------- 간격: 4px 단위 8개만 ---------- */
+  --nk-space-4: 4px;
+  --nk-space-8: 8px;
+  --nk-space-12: 12px;
+  --nk-space-16: 16px;
+  --nk-space-20: 20px;
+  --nk-space-24: 24px;
+  --nk-space-32: 32px;
+  --nk-space-40: 40px;
+  --nk-gutter: var(--nk-space-16);   /* 모든 화면의 좌우 여백은 이것 하나 */
+  --nk-touch: 44px;                  /* 누를 수 있는 것의 최소 크기 */
+
+  /* ---------- 글자: 크기 5단계 + 숫자 전용 1개 ---------- */
+  --nk-font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", Roboto, sans-serif;
+  --nk-weight-regular: 400;
+  --nk-weight-medium: 600;
+  --nk-weight-bold: 700;
+
+  --nk-title-size: 22px;     --nk-title-line: 1.35;     --nk-title-weight: 700;     --nk-title-track: -0.4px;
+  --nk-subtitle-size: 17px;  --nk-subtitle-line: 1.4;   --nk-subtitle-weight: 700;  --nk-subtitle-track: -0.3px;
+  --nk-body-size: 15px;      --nk-body-line: 1.55;      --nk-body-weight: 400;      --nk-body-track: -0.2px;
+  --nk-secondary-size: 13px; --nk-secondary-line: 1.5;  --nk-secondary-weight: 400; --nk-secondary-track: -0.1px;
+  --nk-caption-size: 12px;   --nk-caption-line: 1.45;   --nk-caption-weight: 600;   --nk-caption-track: 0;
+  /* 예외 1: 금액·초대 번호·개수처럼 '숫자만' 크게 보여 줄 때 */
+  --nk-display-size: 28px;   --nk-display-line: 1.2;    --nk-display-weight: 700;   --nk-display-track: -0.6px;
+  /* 예외 2: 입력칸 글자. 16px보다 작으면 아이폰이 화면을 확대해요 */
+  --nk-input-size: 16px;
+
+  /* ---------- 둥글기 3단계 ---------- */
+  --nk-radius-s: 8px;    /* 버튼, 입력칸, 칩, 목록 줄 */
+  --nk-radius-m: 12px;   /* 카드 */
+  --nk-radius-l: 20px;   /* 아래에서 올라오는 시트, 큰 팝업 */
+  --nk-radius-full: 999px; /* 동그라미(아바타·점)는 '모양'이라 단계에 넣지 않아요 */
+
+  /* ---------- 그림자 2단계 ---------- */
+  --nk-shadow-1: 0 1px 3px rgba(16, 32, 30, .12);                                   /* 살짝 뜬 것: 선택된 분리 버튼 */
+  --nk-shadow-2: 0 8px 28px rgba(16, 32, 30, .16), 0 2px 6px rgba(16, 32, 30, .08); /* 위에 떠 있는 것: 시트, 토스트 */
+
+  /* ---------- 모션 ---------- */
+  --nk-duration-fast: 150ms;   /* 누름, 색 바뀜, 체크 */
+  --nk-duration-base: 250ms;   /* 시트·토스트 나타남, 화면 전환 */
+  --nk-ease: cubic-bezier(.2, 0, 0, 1);       /* 나타날 때 */
+  --nk-ease-exit: cubic-bezier(.4, 0, 1, 1);  /* 사라질 때 */
+
+  color-scheme: light;
+}
+
+/* ---------- 다크모드 값 ----------
+   지금 화면에는 아직 다크모드가 없어서, 실수로 반쯤 어두워지지 않게
+   <html data-theme="dark"> 이거나 <html data-theme="auto"> + 폰이 다크일 때만 켜져요. */
+:root[data-theme="dark"] {
+  --nk-brand: #2BC2A4;
+  --nk-brand-strong: #4FD3B8;
+  --nk-brand-soft: #123A32;
+  --nk-brand-ink: #7CE6CF;
+  --nk-on-brand: #06201B;
+  --nk-logo: #2BC2A4;
+
+  --nk-gray-50:  #1C2422;
+  --nk-gray-100: #232C2A;
+  --nk-gray-200: #2C3633;
+  --nk-gray-300: #3A4542;
+  --nk-gray-400: #56625F;
+  --nk-gray-500: #7F8B88;
+  --nk-gray-600: #A1ACA9;
+  --nk-gray-700: #C3CCC9;
+  --nk-gray-800: #DDE4E2;
+  --nk-gray-900: #EEF3F1;
+
+  --nk-warning: #E8A23C;
+  --nk-warning-soft: #3A2A0E;
+  --nk-warning-ink: #F4B860;
+  --nk-danger: #F0656A;
+  --nk-danger-soft: #3D1A1C;
+  --nk-danger-ink: #FF8A8E;
+  --nk-info: #8AB4FF;
+  --nk-info-soft: #16264A;
+  --nk-info-ink: #8AB4FF;
+
+  --nk-bg: #0E1412;
+  --nk-surface: #161D1B;
+  --nk-overlay: rgba(0, 0, 0, .6);
+  --nk-toast-bg: #EEF3F1;
+  --nk-toast-text: #16201E;
+  --nk-toast-action: #065F52;
+
+  --nk-shadow-1: 0 1px 3px rgba(0, 0, 0, .5);
+  --nk-shadow-2: 0 8px 28px rgba(0, 0, 0, .55), 0 2px 6px rgba(0, 0, 0, .4);
+
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="auto"] {
+    --nk-brand: #2BC2A4;
+    --nk-brand-strong: #4FD3B8;
+    --nk-brand-soft: #123A32;
+    --nk-brand-ink: #7CE6CF;
+    --nk-on-brand: #06201B;
+    --nk-logo: #2BC2A4;
+
+    --nk-gray-50:  #1C2422;
+    --nk-gray-100: #232C2A;
+    --nk-gray-200: #2C3633;
+    --nk-gray-300: #3A4542;
+    --nk-gray-400: #56625F;
+    --nk-gray-500: #7F8B88;
+    --nk-gray-600: #A1ACA9;
+    --nk-gray-700: #C3CCC9;
+    --nk-gray-800: #DDE4E2;
+    --nk-gray-900: #EEF3F1;
+
+    --nk-warning: #E8A23C;
+    --nk-warning-soft: #3A2A0E;
+    --nk-warning-ink: #F4B860;
+    --nk-danger: #F0656A;
+    --nk-danger-soft: #3D1A1C;
+    --nk-danger-ink: #FF8A8E;
+    --nk-info: #8AB4FF;
+    --nk-info-soft: #16264A;
+    --nk-info-ink: #8AB4FF;
+
+    --nk-bg: #0E1412;
+    --nk-surface: #161D1B;
+    --nk-overlay: rgba(0, 0, 0, .6);
+    --nk-toast-bg: #EEF3F1;
+    --nk-toast-text: #16201E;
+    --nk-toast-action: #065F52;
+
+    --nk-shadow-1: 0 1px 3px rgba(0, 0, 0, .5);
+    --nk-shadow-2: 0 8px 28px rgba(0, 0, 0, .55), 0 2px 6px rgba(0, 0, 0, .4);
+
+    color-scheme: dark;
+  }
+}
+
+/* 움직임 줄이기를 켠 사람에게는 모션을 끄고 바로 바뀌게 해요 */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --nk-duration-fast: 0ms;
+    --nk-duration-base: 0ms;
+  }
+}
+
+/* ---------- 글자 단계를 바로 쓰는 도우미 클래스 ---------- */
+.nk-title     { font-size: var(--nk-title-size);     line-height: var(--nk-title-line);     font-weight: var(--nk-title-weight);     letter-spacing: var(--nk-title-track); }
+.nk-subtitle  { font-size: var(--nk-subtitle-size);  line-height: var(--nk-subtitle-line);  font-weight: var(--nk-subtitle-weight);  letter-spacing: var(--nk-subtitle-track); }
+.nk-body      { font-size: var(--nk-body-size);      line-height: var(--nk-body-line);      font-weight: var(--nk-body-weight);      letter-spacing: var(--nk-body-track); }
+.nk-secondary { font-size: var(--nk-secondary-size); line-height: var(--nk-secondary-line); font-weight: var(--nk-secondary-weight); letter-spacing: var(--nk-secondary-track); color: var(--nk-text-secondary); }
+.nk-caption   { font-size: var(--nk-caption-size);   line-height: var(--nk-caption-line);   font-weight: var(--nk-caption-weight);   letter-spacing: var(--nk-caption-track); color: var(--nk-text-secondary); }
+.nk-display   { font-size: var(--nk-display-size);   line-height: var(--nk-display-line);   font-weight: var(--nk-display-weight);   letter-spacing: var(--nk-display-track); font-variant-numeric: tabular-nums; }

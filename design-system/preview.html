@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>냉큼 디자인 시스템</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  /* 이 미리보기 화면만을 위한 배치. 앱에는 들어가지 않아요. */
+  html, body { margin: 0; background: var(--nk-bg); }
+  .pv { max-width: 480px; margin: 0 auto; padding: var(--nk-space-24) var(--nk-gutter) 120px; }
+  .pv-top { position: sticky; top: 0; z-index: 5; background: var(--nk-bg); padding: var(--nk-space-12) 0; display: flex; align-items: center; justify-content: space-between; gap: var(--nk-space-8); border-bottom: 1px solid var(--nk-border); margin-bottom: var(--nk-space-24); }
+  .pv-seg { display: inline-grid; grid-auto-flow: column; gap: var(--nk-space-4); background: var(--nk-surface-muted); padding: var(--nk-space-4); border-radius: var(--nk-radius-s); }
+  .pv-seg button { min-height: 36px; padding: 0 var(--nk-space-12); border: 0; border-radius: 6px; background: transparent; color: var(--nk-text-secondary); font: inherit; font-size: var(--nk-secondary-size); font-weight: var(--nk-weight-medium); cursor: pointer; white-space: nowrap; }
+  .pv-seg button[aria-pressed="true"] { background: var(--nk-surface); color: var(--nk-text); box-shadow: var(--nk-shadow-1); }
+  .pv h2 { margin: var(--nk-space-40) 0 var(--nk-space-12); }
+  .pv h2:first-of-type { margin-top: 0; }
+  .pv-label { margin: var(--nk-space-20) 0 var(--nk-space-8); }
+  .pv-swatches { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--nk-space-8); }
+  .pv-sw { display: grid; gap: var(--nk-space-4); }
+  .pv-sw i { display: block; height: 40px; border-radius: var(--nk-radius-s); border: 1px solid var(--nk-border); }
+  .pv-stack { display: grid; gap: var(--nk-space-12); }
+  .pv-row { display: flex; flex-wrap: wrap; gap: var(--nk-space-8); align-items: center; }
+  .pv-space { display: grid; gap: var(--nk-space-8); }
+  .pv-space div { display: flex; align-items: center; gap: var(--nk-space-12); }
+  .pv-space b { display: block; height: 12px; background: var(--nk-brand); border-radius: 2px; }
+  .pv-box { height: 64px; display: grid; place-items: center; background: var(--nk-surface); border: 1px solid var(--nk-border); }
+  .pv-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--nk-space-12); }
+  .pv-type > div { padding: var(--nk-space-12) 0; border-bottom: 1px solid var(--nk-border); }
+  .pv-motion { width: 40px; height: 40px; border-radius: var(--nk-radius-s); background: var(--nk-brand); transition: transform var(--nk-duration-base) var(--nk-ease); }
+  .pv-motion.is-fast { transition-duration: var(--nk-duration-fast); }
+  .pv-motion.go { transform: translateX(120px); }
+</style>
+</head>
+<body class="nk-scope">
+<div class="pv">
+  <div class="pv-top">
+    <b class="nk-subtitle">냉큼 디자인 시스템</b>
+    <div class="pv-seg" role="group" aria-label="화면 밝기">
+      <button type="button" data-theme-btn="light" aria-pressed="true">밝게</button>
+      <button type="button" data-theme-btn="dark" aria-pressed="false">어둡게</button>
+      <button type="button" data-theme-btn="auto" aria-pressed="false">폰 설정</button>
+    </div>
+  </div>
+
+  <!-- ========== 토큰 ========== -->
+  <h2 class="nk-title">색</h2>
+  <p class="nk-caption pv-label">브랜드 (한 가지)</p>
+  <div class="pv-swatches" id="swBrand"></div>
+  <p class="nk-caption pv-label">회색 10단계 — 글자는 600보다 연하게 쓰지 않아요</p>
+  <div class="pv-swatches" id="swGray"></div>
+  <p class="nk-caption pv-label">의미 색 — 성공은 브랜드와 같아요</p>
+  <div class="pv-row">
+    <span class="nk-badge nk-badge--success">넉넉해요</span>
+    <span class="nk-badge nk-badge--warning">곧 먹어야 해요</span>
+    <span class="nk-badge nk-badge--danger">날짜가 지났어요</span>
+    <span class="nk-badge nk-badge--info">새로 들어왔어요</span>
+    <span class="nk-badge">다 썼어요</span>
+  </div>
+
+  <h2 class="nk-title">글자</h2>
+  <div class="pv-type">
+    <div><p class="nk-caption" style="margin:0">제목 · 22 / 1.35 / 700</p><p class="nk-title" style="margin:0">오늘 먼저 먹을 재료예요</p></div>
+    <div><p class="nk-caption" style="margin:0">부제목 · 17 / 1.4 / 700</p><p class="nk-subtitle" style="margin:0">곧 먹어야 할 재료</p></div>
+    <div><p class="nk-caption" style="margin:0">본문 · 15 / 1.55 / 400</p><p class="nk-body" style="margin:0">두부를 내일까지 먹으면 좋아요. 두부조림은 어때요? 두 줄이 넘어가도 줄 사이가 넉넉해서 편하게 읽혀요.</p></div>
+    <div><p class="nk-caption" style="margin:0">보조 · 13 / 1.5 / 400</p><p class="nk-secondary" style="margin:0">냉장 · 11월 28일까지</p></div>
+    <div><p class="nk-caption" style="margin:0">캡션 · 12 / 1.45 / 600</p><p class="nk-caption" style="margin:0">3일 전에 샀어요</p></div>
+    <div><p class="nk-caption" style="margin:0">숫자 전용 · 28 / 1.2 / 700</p><p class="nk-display" style="margin:0">132,400원</p></div>
+  </div>
+
+  <h2 class="nk-title">간격 · 둥글기 · 그림자 · 움직임</h2>
+  <div class="pv-space" id="spaceList"></div>
+  <p class="nk-caption pv-label">둥글기 3단계</p>
+  <div class="pv-grid2" style="grid-template-columns:repeat(3,1fr)">
+    <div class="pv-box nk-caption" style="border-radius:var(--nk-radius-s)">8 · 버튼</div>
+    <div class="pv-box nk-caption" style="border-radius:var(--nk-radius-m)">12 · 카드</div>
+    <div class="pv-box nk-caption" style="border-radius:var(--nk-radius-l)">20 · 시트</div>
+  </div>
+  <p class="nk-caption pv-label">그림자 2단계</p>
+  <div class="pv-grid2">
+    <div class="pv-box nk-caption" style="border:0;border-radius:var(--nk-radius-m);box-shadow:var(--nk-shadow-1)">1 · 살짝 뜬 것</div>
+    <div class="pv-box nk-caption" style="border:0;border-radius:var(--nk-radius-m);box-shadow:var(--nk-shadow-2)">2 · 위에 뜬 것</div>
+  </div>
+  <p class="nk-caption pv-label">움직임 150ms(누름) · 250ms(나타남)</p>
+  <div class="pv-row"><div class="pv-motion is-fast" id="mFast"></div></div>
+  <div class="pv-row" style="margin-top:var(--nk-space-8)"><div class="pv-motion" id="mBase"></div></div>
+  <button class="nk-btn nk-btn--text" type="button" onclick="mFast.classList.toggle('go');mBase.classList.toggle('go')">움직여 보기</button>
+
+  <!-- ========== 컴포넌트 ========== -->
+  <h2 class="nk-title">Button</h2>
+  <div class="pv-stack">
+    <button class="nk-btn nk-btn--primary nk-btn--block" type="button" onclick="demoSave(this)">저장하기 (눌러 보세요)</button>
+    <div class="nk-btn-row">
+      <button class="nk-btn nk-btn--secondary" type="button">취소</button>
+      <button class="nk-btn nk-btn--primary" type="button">냉장고에 넣기</button>
+    </div>
+    <div class="pv-row">
+      <button class="nk-btn nk-btn--secondary" type="button">장보기에 넣기</button>
+      <button class="nk-btn nk-btn--text" type="button">전체 보기</button>
+      <button class="nk-btn nk-btn--text nk-btn--danger" type="button">지우기</button>
+    </div>
+    <div class="pv-row">
+      <button class="nk-btn nk-btn--primary nk-btn--sm" type="button">찍기</button>
+      <button class="nk-btn nk-btn--secondary nk-btn--sm" type="button">확인하기</button>
+      <button class="nk-btn nk-btn--secondary nk-btn--sm nk-btn--danger" type="button">기록 지우기</button>
+    </div>
+    <div class="pv-row">
+      <button class="nk-btn nk-btn--primary" type="button" aria-busy="true">저장하기</button>
+      <button class="nk-btn nk-btn--primary" type="button" disabled>저장하기</button>
+      <button class="nk-btn nk-btn--text" type="button" disabled>전체 보기</button>
+    </div>
+  </div>
+
+  <h2 class="nk-title">TextField</h2>
+  <form class="nk-form" id="demoForm" novalidate onsubmit="event.preventDefault();demoSubmit(this)">
+    <div id="tf1"></div>
+    <div id="tf2"></div>
+    <div id="tf3"></div>
+    <button class="nk-btn nk-btn--primary nk-btn--block" type="submit">냉장고에 넣기</button>
+  </form>
+
+  <h2 class="nk-title">Card · ListItem</h2>
+  <div id="cardDemo"></div>
+
+  <h2 class="nk-title">Skeleton</h2>
+  <section class="nk-card nk-card--flush" id="skDemo"></section>
+
+  <h2 class="nk-title">EmptyState</h2>
+  <section class="nk-card" id="emptyDemo"></section>
+
+  <h2 class="nk-title">ErrorState</h2>
+  <section class="nk-card" id="errorDemo"></section>
+
+  <h2 class="nk-title">Toast</h2>
+  <div class="pv-row">
+    <button class="nk-btn nk-btn--secondary" type="button" onclick="nk.toast('두부를 냉장고에 넣었어요')">짧은 알림</button>
+    <button class="nk-btn nk-btn--secondary" type="button" onclick="nk.toast('우유를 지웠어요', {actionLabel:'되돌리기', onAction:()=>nk.toast('되돌렸어요')})">되돌리기 알림</button>
+  </div>
+</div>
+
+<script src="nk.js"></script>
+<script>
+  // 밝게 / 어둡게 / 폰 설정
+  document.querySelectorAll('[data-theme-btn]').forEach(b => b.addEventListener('click', () => {
+    document.documentElement.dataset.theme = b.dataset.themeBtn;
+    document.querySelectorAll('[data-theme-btn]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  }));
+
+  const sw = (name, v) => `<div class="pv-sw"><i style="background:var(${v})"></i><span class="nk-caption">${name}</span></div>`;
+  swBrand.innerHTML = [['brand','--nk-brand'],['strong','--nk-brand-strong'],['soft','--nk-brand-soft'],['ink','--nk-brand-ink'],['logo','--nk-logo']].map(([n,v])=>sw(n,v)).join('');
+  swGray.innerHTML = [50,100,200,300,400,500,600,700,800,900].map(n=>sw(n,`--nk-gray-${n}`)).join('');
+  spaceList.innerHTML = [4,8,12,16,20,24,32,40].map(n=>`<div><span class="nk-caption" style="width:32px">${n}</span><b style="width:${n*2}px"></b></div>`).join('');
+
+  tf1.outerHTML = nk.textField({ label: '재료 이름', id: 'fName', placeholder: '예: 두부', autocomplete: 'off' });
+  tf2.outerHTML = nk.textField({ label: '언제까지 먹어야 해요?', id: 'fDate', type: 'date', optional: true, help: '포장지에 적힌 날짜예요. 몰라도 괜찮아요.' });
+  tf3.outerHTML = nk.textField({ label: '가격', id: 'fPrice', inputmode: 'numeric', placeholder: '예: 3,500', optional: true });
+
+  function demoSubmit(form) {
+    const name = document.getElementById('fName');
+    if (!name.value.trim()) { nk.setFieldError(name, '재료 이름을 적어 주세요.'); name.focus(); return; }
+    nk.setFieldError(name, '');
+    demoSave(form.querySelector('button[type=submit]'));
+  }
+  function demoSave(btn) {
+    nk.withLoading(btn, () => new Promise(r => setTimeout(r, 1200))).then(() => nk.toast('냉장고에 넣었어요'));
+  }
+
+  cardDemo.innerHTML =
+    nk.card({ title: '곧 먹어야 할 재료', action: nk.button({ label: '전체 보기', variant: 'text' }), list:
+      nk.listItem({ lead: '🥬', title: '대파', desc: '냉장 · 내일까지', trail: '<span class="nk-badge nk-badge--warning">내일까지</span>', onClick: "nk.toast('대파를 열었어요')" }) +
+      nk.listItem({ lead: '🥚', title: '계란', desc: '냉장 · 12월 8일까지', trail: '<span class="nk-badge nk-badge--success">8개</span>', onClick: "nk.toast('계란을 열었어요')" }) +
+      nk.listItem({ lead: '🧈', title: '풀무원 국산콩 부침두부 300g 2입 기획 상품 이름이 아주 길 때', desc: '긴 이름은 두 줄까지만 보여요', chevron: true, onClick: "nk.toast('두부를 열었어요')" }) }) +
+    nk.card({ title: '우리 집 양념', desc: '한 번만 골라 두면 레시피에서 없는 양념을 알려 드려요.', action: nk.button({ label: '고르기', variant: 'secondary', size: 'sm' }) });
+
+  skDemo.innerHTML = nk.skeleton({ kind: 'list', rows: 3 });
+  emptyDemo.innerHTML = nk.emptyState({ icon: '🧊', title: '냉장고가 비어 있어요', desc: '영수증이나 장 본 재료를 찍으면 한 번에 넣을 수 있어요.', actionLabel: '사진으로 넣기', onAction: "nk.toast('카메라를 열어요')" });
+  errorDemo.innerHTML = nk.errorState({ title: '레시피를 불러오지 못했어요', desc: '인터넷 연결을 확인하고 다시 해 주세요.', onRetry: "nk.toast('다시 불러올게요')" });
+</script>
+</body>
+</html>
