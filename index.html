@@ -235,12 +235,13 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
     <div class="ob-top"><button class="ob-back" aria-label="뒤로" onclick="obGo('choose')"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><div class="ob-steps-dots"><i class="on"></i><i></i><i></i></div></div>
     <h2 class="ob-title">냉장고 이름을 지어 주세요</h2>
     <p class="ob-desc">가족이 들어올 때 이 이름이 보여요. 나중에 바꿀 수 있어요.</p>
-    <div class="field"><label for="obMyName">가족에게 보일 내 이름</label><input id="obMyName" maxlength="10" placeholder="예: 기호" oninput="obSyncFridgeName()"></div>
+    <div class="field"><label for="obMyName">가족에게 보일 내 이름</label><input id="obMyName" maxlength="10" placeholder="예: 민지, 엄마, 짝꿍" oninput="obSyncFridgeName()"></div>
     <div class="field" style="margin-top:14px"><label for="obFridgeName">냉장고 이름</label><input id="obFridgeName" maxlength="20" placeholder="우리 집 냉장고" oninput="obFridgeTouched=true"></div>
     <div class="ob-chips">
       <button type="button" class="ob-chip" onclick="obPickName(this)">우리 집 냉장고</button>
-      <button type="button" class="ob-chip" onclick="obPickName(this)">김치냉장고</button>
+      <button type="button" class="ob-chip" onclick="obPickName(this)">신혼집 냉장고</button>
       <button type="button" class="ob-chip" onclick="obPickName(this)">자취방 냉장고</button>
+      <button type="button" class="ob-chip" onclick="obPickName(this)">둘이 쓰는 냉장고</button>
     </div>
     <p class="ob-msg" id="obNameMsg"></p>
     <div class="ob-spacer"></div>
@@ -283,7 +284,7 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
     <h2 class="ob-title" id="obConfirmTitle">가족이 초대했어요</h2>
     <p class="ob-desc" id="obConfirmDesc">들어가면 가족과 같은 냉장고를 함께 봐요.</p>
     <div class="ob-fridge"><span class="ob-ico">🧊</span><span><b id="obConfirmFridge">가족 냉장고</b><small id="obConfirmMembers"></small></span></div>
-    <div class="field" style="margin-top:16px"><label for="obJoinName">가족에게 보일 내 이름</label><input id="obJoinName" maxlength="10" placeholder="예: 지은"></div>
+    <div class="field" style="margin-top:16px"><label for="obJoinName">가족에게 보일 내 이름</label><input id="obJoinName" maxlength="10" placeholder="예: 민지, 엄마, 짝꿍"></div>
     <div class="ob-note" id="obConfirmSwitch" style="display:none;margin-top:12px">지금 쓰는 냉장고 대신 이 냉장고를 보게 돼요. 지금 냉장고는 그대로 남아 있어요.</div>
     <p class="ob-msg" id="obConfirmMsg"></p>
     <div class="ob-spacer"></div>
@@ -429,7 +430,7 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
   </div>
   <div class="panel">
     <div class="panel-head"><h3>내 계정</h3></div>
-    <div class="field"><label for="myNameInput">가족에게 보일 내 이름</label><input id="myNameInput" maxlength="10" placeholder="예: 기호" onchange="saveMyName(this.value)"></div>
+    <div class="field"><label for="myNameInput">가족에게 보일 내 이름</label><input id="myNameInput" maxlength="10" placeholder="예: 민지, 엄마, 짝꿍" onchange="saveMyName(this.value)"></div>
     <p class="sub" id="myEmail" style="margin:10px 0 0"></p>
     <button class="btn small ghost" style="margin-top:12px" onclick="signOut()">로그아웃</button>
   </div>
