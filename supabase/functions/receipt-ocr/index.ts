@@ -84,6 +84,10 @@ C. photo: 사진에서 분명히 알아볼 수 있는 식재료만 넣습니다.
 15. 사진에 없는 상품이나 정보를 만들어내지 마세요.
 16. 식재료나 보관식품이 없다면 items를 빈 배열로 반환합니다.
 17. 상품별 결제 금액(원, 할인 반영 후)을 price에 숫자로 넣습니다. 알 수 없으면 0입니다.
+18. store에는 가게·쇼핑몰 이름(예: 이마트, 동네마트, 컬리)을 짧게 넣습니다. 모르면 빈 문자열입니다.
+19. total에는 영수증·주문서 맨 아래의 실제 결제 합계(원, 할인 반영 후, 식품이 아닌 물건도 포함)를 넣습니다.
+    휴지·세제처럼 items에서 뺀 물건 값도 total에는 들어갑니다. 배송비는 total에 포함합니다.
+    합계가 보이지 않거나 사진(photo)이면 0입니다.
 
 [반환 형식]
 
@@ -93,6 +97,8 @@ C. photo: 사진에서 분명히 알아볼 수 있는 식재료만 넣습니다.
 {
   "source": "receipt",
   "purchaseDate": "YYYY-MM-DD",
+  "store": "이마트",
+  "total": 32800,
   "items": [
     {
       "name": "고추장",
@@ -372,7 +378,17 @@ function normalize(parsed: any) {
     ? parsed.source
     : "receipt";
 
-  return { source, purchaseDate, items };
+  // 영수증 합계: 사진(photo)은 합계가 없어요. 재료값 합보다 작으면 잘못 읽은 것이라 버려요.
+  const itemSum = items.reduce((sum: number, it: any) => sum + it.price, 0);
+  let total = Number.isFinite(Number(parsed.total)) && Number(parsed.total) > 0
+    ? Math.round(Number(parsed.total))
+    : 0;
+  if (source === "photo" || total < itemSum || total > 10_000_000) total = 0;
+  const store = source !== "photo" && typeof parsed.store === "string"
+    ? parsed.store.trim().slice(0, 30)
+    : "";
+
+  return { source, purchaseDate, store, total, items };
 }
 
 export default {
