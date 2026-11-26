@@ -1101,7 +1101,7 @@ function clearLocalData(){
   inventory=[];shopping=[];mealPlan={};activity=[];household='우리 집 냉장고';family={members:[],tried:[]};
   // 다른 계정·다른 냉장고의 양념·단골·가계부가 새 냉장고에 남지 않도록 같이 비워요.
   favorites=[];cookStats={};pantry={setup:false, items:{}};ledger={purchases:[], stamps:[]};
-  ['ms_inventory','ms_shopping','ms_meal','ms_household','ms_owner','ms_activity','ms_family','ms_favorites','ms_cookstats','ms_pantry','ms_ledger'].forEach(k=>localStorage.removeItem(k));
+  ['ms_inventory','ms_shopping','ms_meal','ms_household','ms_owner','ms_hid','ms_activity','ms_family','ms_favorites','ms_cookstats','ms_pantry','ms_ledger'].forEach(k=>localStorage.removeItem(k));
   const nameInput=document.getElementById('householdName');
   if(nameInput) nameInput.value=household;
   renderAll();
@@ -2525,7 +2525,7 @@ const MISSION_CHECK = 3;
 function missionWho(){ return myName() || '나'; }
 function missionDay(date, who){ const m = ledger.missions || {}; return (m[date||datePlus(0)]||{})[who||missionWho()] || {}; }
 function missionCheckGoal(){ return Math.min(MISSION_CHECK, inventory.filter(x=>x.level>0).length); }
-function missionCount(e){ return ((e.check||0) >= missionCheckGoal() ? 1 : 0) + (e.meal ? 1 : 0) + (e.shop ? 1 : 0); }
+function missionCount(e){ const g = missionCheckGoal(); return (g > 0 && (e.check||0) >= g ? 1 : 0) + (e.meal ? 1 : 0) + (e.shop ? 1 : 0); }
 function missionDone(e){ return missionCount(e) >= 3; }
 function missionEdit(fn){
   const who = missionWho(), today = datePlus(0);
@@ -2583,13 +2583,14 @@ function renderMission(){
   if(!el) return;
   const e = missionDay(), h = missionHistory();
   const goal = missionCheckGoal(), checked = Math.min(e.check||0, MISSION_CHECK);
-  const checkDone = checked >= goal, left = 3 - missionCount(e);
+  // 냉장고가 비어 있으면 확인할 게 없으니 '완료'로 치지 않아요.
+  const checkDone = goal > 0 && checked >= goal, left = 3 - missionCount(e);
   const row = (ico, title, sub, done, btns) => `<div class="ms-row ${done?'done':''}"><div class="ms-ico">${done?'✓':ico}</div><div class="ms-txt"><b>${title}</b><small>${sub}</small></div>${done?'':`<div class="ms-btns ${btns.split('<button').length>2?'two':''}">${btns}</div>`}</div>`;
   const fam = Object.entries((ledger.missions||{})[datePlus(0)]||{}).filter(([k])=>k!==missionWho());
   el.innerHTML = `<div class="ms-head"><div><b>${left ? '오늘의 냉장고 미션' : '오늘 미션 끝! 🎉'}</b><small>${left ? `${left}개 남았어요 · 1분이면 끝나요` : '내일 또 만나요. 냉장고가 딱 맞게 정리됐어요'}</small></div>${h.streak ? `<span class="streak">🔥 ${h.streak}일 연속</span>` : ''}</div>
     ${missionWeekHtml(h)}
     <div class="ms-list">
-      ${row('🥬', goal ? `재료 ${goal}개 확인하기 <em>${checked}/${goal}</em>` : '재료 확인하기', goal ? (checkDone ? '냉장고가 실제와 맞아요' : '아직 있는지 하나씩 눌러 주세요') : '확인할 재료가 없어요', checkDone, `<button class="todo-btn" onclick="openQuickCheck()">확인</button>`)}
+      ${row('🥬', goal ? `재료 ${goal}개 확인하기 <em>${checked}/${goal}</em>` : '재료 확인하기', goal ? (checkDone ? '냉장고가 실제와 맞아요' : '아직 있는지 하나씩 눌러 주세요') : '재료를 넣으면 확인할 수 있어요', checkDone, goal ? `<button class="todo-btn" onclick="openQuickCheck()">확인</button>` : `<button class="todo-btn" onclick="navigate('storage');openIngredientModal()">재료 넣기</button>`)}
       ${row('🍳', '오늘 먹은 것 적기', e.meal==='cook' ? `${esc(e.mealName||'요리')} 만들었어요` : e.meal==='skip' ? '오늘은 요리 안 했어요' : '요리했으면 쓴 재료가 알아서 줄어요', !!e.meal,
         `<button class="todo-btn" onclick="missionCook()">요리했어요</button><button class="todo-btn ghost" onclick="missionSkip('meal')">안 했어요</button>`)}
       ${row('🧾', '장 봤으면 영수증 찍기', e.shop==='receipt' ? '도장을 받았어요' : e.shop==='skip' ? '오늘은 장 안 봤어요' : '가격이 가계부에 적히고 도장을 받아요', !!e.shop,
@@ -3797,6 +3798,13 @@ async function afterLogin(opts = {}) {
     const pref = localStorage.getItem(PREF_HOUSEHOLD_KEY);
     currentHouseholdId = ids.includes(pref) ? pref : ids[0];
     localStorage.setItem(PREF_HOUSEHOLD_KEY, currentHouseholdId);
+
+    // 냉장고마다 따로: 이 기기에 남은 데이터가 다른 냉장고 것이면 먼저 비워요.
+    if (localStorage.getItem('ms_hid') !== currentHouseholdId) {
+      clearLocalData();
+      localStorage.setItem('ms_owner', currentUser.id);
+      localStorage.setItem('ms_hid', currentHouseholdId);
+    }
 
     await pullCloudState();
     subscribeFamily();
