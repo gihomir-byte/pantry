@@ -30,87 +30,115 @@ function thinkingLevelFor(model: string): string | null {
 const REQUEST_TIMEOUT_MS = 45_000;
 
 const prompt = `
-당신은 가족 냉장고 앱의 식재료 등록 AI입니다.
+당신은 가족 냉장고 앱의 장보기 기록 AI입니다.
 
-첨부된 사진은 아래 셋 중 하나입니다. 먼저 어떤 사진인지 판단하고 식품 및 식재료 항목만 추출하세요.
+첨부된 사진은 아래 셋 중 하나입니다. 먼저 어떤 사진인지 판단하세요.
 - receipt: 마트·시장 종이 영수증
 - order: 컬리, B마트(배민), 쿠팡, SSG 같은 온라인 장보기 앱의 주문 상세 화면 캡처
 - photo: 장 본 재료나 냉장고 안을 찍은 실제 사진
 
-[사진 종류별 규칙]
+[1단계: 영수증 줄을 그대로 옮기기 (receipt, order)]
 
-A. receipt: 영수증에 인쇄된 상품명을 알아보기 쉽게 정리합니다.
-B. order: 화면에 보이는 상품명에서 브랜드·광고 문구·용량 표기는 줄이고 재료 이름이 드러나게 정리합니다.
-   예: "[KF365] 1+등급 무항생제 신선한 대란 20구" → 이름 "계란", 수량 20, 단위 "개"
-   주문 수량(예: 2개, 수량 2)은 qty에 반영합니다. 배송비, 쿠폰, 포장재, 합계 줄은 제외합니다.
-   취소·품절된 상품은 제외합니다. 주문일이나 배송완료일이 보이면 purchaseDate로 씁니다.
-   날짜에 연도가 없으면(예: 10.13(화)) 오늘 기준 가장 가까운 지난 날짜의 연도를 붙입니다.
-   상품명 아래 회색 글씨로 한 번 더 나오는 옵션명(예: "달보드레쌀 4kg (26년 햅쌀)")은 같은 상품이니 따로 넣지 않습니다.
-   "1.5KG+300G"처럼 덤이 붙은 묶음은 상품 하나(qty 1)로 넣습니다.
-   쌀, 장류, 청, 소스처럼 오래 두고 먹는 것도 식재료로 넣고, 보관 위치는 실온(개봉 후 냉장이 맞는 장류·소스는 냉장)으로 추천합니다.
-C. photo: 사진에서 분명히 알아볼 수 있는 식재료만 넣습니다. 확실하지 않은 것은 넣지 않습니다.
-   이름은 일반적인 재료 이름(예: 양파, 두부, 우유)으로 씁니다. 개수는 보이는 만큼 셉니다.
-   포장에 날짜가 또렷하게 인쇄되어 보이면 그 날짜를 expiry로 씁니다.
-   price는 0, purchaseDate는 빈 문자열로 둡니다.
+상품 줄마다 영수증에 적힌 그대로 읽습니다. 계산은 하지 마세요. 계산은 앱이 합니다.
+- original: 상품명 칸 글자 그대로 (앞의 *, # 같은 기호는 빼도 됩니다)
+- qty: 수량 칸 숫자
+- amount: 그 줄 오른쪽 끝 "금액" 칸 숫자 (단가가 아니라 금액. 단가 × 수량)
+- discount: 그 상품 바로 아래에 붙은 할인 줄들의 금액 합을 양수로.
+  할인 줄 모양: [L_할인] 40% -7,714 / [M+N] 1+1덤 -12,980 / [번들] 50% -2,700 /
+  행사할인, 쿠폰, 즉시할인, 카드할인(상품 바로 아래에 있을 때) 등. 없으면 0.
+  할인 줄은 절대 따로 상품으로 넣지 않습니다.
+- 영수증 맨 아래 쪽 "자사할인", "에누리", "단수할인", "할인 상세내역"은 이미 위 상품 할인 줄을
+  다시 모은 것이니 상품에 또 빼지 마세요.
 
-[공통 규칙]
+영수증 아래쪽 숫자:
+- total: 실제로 낸 돈. "결제금액", "받을금액", "청구액", "카드 승인금액", "총 결제금액" 중 하나.
+  "합계", "판매합계"는 할인 전 금액일 때가 많으니 결제금액이 따로 있으면 결제금액을 씁니다.
+  "면세 물품가액", "과세 물품가액", "부가세"는 total이 아닙니다.
+  보이지 않으면 0. 사진(photo)이면 0.
+- store: 가게·쇼핑몰 이름을 짧게 (예: 롯데마트, 이마트, 동네마트, 컬리). 모르면 빈 문자열.
+- purchaseDate: 영수증·주문 화면의 날짜. 날짜에 연도가 없으면(예: 10.13(화)) 오늘 기준 가장 가까운 지난 날짜의 연도.
 
-1. name은 브랜드·상품명이 아닌 요리할 때 부르는 일반 재료 이름으로 씁니다.
-   브랜드, 대괄호 [ ], 등급, 용량·중량, 개수, 원산지, 광고 문구는 모두 뺍니다.
-   예: 달보드레쌀 4kg → 쌀 / [청정원] 매실청 650g → 매실청 / [해찬들] 100% 태양초 우리쌀 고추장 → 고추장
-       [몬] 스위트 칠리소스 → 칠리소스 / 서울우유 1L → 우유 / 국산콩두부 300g → 두부 / 특란 15구 → 계란
-       한돈 앞다리살 600g → 돼지고기 앞다리살 / 무농약 시금치 → 시금치
-   요리에서 구분이 필요한 종류(앞다리살, 방울토마토, 다진마늘 등)는 남깁니다.
-   원래 상품명 전체는 original에 그대로 넣습니다.
-2. 식품 및 식재료가 아닌 상품은 제외합니다.
-3. 카페와 식당의 즉석 제조 메뉴는 제외합니다.
-   예: 아메리카노, 플랫화이트, 라떼, 에이드 등
-4. 우유, 원두, 커피 캡슐, 티백, 생수처럼
-   별도로 보관하거나 소비하는 제품은 포함합니다.
-5. 상품별 실제 구매 수량과 단위를 구분합니다.
-6. 묶음 상품은 가능한 경우 구성 수량을 반영합니다.
-7. 구매일은 영수증이나 주문 화면에 적힌 날짜를 사용합니다. 사진(photo)이면 빈 문자열입니다.
-8. 상품별 카테고리를 다음 중 하나로 분류합니다.
-   채소, 과일, 육류, 유제품, 기타
-9. 보관 위치를 다음 중 하나로 추천합니다.
-   냉장, 냉동, 실온, 김치냉장고
-10. 상품 특성과 추천 보관 위치를 고려해, 산 날부터 며칠 안에 먹으면 되는지를
-    shelfDays에 숫자(일)로 넣습니다. 예: 두부 5, 우유 10, 대파 10, 계란 30, 고추장 180, 쌀 365
-    날짜를 직접 계산하지 말고 일수만 넣으세요. 날짜 계산은 앱이 합니다.
-11. expiry는 포장에 인쇄된 날짜가 사진에 또렷하게 보일 때만 그 날짜를 넣고, 아니면 빈 문자열입니다.
-12. 추정이 매우 어려운 경우에만 shelfDays를 0으로 둡니다.
-13. 수량은 숫자로, 단위는 문자열로 반환합니다.
-14. 날짜 형식은 반드시 YYYY-MM-DD로 반환합니다.
-15. 사진에 없는 상품이나 정보를 만들어내지 마세요.
-16. 식재료나 보관식품이 없다면 items를 빈 배열로 반환합니다.
-17. 상품별 결제 금액(원, 할인 반영 후)을 price에 숫자로 넣습니다. 알 수 없으면 0입니다.
-18. store에는 가게·쇼핑몰 이름(예: 이마트, 동네마트, 컬리)을 짧게 넣습니다. 모르면 빈 문자열입니다.
-19. total에는 영수증·주문서 맨 아래의 실제 결제 합계(원, 할인 반영 후, 식품이 아닌 물건도 포함)를 넣습니다.
-    휴지·세제처럼 items에서 뺀 물건 값도 total에는 들어갑니다. 배송비는 total에 포함합니다.
-    합계가 보이지 않거나 사진(photo)이면 0입니다.
+[2단계: 넣을 것과 뺄 것]
+
+items에 넣는 것: 먹고 마시는 모든 것
+  채소·과일·고기·생선·유제품·계란·두부, 밥·면·빵, 장류·소스·양념, 과자·간식·견과,
+  음료·커피·우유·주스·생수, 술(맥주·소주·와인), 냉동식품, 즉석식품.
+items에서 빼는 것: 먹는 것이 아닌 물건
+  봉투(재사용봉투, 종량제봉투, 쇼핑백), 휴지, 세제, 주방용품, 생활용품, 배송비, 포장비.
+  뺀 물건은 others에 {"original": 상품명, "amount": 금액, "discount": 할인} 로 따로 적습니다.
+카페·식당의 즉석 메뉴(아메리카노, 라떼 등)는 넣지 않습니다.
+order 화면: 취소·품절 상품은 빼고, 상품명 아래 회색으로 한 번 더 나오는 옵션명은 같은 상품이라 따로 넣지 않습니다.
+  "1.5KG+300G"처럼 덤이 붙은 묶음은 상품 하나(qty 1)로 넣습니다.
+photo: 사진에서 분명히 알아볼 수 있는 식재료만 넣습니다. 개수는 보이는 만큼 셉니다.
+  amount, discount는 0, purchaseDate는 빈 문자열.
+
+[3단계: 이름 정리]
+
+name은 요리할 때 부르는 일반 이름으로 씁니다.
+- 브랜드, 대괄호 [ ], 원산지(미국산, 국내산), 등급, 용량·중량, 개수, 광고 문구는 뺍니다.
+- 영수증 상품명은 칸이 좁아 끝이 잘려 있습니다. 잘린 글자를 알맞게 채워 읽으세요.
+  예: "풀무원다논 그릭 무가" → 그릭요거트 / "서울우유 포리커피 컵" → 커피우유 /
+      "오뚜기 맛있는밥" → 즉석밥 / "크라운 참크래커 2번" → 크래커 / "사조 참치액" → 참치액 /
+      "미국산 돼지 삼겹살" → 삼겹살 / "아사히 수퍼드라이 생" → 맥주 / "삿포로 (캔)" → 맥주 /
+      "오리온 눈을감자" → 감자칩 / "달보드레쌀 4kg" → 쌀 / "[해찬들] 태양초 고추장" → 고추장 /
+      "서울우유 1L" → 우유 / "특란 15구" → 계란 / "한돈 앞다리살 600g" → 돼지고기 앞다리살
+- 요리에서 구분이 필요한 종류(앞다리살, 방울토마토, 다진마늘, 참송이버섯 등)는 남깁니다.
+- 영수증 글자로 무엇인지 도저히 알 수 없으면 original을 짧게 줄여 name으로 씁니다. 빼지 마세요.
+- 수량·단위: 영수증 수량 칸이 2면 qty 2. "15구"처럼 이름에 개수가 있으면 qty 15, unit "개".
+  1+1은 받은 개수(보통 2)를 qty로 씁니다.
+
+[4단계: 보관 정보]
+
+- category: 채소, 과일, 육류, 유제품, 기타 중 하나 (계란은 유제품, 생선·해산물은 육류, 과자·음료·술·장류는 기타)
+- location: 냉장, 냉동, 실온, 김치냉장고 중 하나
+- shelfDays: 산 날부터 며칠 안에 먹으면 되는지 숫자. 예: 두부 5, 우유 10, 대파 10, 계란 30, 고추장 180, 쌀 365, 과자 90, 맥주 365.
+  날짜를 직접 계산하지 마세요. 추정이 매우 어려우면 0.
+- expiry: 포장에 인쇄된 날짜가 또렷하게 보일 때만 YYYY-MM-DD, 아니면 빈 문자열.
+- emoji: 그 재료에 맞는 이모지 하나.
+
+[규칙]
+- 사진에 없는 상품이나 숫자를 만들어내지 마세요.
+- 숫자는 쉼표 없이 숫자로. 날짜는 YYYY-MM-DD.
+- 먹을 것이 하나도 없으면 items는 빈 배열.
 
 [반환 형식]
 
-반드시 아래 JSON 형식으로만 답변하세요.
-마크다운이나 별도 설명은 출력하지 마세요.
+마크다운이나 설명 없이 아래 JSON만 출력하세요. (예시 값은 형식 설명용입니다)
 
 {
   "source": "receipt",
-  "purchaseDate": "YYYY-MM-DD",
-  "store": "이마트",
-  "total": 32800,
+  "store": "롯데마트",
+  "purchaseDate": "2026-05-01",
+  "total": 100250,
+  "others": [
+    { "original": "재사용봉투(20L) 낱", "amount": 1740, "discount": 0 }
+  ],
   "items": [
     {
-      "name": "고추장",
-      "original": "[해찬들] 100% 태양초 우리쌀 고추장 1.5KG+300G",
-      "category": "채소",
+      "name": "삼겹살",
+      "original": "미국산 돼지 삼겹살",
+      "category": "육류",
       "location": "냉장",
       "qty": 1,
-      "unit": "개",
-      "shelfDays": 5,
+      "unit": "팩",
+      "amount": 19285,
+      "discount": 7714,
+      "shelfDays": 3,
       "expiry": "",
-      "emoji": "🥬",
-      "price": 3500
+      "emoji": "🥓"
+    },
+    {
+      "name": "참치액",
+      "original": "사조 참치액",
+      "category": "기타",
+      "location": "냉장",
+      "qty": 2,
+      "unit": "병",
+      "amount": 25960,
+      "discount": 12980,
+      "shelfDays": 180,
+      "expiry": "",
+      "emoji": "🫙"
     }
   ]
 }
@@ -339,6 +367,48 @@ function daysBetween(a: string, b: string): number {
   );
 }
 
+
+// "12,980" · "-7,714원" 같은 글자도 숫자로 읽어요 (음수는 0)
+function toWon(v: unknown): number {
+  const n = typeof v === "number" ? v : Number(String(v ?? "").replace(/[^0-9.-]/g, ""));
+  return Number.isFinite(n) && n > 0 ? Math.round(n) : 0;
+}
+
+// 할인 줄·먹는 것이 아닌 물건이 상품으로 들어오면 걸러요
+const DISCOUNT_LINE = /^\s*\[?\s*(L_?할인|M\s*\+\s*N|번들|행사|에누리|쿠폰|즉시할인|카드할인|할인)|1\+1\s*덤|^\s*-?\s*\d+\s*%\s*$/;
+const NOT_FOOD = /(재사용|종량제|비닐|쇼핑)\s*봉투|^봉투$|쇼핑백|배송비|포장비|휴지|물티슈|세제|키친타올|쿠킹호일|건전지/;
+
+// AI가 준 상품 줄을 정리하고 값(할인 뺀 금액)을 계산해요
+// 영수증 전체 금액(할인 전)과 할인 합도 같이 세어 둬요. 합계를 할인 전 숫자로 읽었을 때 바로잡는 데 써요.
+function cleanItems(raw: any[]): { items: any[]; gross: number; discounts: number } {
+  const out: any[] = [];
+  let gross = 0, discounts = 0;
+  for (const item of raw) {
+    if (!item || typeof item.name !== "string" || !item.name.trim()) continue;
+    const text = `${item.original || ""} ${item.name}`;
+    const amount = toWon(item.amount);
+    const signed = Number(String(item.amount ?? item.price ?? "").replace(/[^0-9.-]/g, ""));
+    // 할인 줄이 따로 들어오면 바로 앞 상품 값에서 빼요
+    if (DISCOUNT_LINE.test(item.original || "") || DISCOUNT_LINE.test(item.name) || signed < 0) {
+      const prev = out[out.length - 1];
+      const d = Math.abs(signed) || toWon(item.discount);
+      discounts += d;
+      if (prev) prev._discount += d;
+      continue;
+    }
+    gross += amount || toWon(item.price);
+    discounts += toWon(item.discount);
+    if (NOT_FOOD.test(text.replace(/\s+/g, " "))) continue;
+    out.push({ ...item, _amount: amount, _discount: toWon(item.discount), _legacyPrice: toWon(item.price) });
+  }
+  for (const it of out) {
+    // amount(할인 전)가 있으면 앱이 직접 빼고, 예전 형식(price만)이면 그대로 써요
+    const base = it._amount || it._legacyPrice;
+    it._price = Math.max(0, base - Math.min(it._discount, base));
+  }
+  return { items: out, gross, discounts };
+}
+
 const isDate = (v: unknown) => typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v);
 
 function normalize(parsed: any) {
@@ -348,8 +418,19 @@ function normalize(parsed: any) {
   const ago = daysBetween(purchaseDate, today);
   if (ago < 0 || ago > 365) purchaseDate = today;
 
-  const items = parsed.items
-    .filter((item: any) => typeof item?.name === "string" && item.name.trim())
+  const source = ["receipt", "order", "photo"].includes(parsed.source)
+    ? parsed.source
+    : "receipt";
+  const cleaned = cleanItems(Array.isArray(parsed.items) ? parsed.items : []);
+  // 먹는 것이 아닌 물건: 이름만 앱에 넘기고, 금액은 할인 전 합계 확인에 써요
+  const others: string[] = [];
+  for (const o of Array.isArray(parsed.others) ? parsed.others : []) {
+    const name = String(o?.original || o?.name || "").replace(/^[*#\s]+/, "").replace(/\(.*?\)|\s*낱$/g, "").trim();
+    if (name && others.length < 5 && !others.includes(name)) others.push(name.slice(0, 20));
+    cleaned.gross += toWon(o?.amount);
+    cleaned.discounts += toWon(o?.discount);
+  }
+  const items = cleaned.items
     .map((item: any) => ({
       name: item.name.trim().slice(0, 100),
       original: typeof item.original === "string" ? item.original.trim().slice(0, 150) : "",
@@ -369,26 +450,22 @@ function normalize(parsed: any) {
       emoji: typeof item.emoji === "string" && item.emoji
         ? item.emoji.slice(0, 8)
         : "🥬",
-      price: Number.isFinite(Number(item.price)) && Number(item.price) > 0
-        ? Math.round(Number(item.price))
-        : 0,
+      price: source === "photo" ? 0 : item._price,
     }));
 
-  const source = ["receipt", "order", "photo"].includes(parsed.source)
-    ? parsed.source
-    : "receipt";
-
-  // 영수증 합계: 사진(photo)은 합계가 없어요. 재료값 합보다 작으면 잘못 읽은 것이라 버려요.
+  // 영수증 합계: 사진(photo)은 합계가 없어요.
+  // 재료값 합보다 조금 작으면 앱이 "가격을 한 번 봐 주세요"라고 알려 주니 그대로 두고,
+  // 절반도 안 되면 잘못 읽은 숫자라 버려요.
   const itemSum = items.reduce((sum: number, it: any) => sum + it.price, 0);
-  let total = Number.isFinite(Number(parsed.total)) && Number(parsed.total) > 0
-    ? Math.round(Number(parsed.total))
-    : 0;
-  if (source === "photo" || total < itemSum || total > 10_000_000) total = 0;
+  let total = toWon(parsed.total);
+  // "합계"(할인 전)를 결제금액으로 잘못 읽었으면 할인만큼 빼요
+  if (cleaned.discounts > 0 && Math.abs(total - cleaned.gross) <= 10) total -= cleaned.discounts;
+  if (source === "photo" || total < itemSum * 0.5 || total > 10_000_000) total = 0;
   const store = source !== "photo" && typeof parsed.store === "string"
     ? parsed.store.trim().slice(0, 30)
     : "";
 
-  return { source, purchaseDate, store, total, items };
+  return { source, purchaseDate, store, total, others: source === "photo" ? [] : others, items };
 }
 
 export default {
