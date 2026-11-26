@@ -139,6 +139,7 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
 
 @media(min-width:760px){main{padding:28px}.dashboard-cols{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.dashboard-cols .panel{height:100%}.modal-backdrop{align-items:center}.modal{border-radius:var(--r-xl)}.recipe-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:430px){header{padding:12px 16px}main{padding:18px 16px}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:21px}.week{gap:4px}.day{padding:8px 2px;min-height:112px}.day .meal{font-size:10px}.day button{font-size:10px;padding:4px}.panel{padding:15px}.welcome h2{font-size:22px}}
+.mission-card{background:linear-gradient(180deg,var(--soft) 0,var(--surface) 75%)}.ms-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.ms-head b{display:block;font-size:16px}.ms-head small{display:block;color:var(--muted);font-size:12.5px;margin-top:3px}.ms-week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:12px 0 10px}.ms-day{display:flex;flex-direction:column;align-items:center;gap:3px}.ms-day span{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);background:var(--surface);display:grid;place-items:center;font-size:13px;font-weight:900;color:#fff}.ms-day small{font-size:11px;color:var(--muted)}.ms-day.on span{background:var(--primary);border-color:var(--primary);animation:stampin .35s ease-out}.ms-day.rest span{background:#EEF2F6;border-color:#EEF2F6;font-size:14px}.ms-day.today span{border:2px dashed var(--primary)}.ms-day.today small{color:var(--primary);font-weight:800}.ms-day.miss span{background:var(--surface-2)}.ms-list{display:grid;gap:6px}.ms-row{display:flex;align-items:center;gap:10px;padding:9px 10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-m);flex-wrap:wrap}.ms-row.done{background:var(--surface-2);border-color:transparent}.ms-row.done .ms-txt b{color:var(--muted);text-decoration:line-through}.ms-ico{width:34px;height:34px;flex-shrink:0;border-radius:var(--r-s);background:var(--surface-2);display:grid;place-items:center;font-size:18px}.ms-row.done .ms-ico{background:var(--primary);color:#fff;font-weight:900;font-size:16px}.ms-txt{flex:1;min-width:0}.ms-txt b{display:block;font-size:14px}.ms-txt b em{font-style:normal;color:var(--primary);font-size:12px;margin-left:4px}.ms-txt small{display:block;font-size:12px;color:var(--muted);margin-top:1px}.ms-btns{display:flex;gap:5px;flex-shrink:0}.ms-btns.two{width:100%;padding-left:44px}.ms-btns.two .todo-btn{flex:1}.ms-fam{font-size:12px;color:var(--muted);margin-top:10px;text-align:center}.ms-tip{font-size:12px;color:var(--muted);margin-top:8px;text-align:center}.qc{text-align:center}.qc-step{font-size:12px;font-weight:800;color:var(--primary)}.qc-ico{font-size:44px;margin:6px 0 2px}.qc h3{margin:0 0 4px}.qc .hint{margin:0 0 14px}.qc-btns{display:grid;gap:8px}.qc-btns .btn{width:100%}.qc-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.badge-row{grid-template-columns:repeat(4,1fr)!important;row-gap:12px}
 </style>
 </head>
 <body>
@@ -302,6 +303,7 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
 <main>
 <section class="page active" id="page-home">
   <div class="welcome"><div class="eyebrow" id="homeEyebrow">우리 집 냉장고</div><h2>오늘 먼저 먹을 건<br>무엇일까요?</h2><p>가지고 있는 재료를 확인하고 오늘의 식탁을 준비해 보세요.</p></div>
+  <div class="panel mission-card" id="homeMission"></div>
   <div class="grid stats">
     <div class="stat"><span class="label">전체 식재료</span><strong id="statTotal">0</strong><em>가지 보관 중</em></div>
     <div class="stat"><span class="label">소비기한 임박</span><strong id="statSoon">0</strong><em>3일 안에</em></div>
@@ -708,6 +710,7 @@ function answerStale(id, answer){
   const name = x.name;
   withUndo(()=>{
     logActivity('stale_answer', {item:name, answer});
+    missionTick(1);
     if(answer==='have'){ x.lastTouched = datePlus(0); }
     else setLevel(x, 0, answer==='discarded' ? 'discarded' : 'used');
   }, answer==='have' ? `${name} 아직 있다고 적었어요` : answer==='discarded' ? `${josa(name,'을/를')} 버렸다고 적었어요` : `${josa(name,'을/를')} 다 썼어요`);
@@ -750,8 +753,8 @@ function renderRoughHome(){
   if(!el) return;
   const st = stampState();
   const risk = streakAtRisk();
-  const askStamp = !!risk || st.daysSince===null || st.daysSince>=7;
-  const dot = document.getElementById('bellDot'); if(dot) dot.hidden = !risk;
+  const askStamp = !!risk; // 영수증 찍기는 '오늘의 냉장고 미션'에서 챙겨요
+  const dot = document.getElementById('bellDot'); if(dot) dot.hidden = !risk && !(new Date().getHours()>=19 && missionCount(missionDay())<3);
   if(!alerts.length && !stale.length && !askStamp && !dueToBuy().length){ el.innerHTML=''; el.style.display='none'; return; }
   el.style.display='';
   const short = a => a.kind==='low' ? ['거의 떨어졌어요', ''] :
@@ -764,7 +767,7 @@ function renderRoughHome(){
       : a.recipe ? `<button class="todo-btn" onclick="showRecipe('${a.recipe.id}')">레시피</button>` : `<button class="todo-btn" onclick="openItemDetail('${a.x.id}')">확인</button>`}</div>`; }).join('') +
     stale.map(x=>`<div class="todo-row wrap"><div class="todo-ico">${ingredientEmoji(x)}</div><div class="todo-txt"><b>${esc(x.name)} <span class="ask">아직 있나요?</span></b><small>${STALE_DAYS}일 넘게 확인하지 않았어요</small></div><div class="todo-ans"><button class="todo-btn" onclick="answerStale('${x.id}','have')">있어요</button><button class="todo-btn ghost" onclick="answerStale('${x.id}','used')">다 썼어요</button><button class="todo-btn ghost" onclick="answerStale('${x.id}','discarded')">버렸어요</button></div></div>`).join('') +
     dueToBuy().slice(0,2).map(c=>`<div class="todo-row"><div class="todo-ico">🛒</div><div class="todo-txt"><b>${esc(c.name)} <span class="warn">살 때 됐어요</span></b><small>보통 ${c.avg}일마다 사요 · 마지막 ${shortDate(c.last)}</small></div><button class="todo-btn" onclick="addDueToShopping('${esc(c.name)}')">장보기</button></div>`).join('') +
-    (!risk && askStamp ? `<div class="todo-row"><div class="todo-ico">🧾</div><div class="todo-txt"><b>장 봤으면 <span class="ask">영수증 찍기</span></b><small>${st.streak ? `🔥 ${st.streak}주 연속 · 지난번 가격과 비교해 드려요` : '가격이 적히고 지난번 가격과 비교해 드려요'}</small></div><button class="todo-btn" onclick="openReceiptPicker()">찍기</button></div>` : '') + '</div>';
+    '</div>';
 }
 
 function levelBar(level){
@@ -805,6 +808,7 @@ function cookAndDeduct(recipe, plan){
   logActivity('cook', {recipe:recipe.name, items:plan.length});
   const st = cookStats[recipe.name] || {n:0, last:''};
   cookStats[recipe.name] = {n:st.n+1, last:datePlus(0)};
+  missionMark('meal', 'cook', {mealName:recipe.name});
   return plan;
 }
 
@@ -1118,6 +1122,7 @@ function undoLast(){
   const s = JSON.parse(undoSnap); undoSnap = null;
   inventory = s.inventory; shopping = s.shopping; mealPlan = s.mealPlan; if(s.cookStats) cookStats = s.cookStats; if(s.pantry) pantry = s.pantry; if(s.ledger) ledger = s.ledger;
   activity = activity.slice(0, s.actLen);
+  missionCelePending = false;
   logActivity('undo', {});
   save(); renderAll(); closeModal();
   showToast('되돌렸어요');
@@ -1256,7 +1261,7 @@ function pickLevel(id, level, reason){
 function itemRow(x){ensureRough(x);return `<div class="food-row"><div class="food-icon">${ingredientEmoji(x)}</div><button class="food-info" onclick="openItemDetail('${x.id}')"><b>${esc(x.name)}${isImportant(x)?' <span title="중요 품목" style="color:var(--warning)">★</span>':''} ${expiryPill(x)}</b><small>${esc(x.location)}${x.expiry?' · '+expiryText(x):''}</small></button>${levelChip(x)}</div>`}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function renderHome(){
- normalizeInventory();renderRoughHome();
+ normalizeInventory();renderMission();renderRoughHome();
  document.getElementById('householdLabel').textContent=household;
  {const eb=document.getElementById('homeEyebrow');if(eb)eb.textContent=household;}
  document.getElementById('statTotal').textContent=inventory.length;
@@ -1275,7 +1280,8 @@ function renderStorage(){
  document.getElementById('storageList').innerHTML=arr.length?arr.map(itemRow).join(''):'<div class="empty"><b>등록된 식재료가 없어요</b>재료 등록 버튼으로 냉장고를 채워 보세요.</div>';
 }
 function openModal(content){stopCamera();document.getElementById('modalContent').innerHTML=content;document.getElementById('modalBackdrop').classList.add('show')}
-function closeModal(){stopCamera();document.getElementById('modalBackdrop').classList.remove('show')}
+function modalOpen(){return document.getElementById('modalBackdrop').classList.contains('show')}
+function closeModal(){stopCamera();document.getElementById('modalBackdrop').classList.remove('show');if(typeof missionCelePending!=='undefined'&&missionCelePending)setTimeout(()=>{if(!modalOpen())showMissionCele()},250)}
 function openIngredientModal(){
  openModal(`<h3>식재료 등록</h3>
  <button type="button" class="add-way" onclick="closeModal();openReceiptPicker()"><span class="add-way-ico">📷</span><span><b>사진으로 한 번에 넣기</b><small>영수증, 장 본 재료, 컬리, B마트, 주문 화면 모두 돼요.<br>여러 장도 가능해요</small></span><span class="add-way-go">›</span></button>
@@ -1772,6 +1778,7 @@ function saveReceiptItems(){
   newItems.forEach(it=>recordPurchase(it, 'photo'));
   const stampBefore = stampState();
   ledger.stamps.push({id:uid(), date:datePlus(0), by:myName()||'', items:newItems.length, priced:newItems.filter(it=>it.price>0).length});
+  missionMark('shop', 'receipt');
   // 간장·고추장 같은 양념은 냉장고 목록 대신 '우리 집 양념'에 있음으로
   const seasonItems = newItems.filter(it=>seasonKey(it.name));
   seasonItems.forEach(it=>setSeasoning(seasonKey(it.name),'have'));
@@ -2317,7 +2324,8 @@ const BADGES = [
   {k:'board',  ico:'🏅', name:'도장판 완성',    how:`한 달에 도장 ${STAMP_GOAL}개를 모으면 받아요`},
   {k:'ten',    ico:'🧾', name:'영수증 10장',     how:'영수증을 모두 10장 찍으면 받아요'},
   {k:'clean',  ico:'✨', name:'빈칸 없는 가계부', how:'한 달 동안 가격 모르는 기록 없이 5개 넘게 적으면 받아요'},
-  {k:'family', ico:'👨‍👩‍👧', name:'다 같이 찍기',  how:'가족 두 명 이상이 같은 달에 찍으면 받아요'}
+  {k:'family', ico:'👨‍👩‍👧', name:'다 같이 찍기',  how:'가족 두 명 이상이 같은 달에 찍으면 받아요'},
+  {k:'mission7',ico:'🗓️', name:'7일 연속 미션', how:'오늘의 냉장고 미션을 7일 이어서 하면 받아요'}
 ];
 const ymdLocal = dt => `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
 function weekKey(d){ const dt = new Date(d+'T00:00:00'); const day = (dt.getDay()+6)%7; dt.setDate(dt.getDate()-day); return ymdLocal(dt); }
@@ -2340,6 +2348,7 @@ function stampState(){
   if(stamps.length>=10) earned.add('ten');
   if(Object.entries(buysByMonth).some(([m,l])=>byMonth[m] && l.length>=5 && l.every(p=>p.price>0))) earned.add('clean');
   if(Object.values(famMonths).some(s=>s.size>=2)) earned.add('family');
+  if(ledger.missionBadge7 || missionHistory().best>=7) earned.add('mission7');
   const last = stamps.length ? stamps.map(s=>s.date).sort().pop() : null;
   return {total:stamps.length, month:byMonth[month]||0, byMonth, streak, best, earned, daysSince: last ? -(daysLeft(last)??0) : null};
 }
@@ -2354,6 +2363,8 @@ function streakRiskText(r){ return `🔥 ${r.streak}주 연속이 끊겨요`; }
 function bellClick(){
   const r = streakAtRisk();
   if(r){ showToast(`${streakRiskText(r)} · ${r.last?'오늘':'내일'}까지 영수증 한 장이면 이어져요`); return; }
+  const left = 3 - missionCount(missionDay());
+  if(left>0){ const h = missionHistory(); showToast(`오늘의 냉장고 미션 ${left}개 남았어요${h.streak?` · 🔥 ${h.streak}일 연속 이어 가기`:''}`); navigate('home'); return; }
   showToast('새로운 알림이 없어요');
 }
 // 앱을 열었을 때 한 주에 한 번, 휴대폰 알림으로도 알려요 (알림 허용한 경우)
@@ -2394,6 +2405,163 @@ function showStampCelebration(before, r){
     <div class="cele-mini">🧾 이번 달 영수증 ${st.month}장째${st.streak?` · 🔥 ${st.streak}주 연속`:''}</div>
     ${newBadges.map(b=>`<div class="cele-badge"><span>${b.ico}</span><div><b>새 배지: ${b.name}</b><small>${b.how.replace('받아요','받았어요')}</small></div></div>`).join('')}
     <div class="modal-actions"><button class="btn ghost" style="flex:1" onclick="closeModal();navigate('ledger')">가계부 보기</button><button class="btn" style="flex:1" onclick="closeModal()">좋아요</button></div>
+  </div>`);
+}
+// ===== 오늘의 냉장고 미션 (매일 1분) =====
+// ledger.missions[날짜][이름] = {check:확인한 재료 수, meal:'cook'|'skip', shop:'receipt'|'skip', mealName}
+const MISSION_CHECK = 3;
+function missionWho(){ return myName() || '나'; }
+function missionDay(date, who){ const m = ledger.missions || {}; return (m[date||datePlus(0)]||{})[who||missionWho()] || {}; }
+function missionCheckGoal(){ return Math.min(MISSION_CHECK, inventory.filter(x=>x.level>0).length); }
+function missionCount(e){ return ((e.check||0) >= missionCheckGoal() ? 1 : 0) + (e.meal ? 1 : 0) + (e.shop ? 1 : 0); }
+function missionDone(e){ return missionCount(e) >= 3; }
+function missionEdit(fn){
+  const who = missionWho(), today = datePlus(0);
+  ledger.missions = ledger.missions || {};
+  const day = ledger.missions[today] = ledger.missions[today] || {};
+  const before = missionDone(day[who]||{});
+  const e = day[who] = day[who] || {};
+  e.done = !!e.done; fn(e);
+  if(!before && missionDone(e)){ e.done = true; queueMissionCele(); }
+}
+function missionTick(n){ missionEdit(e=>{ e.check = (e.check||0) + (n||1); }); }
+function missionMark(k, v, extra){ missionEdit(e=>{ if(!e[k] || v!=='skip') e[k] = v; Object.assign(e, extra||{}); }); }
+// 미션을 끝낸 날: 저장할 때 done을 남겨 둬서 재료 수가 바뀌어도 그날 기록은 그대로예요.
+function missionDoneOn(date, who){ const e = missionDay(date, who); return !!e.done || (date===datePlus(0) && missionDone(e)); }
+// 연속 기록: 한 주(월~일)에 하루는 빠져도 앞뒤가 이어지면 '쉬는 날'로 넘어가요.
+function missionHistory(who){
+  who = who || missionWho();
+  const m = ledger.missions || {}, today = datePlus(0);
+  const doneDays = new Set(Object.keys(m).filter(d=>missionDoneOn(d, who)));
+  const rest = new Set(), restWeeks = new Set();
+  let run = 0, best = 0;
+  const first = [...doneDays].sort()[0];
+  if(first){
+    const d = new Date(first+'T00:00:00'), end = new Date(today+'T00:00:00');
+    while(d < end){ // 어제까지
+      const k = ymdLocal(d), nx = new Date(d); nx.setDate(nx.getDate()+1); const nk = ymdLocal(nx);
+      if(doneDays.has(k)){ run++; best = Math.max(best, run); }
+      else if(run>0 && !restWeeks.has(weekKey(k)) && (doneDays.has(nk) || nk===today)){ rest.add(k); restWeeks.add(weekKey(k)); }
+      else run = 0;
+      d.setDate(d.getDate()+1);
+    }
+  }
+  const todayDone = doneDays.has(today);
+  const streak = run + (todayDone ? 1 : 0);
+  best = Math.max(best, streak);
+  return {streak, best, rest, doneDays, todayDone, restLeft: !restWeeks.has(weekKey(today))};
+}
+function missionWeekHtml(h){
+  const today = datePlus(0), mon = new Date(weekKey(today)+'T00:00:00');
+  return `<div class="ms-week">${'월화수목금토일'.split('').map((nm,i)=>{
+    const d = new Date(mon); d.setDate(d.getDate()+i); const k = ymdLocal(d);
+    const cls = h.doneDays.has(k) ? 'on' : h.rest.has(k) ? 'rest' : k===today ? 'today' : k<today ? 'miss' : '';
+    return `<div class="ms-day ${cls}"><span>${h.doneDays.has(k)?'✓':h.rest.has(k)?'💤':''}</span><small>${nm}</small></div>`;
+  }).join('')}</div>`;
+}
+// 확인할 재료 고르기: 오래 안 본 것 → 날짜가 급한 것 순서
+function missionCheckItems(){
+  normalizeInventory();
+  return inventory.filter(x=>x.level>0).slice().sort((a,b)=>
+    String(a.lastTouched||'').localeCompare(String(b.lastTouched||'')) || (daysLeft(a.expiry)??999)-(daysLeft(b.expiry)??999)
+  ).slice(0, MISSION_CHECK);
+}
+function renderMission(){
+  const el = document.getElementById('homeMission');
+  if(!el) return;
+  const e = missionDay(), h = missionHistory();
+  const goal = missionCheckGoal(), checked = Math.min(e.check||0, MISSION_CHECK);
+  const checkDone = checked >= goal, left = 3 - missionCount(e);
+  const row = (ico, title, sub, done, btns) => `<div class="ms-row ${done?'done':''}"><div class="ms-ico">${done?'✓':ico}</div><div class="ms-txt"><b>${title}</b><small>${sub}</small></div>${done?'':`<div class="ms-btns ${btns.split('<button').length>2?'two':''}">${btns}</div>`}</div>`;
+  const fam = Object.entries((ledger.missions||{})[datePlus(0)]||{}).filter(([k])=>k!==missionWho());
+  el.innerHTML = `<div class="ms-head"><div><b>${left ? '오늘의 냉장고 미션' : '오늘 미션 끝! 🎉'}</b><small>${left ? `${left}개 남았어요 · 1분이면 끝나요` : '내일 또 만나요. 냉장고가 딱 맞게 정리됐어요'}</small></div>${h.streak ? `<span class="streak">🔥 ${h.streak}일 연속</span>` : ''}</div>
+    ${missionWeekHtml(h)}
+    <div class="ms-list">
+      ${row('🥬', goal ? `재료 ${goal}개 확인하기 <em>${checked}/${goal}</em>` : '재료 확인하기', goal ? (checkDone ? '냉장고가 실제와 맞아요' : '아직 있는지 하나씩 눌러 주세요') : '확인할 재료가 없어요', checkDone, `<button class="todo-btn" onclick="openQuickCheck()">확인</button>`)}
+      ${row('🍳', '오늘 먹은 것 적기', e.meal==='cook' ? `${esc(e.mealName||'요리')} 만들었어요` : e.meal==='skip' ? '오늘은 요리 안 했어요' : '요리했으면 쓴 재료가 알아서 줄어요', !!e.meal,
+        `<button class="todo-btn" onclick="missionCook()">요리했어요</button><button class="todo-btn ghost" onclick="missionSkip('meal')">안 했어요</button>`)}
+      ${row('🧾', '장 봤으면 영수증 찍기', e.shop==='receipt' ? '도장을 받았어요' : e.shop==='skip' ? '오늘은 장 안 봤어요' : '가격이 가계부에 적히고 도장을 받아요', !!e.shop,
+        `<button class="todo-btn" onclick="openReceiptPicker()">찍기</button><button class="todo-btn ghost" onclick="missionSkip('shop')">안 봤어요</button>`)}
+    </div>
+    ${fam.length ? `<div class="ms-fam">${fam.map(([k,v])=>`${esc(k)} ${missionDone(v)||v.done?'✓ 다 했어요':`${missionCount(v)}/3`}`).join(' · ')}</div>` : ''}
+    ${h.streak && h.restLeft && left ? '<div class="ms-tip">💤 이번 주 하루는 쉬어도 연속이 안 끊겨요</div>' : ''}`;
+}
+function missionSkip(k){
+  withUndo(()=>missionMark(k, 'skip'), k==='meal' ? '오늘은 요리 안 했다고 적었어요' : '오늘은 장 안 봤다고 적었어요');
+}
+function missionCook(){
+  const meal = mealPlan[datePlus(0)];
+  if(meal && !meal.done && recipes.some(r=>r.id===meal.recipeId)){ openCookConfirm(meal.recipeId); return; }
+  navigate('recipes');
+  showToast('만든 요리를 찾아 [이 요리 했어요]를 눌러 주세요');
+}
+// 재료 3개, 하나씩 "그대로예요 / 줄었어요 / 다 썼어요"
+let quickCheck = null;
+function openQuickCheck(){
+  const items = missionCheckItems();
+  if(!items.length){ showToast('냉장고에 확인할 재료가 없어요'); return; }
+  quickCheck = {ids: items.map(x=>x.id), i: 0};
+  showQuickCheck();
+}
+function showQuickCheck(){
+  const q = quickCheck; if(!q) return;
+  const x = inventory.find(a=>a.id===q.ids[q.i]);
+  if(!x){ nextQuickCheck(); return; }
+  const cnt = isCountable(x) && x.qty>=2;
+  openModal(`<div class="qc">
+    <div class="qc-step">${q.i+1} / ${q.ids.length}</div>
+    <div class="qc-ico">${ingredientEmoji(x)}</div>
+    <h3>${esc(x.name)}, 아직 있나요?</h3>
+    <p class="hint">지금 적힌 건 <b>${esc(amountLabel(x)[2])}</b></p>
+    <div class="qc-btns">
+      <button class="btn" onclick="answerQuickCheck('same')">네, 그대로예요</button>
+      <button class="btn secondary" onclick="answerQuickCheck('less')">${cnt ? `하나 썼어요 (${fmtNum(x.qty-1)}${esc(x.unit)} 남음)` : '좀 줄었어요'}</button>
+      <div class="qc-row"><button class="btn ghost" onclick="answerQuickCheck('used')">다 썼어요</button><button class="btn ghost" onclick="answerQuickCheck('discarded')">버렸어요</button></div>
+    </div>
+  </div>`);
+}
+function answerQuickCheck(ans){
+  const q = quickCheck; if(!q) return;
+  const x = inventory.find(a=>a.id===q.ids[q.i]);
+  if(x){
+    ensureRough(x);
+    if(ans==='same') x.lastTouched = datePlus(0);
+    else if(ans==='less'){
+      if(isCountable(x) && x.qty>=2 && x.initialQty>0){ const nq = Math.max(0, Math.round((x.qty-1)*10)/10); setLevel(x, nq/x.initialQty*100 || (nq>0?1:0), 'used'); if(nq>0) x.qty = nq; }
+      else setLevel(x, x.level>=60 ? 40 : x.level>=20 ? 10 : 0, 'used');
+    }
+    else setLevel(x, 0, ans);
+    logActivity('quick_check', {item:x.name, answer:ans});
+    missionTick(1);
+    save();
+  }
+  nextQuickCheck();
+}
+function nextQuickCheck(){
+  const q = quickCheck; if(!q) return;
+  q.i++;
+  if(q.i < q.ids.length){ showQuickCheck(); return; }
+  quickCheck = null;
+  closeModal(); renderAll();
+  if(!missionCelePending) showToast(`재료 ${q.ids.length}개 확인했어요`);
+}
+// 미션을 다 하면 축하 화면 (다른 창이 열려 있으면 닫힌 뒤에)
+let missionCelePending = false;
+function queueMissionCele(){ missionCelePending = true; setTimeout(()=>{ if(!document.getElementById('modalBackdrop').classList.contains('show')) showMissionCele(); }, 450); }
+function showMissionCele(){
+  if(!missionCelePending) return;
+  missionCelePending = false;
+  const h = missionHistory();
+  const badge = h.best>=7 && !(ledger.missionBadge7);
+  if(badge){ ledger.missionBadge7 = true; save(); }
+  openModal(`<div class="stamp-cele">
+    <div class="stamp-big">🔥<span>${h.streak}일</span></div>
+    <h3>오늘 미션 끝!</h3>
+    <p>${h.streak>1 ? `${h.streak}일 연속으로 냉장고를 챙겼어요` : '첫날이에요. 내일도 1분만 들러 주세요'}</p>
+    ${missionWeekHtml(h)}
+    ${badge ? `<div class="cele-badge"><span>🗓️</span><div><b>새 배지: 7일 연속 미션</b><small>일주일 내내 냉장고를 챙겼어요</small></div></div>` : ''}
+    <div class="cele-mini">${h.restLeft ? '💤 이번 주 하루는 쉬어도 연속이 안 끊겨요' : '💤 이번 주 쉬는 날은 이미 썼어요'}</div>
+    <div class="modal-actions"><button class="btn" style="flex:1" onclick="closeModal()">좋아요</button></div>
   </div>`);
 }
 // ===== 가계부 화면 =====
