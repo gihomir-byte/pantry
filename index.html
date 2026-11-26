@@ -3369,8 +3369,28 @@ async function createFamily() {
 function joinErrorText(error) {
   const m = (error && error.message) || '';
   if (/INVITE_EXPIRED|만료|expired/i.test(m)) return '초대장 기한(7일)이 지났어요. 가족에게 새 초대장을 부탁해 보세요.';
-  if (/INVITE_INVALID|올바르지|invalid|not found/i.test(m)) return '번호가 맞지 않아요. 카톡 메시지의 번호를 다시 확인해 주세요.';
-  return '들어가지 못했어요. 잠시 후 다시 해 주세요.';
+  if (/INVITE_INVALID|올바르지|invalid|not found|없는|찾을 수/i.test(m)) return '번호가 맞지 않아요. 카톡 메시지의 번호를 다시 확인해 주세요.';
+  if (/LOGIN_REQUIRED|JWT|not authenticated|로그인/i.test(m)) return '로그인이 풀렸어요. 다시 로그인한 뒤 들어가 주세요.';
+  // 원인을 알 수 있게 서버가 준 이유를 짧게 붙여요.
+  const why = [error && error.code, m].filter(Boolean).join(' ').slice(0, 80);
+  return '들어가지 못했어요. 잠시 후 다시 해 주세요.' + (why ? ` (${why})` : '');
+}
+
+// 이미 그 냉장고의 가족인데 다시 들어가려 한 경우
+function isAlreadyMember(error) {
+  const m = (error && error.message) || '';
+  return !!error && (error.code === '23505' || /already|이미|duplicate/i.test(m));
+}
+
+// 내가 이미 속한 냉장고 중 이 초대 번호의 냉장고 찾기 (예전 12자리 코드)
+async function findMyHouseholdByCode(code) {
+  try {
+    const { data, error } = await sb.from('households').select('id').eq('invite_code', code).maybeSingle();
+    if (error || !data) return null;
+    return data.id;
+  } catch (e) {
+    return null;
+  }
 }
 
 // ⑥ 가족 냉장고 들어가기
@@ -3382,12 +3402,14 @@ async function joinFamily() {
 
   const btn = document.getElementById('obJoinBtn');
   btn.disabled = true;
+  let joined = false;
   obMsg('obConfirmMsg', '들어가고 있어요…', false);
 
   try {
     await saveMyName(document.getElementById('obJoinName').value);
 
     let householdId = null;
+    joined = false;
     let res = { error: { code: 'PGRST202' } };
     if (code.length === 6) {
       res = await sb.rpc('join_with_invite', { p_code: code });
@@ -3395,9 +3417,16 @@ async function joinFamily() {
     if (res.error && isMissingFunction(res.error)) {
       res = await sb.rpc('join_household', { p_invite_code: code });
     }
-    if (res.error) throw res.error;
-    householdId = res.data;
+    if (res.error && isAlreadyMember(res.error)) {
+      // 이미 이 냉장고 가족이면 오류 대신 그 냉장고로 바로 보여줘요.
+      householdId = await findMyHouseholdByCode(code);
+      if (!householdId) throw res.error;
+    } else {
+      if (res.error) throw res.error;
+      householdId = res.data;
+    }
 
+    joined = true;
     localStorage.removeItem(INVITE_KEY);
     obPendingCode = '';
     if (householdId) localStorage.setItem(PREF_HOUSEHOLD_KEY, householdId);
@@ -3413,7 +3442,13 @@ async function joinFamily() {
     obGo('done', { joined: true });
 
   } catch (error) {
-    console.error(error);
+    console.error('joinFamily failed', error);
+    if (joined) {
+      // 들어가기는 됐고 화면 불러오기만 실패한 경우: 새로 불러오면 가족 냉장고가 보여요.
+      obMsg('obConfirmMsg', '들어왔어요. 화면을 새로 불러올게요…', false);
+      setTimeout(() => location.reload(), 800);
+      return;
+    }
     obMsg('obConfirmMsg', joinErrorText(error));
   } finally {
     btn.disabled = false;
