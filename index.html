@@ -139,6 +139,30 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
 
 @media(min-width:760px){main{padding:28px}.dashboard-cols{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.dashboard-cols .panel{height:100%}.modal-backdrop{align-items:center}.modal{border-radius:var(--r-xl)}.recipe-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:430px){header{padding:12px 16px}main{padding:18px 16px}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:21px}.week{gap:4px}.day{padding:8px 2px;min-height:112px}.day .meal{font-size:10px}.day button{font-size:10px;padding:4px}.panel{padding:15px}.welcome h2{font-size:22px}}
+
+/* 우리 가족 · 아기 */
+:root{--baby:#F26A2E;--baby-bg:#FFF1E8}
+.baby-ink{color:var(--baby)!important}
+.nav-btn.baby.active{color:var(--baby)}
+.fam-list{display:grid;gap:8px}
+.fam-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:1px solid var(--border);background:var(--surface);border-radius:var(--r-m);padding:11px 12px;color:var(--text);font:inherit}
+.fam-row b{display:block;font-size:15px}.fam-row small{font-size:12px;color:var(--muted)}
+.fam-av{width:36px;height:36px;border-radius:50%;background:var(--soft);color:var(--soft-ink);display:grid;place-items:center;font-weight:800;flex:none}
+.fam-av.baby{background:var(--baby-bg)}
+.fam-add{border:1.5px dashed var(--brand);background:transparent;color:var(--primary);border-radius:var(--r-m);padding:13px;font-weight:800;font-size:14px}
+.seg2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.seg2 button{border:1.5px solid var(--border);background:var(--surface);border-radius:var(--r-m);padding:12px;font-weight:800;font-size:15px;color:var(--muted)}.seg2 button.on{border-color:var(--brand);background:var(--soft);color:var(--primary)}
+.baby-card{background:var(--baby-bg);border-color:transparent}
+.btn.baby-btn{background:var(--baby)}.btn.baby-btn:hover{background:#DB5A22}
+.baby-rec{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:1px solid var(--border);background:var(--surface);border-radius:var(--r-m);padding:12px;margin-bottom:8px;font:inherit;color:var(--text)}
+.baby-rec.ready{background:var(--baby-bg);border-color:transparent}
+.baby-rec b{display:block;font-size:15px}.baby-rec small{font-size:12px;color:var(--muted)}
+.baby-emoji{font-size:24px;width:36px;text-align:center;flex:none;line-height:1.3}
+.tried-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}.tried-row b{font-size:14.5px}.tried-row small{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.chips.wrap{flex-wrap:wrap}
+.nav-btn[hidden]{display:none}
+.fam-row .grow,.baby-rec .grow,.tried-row .grow,.baby-nudge .grow{flex:1;min-width:0}
+.baby-nudge{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--baby-bg);border:0;border-radius:var(--r-l);padding:14px;margin-bottom:14px;font:inherit;color:var(--text)}
+.baby-nudge b{display:block;font-size:15px}.baby-nudge small{font-size:12.5px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -307,6 +331,7 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
     <div class="stat"><span class="label">소비기한 임박</span><strong id="statSoon">0</strong><em>3일 안에</em></div>
     <div class="stat"><span class="label">장보기</span><strong id="statShopping">0</strong><em>구매 예정</em></div>
   </div>
+  <div id="homeBabyNudge" hidden></div>
   <div class="panel" id="homeAlerts" style="display:none"></div>
   <div class="quick-actions">
     <button class="quick" onclick="openIngredientModal()"><b>＋</b><span>재료 등록</span></button>
@@ -385,6 +410,8 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
   <div id="ledgerBody"></div>
 </section>
 
+<section class="page" id="page-baby"><div id="babyContent"></div></section>
+
 <section class="page" id="page-more">
   <div class="welcome"><div class="eyebrow">내 정보</div><h2>내 정보</h2><p>가족 냉장고와 앱 설정을 바꿀 수 있어요.</p></div>
   <div class="panel">
@@ -392,6 +419,11 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
     <div class="field"><label for="householdName">냉장고 이름</label><input id="householdName" value="우리 집 냉장고" maxlength="20" onchange="saveHouseholdName()"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px"><button class="btn" onclick="openInviteFromMenu()">가족 초대하기</button><button class="btn ghost" onclick="openCodeFromMenu()">초대 번호 넣기</button></div>
     <p class="sub" id="familyMessage" style="line-height:1.6;margin:12px 0 0"></p>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h3>우리 가족</h3></div>
+    <p class="sub" style="margin:-6px 0 12px;line-height:1.55">이유식 먹는 아기가 있으면 넣어 주세요. 아직 안 태어났으면 예정일만 넣어도 돼요.</p>
+    <div id="familyList" class="fam-list"></div>
   </div>
   <div class="panel">
     <div class="panel-head"><h3>내 계정</h3></div>
@@ -410,6 +442,7 @@ footer{text-align:center;color:var(--faint);font-size:11px;padding:15px 20px 25p
 <button class="nav-btn active" data-page="home" onclick="navigate('home')"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M4 10.5L12 4l8 6.5V20H4z"/><path d="M10 20v-5h4v5"/></svg>홈</button>
 <button class="nav-btn" data-page="storage" onclick="navigate('storage')"><svg class="svg-ico" viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 9.5h12M9.5 5.5v1.5M9.5 12.5v3"/></svg>냉장고</button>
 <button class="nav-btn" data-page="recipes" onclick="navigate('recipes')"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M4 11h16a8 8 0 01-16 0z"/><path d="M9 7.5c0-1.5 1-1.5 1-3M14 7.5c0-1.5 1-1.5 1-3"/></svg>레시피</button>
+<button class="nav-btn baby" data-page="baby" id="navBaby" hidden onclick="navigate('baby')"><svg class="svg-ico" viewBox="0 0 24 24"><circle cx="12" cy="11" r="7"/><path d="M9.5 10.5h.01M14.5 10.5h.01M10 14c1.2 1 2.8 1 4 0"/><path d="M12 4c-1 0-1.5-1-1-1.8"/></svg>아기</button>
 <button class="nav-btn" data-page="shopping" onclick="navigate('shopping')"><svg class="svg-ico" viewBox="0 0 24 24"><path d="M3.5 4.5h2.5l2 11h10l2-8H7"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>장보기</button>
 </div></nav>
 
@@ -1060,14 +1093,14 @@ function guessCategory(name){
 
 // 새 사용자는 빈 저장고로 시작합니다. (샘플 데이터 없음)
 function load(){
- try{inventory=JSON.parse(localStorage.getItem('ms_inventory'))||[];shopping=JSON.parse(localStorage.getItem('ms_shopping'))||[];mealPlan=JSON.parse(localStorage.getItem('ms_meal'))||{};household=localStorage.getItem('ms_household')||'우리 집 냉장고';activity=JSON.parse(localStorage.getItem('ms_activity'))||[];favorites=JSON.parse(localStorage.getItem('ms_favorites'))||[];cookStats=JSON.parse(localStorage.getItem('ms_cookstats'))||{};pantry=JSON.parse(localStorage.getItem('ms_pantry'))||pantry;migratePantry();ledger=JSON.parse(localStorage.getItem('ms_ledger'))||ledger;seedLedger();seedCookStats()}
+ try{inventory=JSON.parse(localStorage.getItem('ms_inventory'))||[];shopping=JSON.parse(localStorage.getItem('ms_shopping'))||[];mealPlan=JSON.parse(localStorage.getItem('ms_meal'))||{};household=localStorage.getItem('ms_household')||'우리 집 냉장고';activity=JSON.parse(localStorage.getItem('ms_activity'))||[];favorites=JSON.parse(localStorage.getItem('ms_favorites'))||[];cookStats=JSON.parse(localStorage.getItem('ms_cookstats'))||{};pantry=JSON.parse(localStorage.getItem('ms_pantry'))||pantry;migratePantry();ledger=JSON.parse(localStorage.getItem('ms_ledger'))||ledger;seedLedger();seedCookStats();family=JSON.parse(localStorage.getItem('ms_family'))||family;normFamily()}
  catch(e){inventory=[];shopping=[];mealPlan={}}
 }
 
 // 이 기기에 남아 있는 이전 사용자의 데이터를 지웁니다.
 function clearLocalData(){
-  inventory=[];shopping=[];mealPlan={};activity=[];household='우리 집 냉장고';
-  ['ms_inventory','ms_shopping','ms_meal','ms_household','ms_owner','ms_activity'].forEach(k=>localStorage.removeItem(k));
+  inventory=[];shopping=[];mealPlan={};activity=[];household='우리 집 냉장고';family={members:[],tried:[]};
+  ['ms_inventory','ms_shopping','ms_meal','ms_household','ms_owner','ms_activity','ms_family'].forEach(k=>localStorage.removeItem(k));
   const nameInput=document.getElementById('householdName');
   if(nameInput) nameInput.value=household;
   renderAll();
@@ -1082,6 +1115,7 @@ function save(){
   localStorage.setItem('ms_cookstats', JSON.stringify(cookStats));
   localStorage.setItem('ms_pantry', JSON.stringify(pantry));
   localStorage.setItem('ms_ledger', JSON.stringify(ledger));
+  localStorage.setItem('ms_family', JSON.stringify(family));
 
   if (typeof queueCloudSave === 'function') {
     queueCloudSave();
@@ -1090,7 +1124,7 @@ function save(){
   
 function daysLeft(date){if(!date)return null;return Math.ceil((new Date(date+'T00:00:00')-today)/86400000)}
 function expiryStatus(item){let d=daysLeft(item.expiry);if(d===null)return ['날짜 미등록','gray'];if(d<0)return ['기한 지남','danger'];if(d===0)return ['오늘까지','danger'];if(d<=3)return ['임박','danger'];if(d<=7)return ['이번 주','warn'];return ['여유','good']}
-function navigate(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===(page==='meal'?'recipes':page==='ledger'?'shopping':page)));if(page==='home')renderHome();if(page==='storage')renderStorage();if(page==='recipes')renderRecipes();if(page==='meal')renderMeal();if(page==='shopping')renderShopping();if(page==='ledger')renderLedger();window.scrollTo({top:0,behavior:'smooth'})}
+function navigate(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===(page==='meal'?'recipes':page==='ledger'?'shopping':page)));if(page==='home')renderHome();if(page==='storage')renderStorage();if(page==='recipes')renderRecipes();if(page==='meal')renderMeal();if(page==='shopping')renderShopping();if(page==='ledger')renderLedger();if(page==='baby')renderBaby();if(page==='more')renderFamily();window.scrollTo({top:0,behavior:'smooth'})}
 // 알림 한 줄. undo:true면 5초 동안 [되돌리기] 버튼이 붙어요.
 let toastTimer = null, undoSnap = null;
 function showToast(msg, opt){
@@ -2540,7 +2574,345 @@ function toggleShopping(id,v){
 function removeShopping(id){shopping=shopping.filter(x=>x.id!==id);save();renderShopping();renderHome()}
 function addShortages(){let used=new Set();let count=0;getWeekDates().forEach(d=>{let m=mealPlan[d],r=m&&recipes.find(x=>x.id===m.recipeId);if(!r)return;r.ingredients.forEach(([n,q,u])=>{let have=inventory.filter(x=>sameIngredient(x.name,n)).reduce((s,x)=>s+x.qty,0);if(have<(q||1)&&!used.has(n)){used.add(n);if(!shopping.some(x=>x.name===n&&!x.checked)){shopping.push({id:uid(),name:n,qty:q?`${Math.max(0,q-have)}${u}`:'',checked:false});count++}}})});save();renderShopping();renderHome();showToast(count?`${count}개 부족 재료를 추가했어요`:'추가할 부족 재료가 없어요')}
 function resetDemo(){if(!confirm('샘플 데이터로 초기화할까요? 현재 브라우저에 저장된 변경 내용은 사라집니다.'))return;inventory=structuredClone(seedInventory);shopping=[];mealPlan={};save();renderAll();showToast('샘플 데이터를 초기화했어요')}
-function renderAll(){normalizeInventory();renderHome();renderStorage();renderPantry();renderRecipes();renderMeal();renderShopping();renderLedger()}
+// ===== 우리 가족 · 아기 이유식 =====
+// 가족 구성원은 앱 사용자와 따로예요. 폰이 없는 아기·부모님도 넣을 수 있어요.
+// family = { members:[{id,name,kind:'adult'|'baby',birth?,due?}], tried:[{id,baby,name,date,reaction:'ok'|'bad'}] }
+let family = {members:[], tried:[]};
+function normFamily(){
+  if(!family || typeof family!=='object') family = {};
+  if(!Array.isArray(family.members)) family.members = [];
+  if(!Array.isArray(family.tried)) family.tried = [];
+}
+const babies = () => family.members.filter(m=>m.kind==='baby');
+const hasBaby = () => babies().length>0;
+let currentBabyId = null;
+function currentBaby(){ const b = babies(); return b.find(x=>x.id===currentBabyId) || b[0] || null; }
+
+// 생후 일수·개월
+function babyDays(b){ return b.birth ? Math.floor((today - new Date(b.birth+'T00:00:00'))/86400000) : null; }
+function babyMonths(b){
+  if(!b.birth) return null;
+  const d = new Date(b.birth+'T00:00:00');
+  let m = (today.getFullYear()-d.getFullYear())*12 + (today.getMonth()-d.getMonth());
+  if(today.getDate() < d.getDate()) m--;
+  return Math.max(0,m);
+}
+// 0: 아직 이유식 전, 1 초기(4~6개월), 2 중기(7~8), 3 후기(9~11), 4 완료기(12개월~)
+const BABY_STAGES = [
+  {n:0, name:'이유식 전', tip:'이유식은 보통 생후 4~6개월에 시작해요.'},
+  {n:1, name:'초기 이유식', tip:'곱게 간 미음으로 시작해요. 쌀 1 : 물 10 정도로 묽게요.'},
+  {n:2, name:'중기 이유식', tip:'알갱이가 조금 있는 죽이에요. 쌀 1 : 물 6 정도예요.'},
+  {n:3, name:'후기 이유식', tip:'무른 진밥이에요. 손으로 집어 먹는 연습도 시작해요.'},
+  {n:4, name:'완료기 이유식', tip:'어른 밥보다 무르고 싱겁게요. 간은 거의 안 해요.'}
+];
+function babyStage(b){
+  const m = babyMonths(b);
+  if(m===null) return 0;
+  if(m<4) return 0; if(m<7) return 1; if(m<9) return 2; if(m<12) return 3; return 4;
+}
+const STAGE_START = [0,4,7,9,12];
+function ageText(b){
+  if(!b.birth){
+    const d = b.due ? daysLeft(b.due) : null;
+    return d===null ? '곧 태어나요' : d>0 ? `곧 태어나요 · 예정일까지 ${d}일` : d===0 ? '오늘이 예정일이에요' : '예정일이 지났어요';
+  }
+  const m = babyMonths(b), d = babyDays(b);
+  if(d < 0) return '태어날 날이 아직 안 됐어요';
+  if(m < 1) return `태어난 지 ${d+1}일`;
+  const bd = new Date(b.birth+'T00:00:00'); const anchor = new Date(bd); anchor.setMonth(bd.getMonth()+m);
+  const rest = Math.round((today-anchor)/86400000);
+  return `태어난 지 ${m}개월${rest?` ${rest}일`:''}`;
+}
+// 다음 단계까지
+function nextStageText(b){
+  const s = babyStage(b); if(!b.birth || s>=4) return '';
+  const bd = new Date(b.birth+'T00:00:00'); const at = new Date(bd); at.setMonth(bd.getMonth()+STAGE_START[s+1]);
+  const d = Math.round((at-today)/86400000);
+  const nm = BABY_STAGES[s+1].name.replace(' 이유식','');
+  if(s===0) return d<=0 ? '' : `이유식 시작까지 ${d}일`;
+  return d<=31 ? `${d}일 뒤부터 ${nm}예요` : '';
+}
+
+// 알레르기가 잘 나는 재료
+const BABY_ALLERGENS = ['계란','달걀노른자','우유','아기치즈','치즈','요거트','밀가루','두부','연두부','새우','땅콩','고등어','복숭아','토마토','호두','대두'];
+function isAllergen(name){ return BABY_ALLERGENS.some(a=>sameIngredient(a,name)); }
+// 집에 늘 있다고 보는 기본 재료
+const BABY_STAPLES = ['쌀','물','찹쌀'];
+const isStaple = n => BABY_STAPLES.includes(n);
+const WATCH_DAYS = 3;
+
+// 단계별 기본 이유식 (st: 시작 단계)
+const BABY_RECIPES = [
+  // 초기: 미음
+  {id:'b01',st:1,emoji:'🍚',name:'쌀미음',ing:['쌀'],steps:['쌀을 30분 불려서 곱게 갈아요.','쌀 1 : 물 10으로 냄비에 넣고 약한 불에서 저으며 끓여요.','체에 한 번 걸러 따뜻하게 식혀 줘요.']},
+  {id:'b02',st:1,emoji:'🥒',name:'애호박미음',ing:['쌀','애호박'],steps:['애호박 껍질과 씨를 빼고 쪄서 곱게 갈아요.','쌀미음을 끓이다 애호박을 넣고 한 번 더 끓여요.','체에 걸러 식혀 줘요.']},
+  {id:'b03',st:1,emoji:'🥔',name:'감자미음',ing:['쌀','감자'],steps:['감자 껍질을 벗기고 쪄서 곱게 으깨요.','쌀미음에 감자를 넣고 저으며 끓여요.','체에 걸러 식혀 줘요.']},
+  {id:'b04',st:1,emoji:'🍠',name:'고구마미음',ing:['쌀','고구마'],steps:['고구마를 쪄서 껍질을 벗기고 곱게 으깨요.','쌀미음에 고구마를 넣고 저으며 끓여요.','체에 걸러 식혀 줘요.']},
+  {id:'b05',st:1,emoji:'🥦',name:'브로콜리미음',ing:['쌀','브로콜리'],steps:['브로콜리 꽃 부분만 데쳐서 곱게 갈아요.','쌀미음에 넣고 한 번 더 끓여요.','체에 걸러 식혀 줘요.']},
+  {id:'b06',st:1,emoji:'🎃',name:'단호박미음',ing:['쌀','단호박'],steps:['단호박을 쪄서 껍질과 씨를 빼고 으깨요.','쌀미음에 넣고 저으며 끓여요.','체에 걸러 식혀 줘요.']},
+  {id:'b07',st:1,emoji:'🥬',name:'양배추미음',ing:['쌀','양배추'],steps:['양배추 잎만 데쳐서 곱게 갈아요.','쌀미음에 넣고 한 번 더 끓여요.','체에 걸러 식혀 줘요.']},
+  {id:'b08',st:1,emoji:'🥩',name:'소고기미음',ing:['쌀','소고기'],steps:['소고기 안심을 찬물에 담가 핏물을 빼요.','삶아서 곱게 다지고, 삶은 물은 육수로 써요.','쌀미음에 소고기와 육수를 넣고 끓여 체에 걸러요.']},
+  {id:'b09',st:1,emoji:'🥬',name:'청경채미음',ing:['쌀','청경채'],steps:['청경채 잎만 데쳐서 곱게 갈아요.','쌀미음에 넣고 한 번 더 끓여요.','체에 걸러 식혀 줘요.']},
+  // 중기: 죽
+  {id:'b11',st:2,emoji:'🥣',name:'소고기 애호박죽',ing:['쌀','소고기','애호박'],steps:['불린 쌀을 반쯤 갈아요.','소고기는 삶아 다지고, 애호박은 잘게 다져요.','쌀 1 : 물 6으로 끓이다 재료를 넣고 저으며 푹 끓여요.']},
+  {id:'b12',st:2,emoji:'🥣',name:'소고기 브로콜리죽',ing:['쌀','소고기','브로콜리'],steps:['소고기는 삶아 다지고, 브로콜리 꽃은 데쳐 다져요.','불린 쌀과 육수를 넣고 끓여요.','재료를 넣고 쌀이 퍼질 때까지 저어요.']},
+  {id:'b13',st:2,emoji:'🍗',name:'닭고기 감자죽',ing:['쌀','닭고기','감자'],steps:['닭가슴살을 삶아 잘게 찢어 다져요.','감자는 쪄서 잘게 다져요.','쌀죽에 넣고 저으며 끓여요.']},
+  {id:'b14',st:2,emoji:'🥕',name:'소고기 당근죽',ing:['쌀','소고기','당근'],steps:['당근은 쪄서 곱게 다져요.','소고기는 삶아 다져요.','쌀죽에 넣고 푹 끓여요.']},
+  {id:'b15',st:2,emoji:'🥬',name:'두부 시금치죽',ing:['쌀','두부','시금치'],steps:['시금치 잎만 데쳐 곱게 다져요.','두부는 데쳐서 으깨요.','쌀죽에 넣고 한 번 더 끓여요.']},
+  {id:'b16',st:2,emoji:'🥚',name:'달걀노른자죽',ing:['쌀','계란','애호박'],steps:['달걀을 완숙으로 삶아 노른자만 으깨요.','애호박은 다져서 쌀죽에 넣고 끓여요.','불을 끄기 직전 노른자를 넣고 섞어요.']},
+  {id:'b17',st:2,emoji:'🐟',name:'흰살생선 무죽',ing:['쌀','대구','무'],steps:['대구살을 쪄서 가시를 꼼꼼히 빼고 으깨요.','무는 잘게 다져요.','쌀죽에 넣고 무가 무를 때까지 끓여요.']},
+  {id:'b18',st:2,emoji:'🍎',name:'고구마 사과죽',ing:['쌀','고구마','사과'],steps:['고구마는 쪄서 으깨요.','사과는 껍질을 벗겨 강판에 갈아요.','쌀죽에 넣고 살짝 끓여요.']},
+  {id:'b19',st:2,emoji:'🥣',name:'소고기 양배추죽',ing:['쌀','소고기','양배추'],steps:['양배추 잎을 데쳐 다져요.','소고기는 삶아 다져요.','쌀죽에 넣고 푹 끓여요.']},
+  // 후기: 진밥
+  {id:'b21',st:3,emoji:'🍄',name:'소고기 버섯 진밥',ing:['쌀','소고기','표고버섯','애호박'],steps:['쌀 1 : 물 3으로 무른 진밥을 지어요.','소고기·버섯·애호박을 잘게 다져 볶듯이 익혀요.','진밥에 섞어 한 번 더 끓여요.']},
+  {id:'b22',st:3,emoji:'🎃',name:'닭고기 단호박 진밥',ing:['쌀','닭고기','단호박'],steps:['닭가슴살을 삶아 잘게 다져요.','단호박은 쪄서 작게 썰어요.','진밥에 넣고 섞어 끓여요.']},
+  {id:'b23',st:3,emoji:'🥚',name:'연두부 달걀찜',ing:['계란','연두부'],steps:['달걀을 풀고 물을 같은 양 넣어 섞어요.','연두부를 으깨 넣어요.','약한 불에서 뚜껑 덮고 10분 쪄요.']},
+  {id:'b24',st:3,emoji:'🐟',name:'흰살생선 채소 진밥',ing:['쌀','대구','당근','양파'],steps:['대구살을 쪄서 가시를 빼고 으깨요.','당근·양파는 잘게 다져 익혀요.','진밥에 넣고 섞어 끓여요.']},
+  {id:'b25',st:3,emoji:'🥣',name:'소고기 무 진밥',ing:['쌀','소고기','무'],steps:['무를 잘게 다져 육수에 익혀요.','소고기는 삶아 다져요.','진밥에 넣고 섞어 끓여요.']},
+  {id:'b26',st:3,emoji:'🧀',name:'감자 치즈볼',ing:['감자','아기치즈'],steps:['감자를 쪄서 곱게 으깨요.','아기치즈를 잘게 찢어 섞어요.','한입 크기로 동그랗게 빚어 줘요.']},
+  // 완료기
+  {id:'b31',st:4,emoji:'🍙',name:'소고기 채소 주먹밥',ing:['쌀','소고기','당근','애호박'],steps:['소고기와 채소를 잘게 다져 볶아요.','밥에 섞고 참기름을 한 방울 넣어요.','한입 크기로 뭉쳐 줘요.']},
+  {id:'b32',st:4,emoji:'🍳',name:'달걀 채소 볶음밥',ing:['쌀','계란','양파','당근'],steps:['채소를 잘게 다져 볶아요.','달걀을 풀어 스크램블해요.','밥을 넣고 간 없이 볶아요.']},
+  {id:'b33',st:4,emoji:'🥛',name:'닭고기 우유 리조또',ing:['쌀','닭고기','우유','브로콜리'],steps:['닭고기와 브로콜리를 잘게 다져 익혀요.','밥과 우유를 넣고 저으며 끓여요.','걸쭉해지면 불을 꺼요.']},
+  {id:'b34',st:4,emoji:'🥘',name:'두부 채소 동그랑땡',ing:['두부','당근','애호박','계란'],steps:['두부 물기를 짜고 으깨요.','채소를 잘게 다져 달걀과 섞어요.','작게 빚어 약한 불에 앞뒤로 익혀요.']},
+  {id:'b35',st:4,emoji:'🥞',name:'바나나 팬케이크',ing:['바나나','계란','밀가루'],steps:['바나나를 곱게 으깨요.','달걀과 밀가루를 조금 넣어 섞어요.','약한 불에 작게 부쳐요.']},
+  {id:'b36',st:4,emoji:'🍲',name:'소고기 미역국',ing:['소고기','미역'],steps:['미역을 불려 잘게 썰어요.','소고기와 미역을 볶다가 물을 부어요.','간 없이 푹 끓여 밥에 말아 줘요.']},
+  {id:'b37',st:4,emoji:'🥚',name:'애호박 달걀찜',ing:['계란','애호박'],steps:['애호박을 잘게 다져요.','달걀물에 섞고 물을 같은 양 넣어요.','약한 불에서 10분 쪄요.']}
+];
+
+// 아기별 먹어본 기록
+function triedOf(b){ return family.tried.filter(t=>t.baby===b.id); }
+function triedEntry(b,name){ return triedOf(b).find(t=>sameIngredient(t.name,name)); }
+function watching(t){ return t && !t.past && t.reaction!=='bad' && Math.floor((today-new Date(t.date+'T00:00:00'))/86400000) < WATCH_DAYS; }
+function watchLeft(t){ return WATCH_DAYS - Math.floor((today-new Date(t.date+'T00:00:00'))/86400000); }
+
+function rankBabyRecipes(b){
+  const s = babyStage(b);
+  const bad = triedOf(b).filter(t=>t.reaction==='bad');
+  const anyWatching = triedOf(b).some(watching);
+  return BABY_RECIPES.filter(r=>r.st<=s && !r.ing.some(n=>bad.some(t=>sameIngredient(t.name,n)))).map(r=>{
+    const items = r.ing.filter(n=>!isStaple(n));
+    const have = items.filter(hasStock), missing = items.filter(n=>!hasStock(n));
+    const fresh = r.ing.filter(n=>n!=='물' && !triedEntry(b,n));
+    let score = have.length*20 - missing.length*12 + (r.st===s?14:0) - Math.max(0,fresh.length-1)*25 - (anyWatching?fresh.length*15:0);
+    if(!missing.length) score += 20;
+    return {...r, have, missing, fresh, score};
+  }).sort((a,b2)=>b2.score-a.score);
+}
+
+// ----- 하단 탭 -----
+function syncBabyNav(){
+  const on = hasBaby();
+  const btn = document.getElementById('navBaby');
+  if(btn) btn.hidden = !on;
+  const inner = document.querySelector('.nav-inner');
+  if(inner) inner.style.gridTemplateColumns = `repeat(${on?5:4},1fr)`;
+  if(!on && document.getElementById('page-baby')?.classList.contains('active')) navigate('home');
+}
+
+// ----- 내 정보: 우리 가족 -----
+function renderFamily(){
+  normFamily();
+  const el = document.getElementById('familyList'); if(!el) return;
+  const me = myName ? myName() : '';
+  const rows = [];
+  if(me && !family.members.some(m=>m.kind==='adult' && m.name===me)) rows.push(`<div class="fam-row"><span class="fam-av">${esc(me.slice(0,1))}</span><div class="grow"><b>${esc(me)}</b><small>어른 · 나</small></div></div>`);
+  family.members.forEach(m=>{
+    const baby = m.kind==='baby';
+    const sub = baby ? `아기 · ${ageText(m)}${m.birth && babyStage(m)?' · '+BABY_STAGES[babyStage(m)].name:''}` : '어른';
+    rows.push(`<button class="fam-row" onclick="openMemberSheet('${m.id}')"><span class="fam-av ${baby?'baby':''}">${baby?'👶':esc(m.name.slice(0,1))}</span><div class="grow"><b>${esc(m.name)}</b><small>${esc(sub)}</small></div><span class="sub">고치기 ›</span></button>`);
+  });
+  el.innerHTML = rows.join('') + `<button class="fam-add" onclick="openMemberSheet()">＋ 아기 추가하기</button>`;
+}
+let memberDraft = null;
+function openMemberSheet(id){
+  normFamily();
+  const m = id ? family.members.find(x=>x.id===id) : null;
+  memberDraft = m ? {...m, unborn: !m.birth && !!m.due} : {id:null, kind:'baby', name:'', birth:'', due:'', unborn:false};
+  renderMemberSheet();
+}
+function renderMemberSheet(){
+  const d = memberDraft, baby = d.kind==='baby';
+  openModal(`<h3>${d.id?(baby?'아기 정보 고치기':'가족 고치기'):'👶 아기 추가하기'}</h3>
+    ${d.id?'':'<p class="hint">아기를 넣으면 아래에 아기 탭이 생겨요. 이유식 추천과 처음 먹은 재료 기록을 쓸 수 있어요.</p>'}
+    <div class="field" style="margin-top:12px"><label for="memName">이름</label><input id="memName" maxlength="10" value="${esc(d.name)}" placeholder="${baby?'예: 하린':'예: 엄마, 할머니'}" oninput="memberDraft.name=this.value"></div>
+    ${baby ? (d.unborn
+      ? `<div class="field" style="margin-top:12px"><label for="memDue">태어날 예정일</label><input id="memDue" type="date" value="${esc(d.due||'')}" oninput="memberDraft.due=this.value"></div>
+         <button type="button" class="text-btn" style="padding-left:0" onclick="memberField('unborn',false)">● 아직 안 태어났어요 · 태어났으면 누르기</button>
+         <p class="hint" style="margin:6px 0 0">이유식 시작할 때쯤(생후 4~6개월) 먼저 알려드릴게요.</p>`
+      : `<div class="field" style="margin-top:12px"><label for="memBirth">태어난 날</label><input id="memBirth" type="date" max="${ymd(today)}" value="${esc(d.birth||'')}" oninput="memberDraft.birth=this.value"></div>
+         <button type="button" class="text-btn" style="padding-left:0" onclick="memberField('unborn',true)">○ 아직 안 태어났어요 (예정일 넣기)</button>`) : ''}
+    <div class="modal-actions" style="margin-top:16px">
+      ${d.id?`<button class="btn danger" style="flex:1" onclick="removeMember('${d.id}')">빼기</button>`:'<button class="btn ghost" style="flex:1" onclick="closeModal()">취소</button>'}
+      <button class="btn" style="flex:2" onclick="saveMember()">${d.id?'저장':'추가하기'}</button>
+    </div>`);
+}
+function memberField(k,v){
+  const n = document.getElementById('memName'); if(n) memberDraft.name = n.value;
+  memberDraft[k] = v; renderMemberSheet();
+}
+function saveMember(){
+  const d = memberDraft; const name = (d.name||'').trim();
+  if(!name){ showToast('이름을 넣어 주세요'); return; }
+  const baby = d.kind==='baby';
+  if(baby && !d.unborn && !d.birth){ showToast('태어난 날을 넣어 주세요'); return; }
+  if(baby && d.unborn && !d.due){ showToast('예정일을 넣어 주세요'); return; }
+  const hadBaby = hasBaby();
+  const rec = {id:d.id||uid(), kind:d.kind, name};
+  if(baby){ if(d.unborn) rec.due = d.due; else { rec.birth = d.birth; if(d.due) rec.due = d.due; } }
+  const i = family.members.findIndex(x=>x.id===rec.id);
+  if(i>=0) family.members[i] = rec; else family.members.push(rec);
+  save(); closeModal(); renderFamily(); syncBabyNav(); renderBaby(); renderBabyNudge();
+  if(baby && !hadBaby){ currentBabyId = rec.id; showToast(`아래에 '아기' 탭이 생겼어요`); }
+  else showToast(i>=0 ? '고쳤어요' : `${josa(name,'이/가')} 우리 가족이 됐어요`);
+}
+function removeMember(id){
+  const m = family.members.find(x=>x.id===id); if(!m) return;
+  withUndo(()=>{
+    family.members = family.members.filter(x=>x.id!==id);
+    if(m.kind==='baby') family.tried = family.tried.filter(t=>t.baby!==id);
+  }, `${josa(m.name,'을/를')} 가족에서 뺐어요`);
+  closeModal(); renderFamily(); syncBabyNav(); renderBaby(); renderBabyNudge();
+}
+
+// ----- 아기 탭 -----
+function pickBaby(id){ currentBabyId = id; renderBaby(); }
+function renderBaby(){
+  normFamily();
+  const el = document.getElementById('babyContent'); if(!el) return;
+  const b = currentBaby();
+  if(!b){ el.innerHTML = ''; return; }
+  const s = babyStage(b);
+  const list = babies();
+  const picker = list.length>1 ? `<div class="chips" style="margin:-6px 0 12px">${list.map(x=>`<button class="chip ${x.id===b.id?'on':''}" onclick="pickBaby('${x.id}')">${esc(x.name)}</button>`).join('')}</div>` : '';
+  const head = `<div class="welcome"><div class="eyebrow baby-ink">아기</div><h2>${esc(b.name)}${b.birth?` · ${BABY_STAGES[s].name}`:''}</h2><p>${esc(ageText(b))}${nextStageText(b)?' · '+esc(nextStageText(b)):''}</p></div>`;
+
+  if(!b.birth){
+    const passed = b.due && daysLeft(b.due)<=0;
+    el.innerHTML = head + picker + `<div class="panel baby-card"><b style="font-size:16px">${passed?`${esc(b.name)}, 태어났나요?`:'만날 날을 기다리고 있어요'}</b>
+      <p class="sub" style="line-height:1.6;margin:6px 0 12px">${passed?'태어난 날을 넣으면 개월 수에 맞춰 이유식을 알려드려요.':'태어나면 태어난 날만 넣어 주세요. 이유식 시작할 때쯤 먼저 알려드릴게요.'}</p>
+      <button class="btn baby-btn" onclick="openMemberSheet('${b.id}');memberField('unborn',false)">태어난 날 넣기</button></div>`;
+    return;
+  }
+
+  const tried = triedOf(b).sort((x,y)=>y.date.localeCompare(x.date));
+  const watch = tried.filter(watching);
+  const bad = tried.filter(t=>t.reaction==='bad');
+  let main = '';
+  if(s===0){
+    main = `<div class="panel baby-card"><b style="font-size:16px">아직 이유식 전이에요</b><p class="sub" style="line-height:1.6;margin:6px 0 0">${BABY_STAGES[0].tip} ${nextStageText(b)?nextStageText(b)+' 남았어요.':''}<br>시작할 때가 되면 홈에서 먼저 알려드릴게요.</p></div>`;
+  }else{
+    const recs = rankBabyRecipes(b).slice(0,6);
+    main = `<div class="panel"><div class="panel-head"><h3>냉장고 재료로 만들 수 있어요</h3></div>
+      <p class="sub" style="margin:-6px 0 10px;line-height:1.55">${esc(BABY_STAGES[s].tip)}${watch.length?`<br><b class="baby-ink">${esc(watch.map(t=>t.name).join(', '))}</b> 지켜보는 중이라 새 재료 없는 메뉴를 먼저 보여드려요.`:''}</p>
+      ${recs.map(babyRecipeRow).join('') || '<div class="empty">이 단계에 맞는 메뉴를 찾지 못했어요.</div>'}</div>`;
+  }
+  const triedHtml = `<div class="panel"><div class="panel-head"><h3>처음 먹어본 재료 ${tried.length}개</h3><button class="text-btn" onclick="openTriedSheet()">＋ 기록하기</button></div>
+    ${watch.length ? watch.map(t=>`<div class="tried-row"><div class="grow"><b>${esc(t.name)}</b>${isAllergen(t.name)?' <span class="pill warn">알레르기 주의</span>':''}<small>${fmtMD(t.date)} 처음 · 지켜보는 중 (${watchLeft(t)}일 남음)</small></div><button class="btn small ghost" onclick="setReaction('${t.id}','bad')">반응 있었어요</button></div>`).join('') : ''}
+    ${tried.length ? `<div class="chips wrap" style="padding-top:${watch.length?10:0}px">${tried.filter(t=>!watching(t)&&t.reaction!=='bad').map(t=>`<button class="chip" onclick="openTriedSheet('${t.id}')">✓ ${esc(t.name)}</button>`).join('')}</div>` : '<div class="empty" style="padding:12px"><b>아직 기록이 없어요</b>새 재료를 먹이면 기록해 두세요. 3일 동안 지켜봐요.</div>'}
+  </div>`;
+  const badHtml = bad.length ? `<div class="panel"><div class="panel-head"><h3>반응 있던 재료</h3></div>${bad.map(t=>`<div class="tried-row"><div class="grow"><b>${esc(t.name)}</b><small>${fmtMD(t.date)} · 추천에서 뺐어요</small></div><button class="btn small ghost" onclick="setReaction('${t.id}','ok')">괜찮아졌어요</button></div>`).join('')}</div>` : '';
+  el.innerHTML = head + picker + main + triedHtml + badHtml +
+    `<p class="hint" style="text-align:center;line-height:1.6;margin:4px 0 0">아기마다 다를 수 있어요. 걱정되면 소아과 선생님과 상의해 주세요.</p>`;
+}
+function babyRecipeRow(r){
+  const tags = [];
+  if(!r.missing.length) tags.push('<span class="pill">재료 다 있어요</span>');
+  else tags.push(`<span class="pill gray">${r.missing.length}개 없어요</span>`);
+  if(r.fresh.length) tags.push(`<span class="pill warn">처음: ${esc(r.fresh.join(', '))}</span>`);
+  return `<button class="baby-rec ${!r.missing.length?'ready':''}" onclick="showBabyRecipe('${r.id}')"><span class="baby-emoji">${r.emoji}</span><div class="grow"><b>${esc(r.name)}</b><small>${esc(r.ing.filter(n=>!isStaple(n)).join(' · ')||'쌀')} · ${BABY_STAGES[r.st].name.replace(' 이유식','')}</small><div class="recipe-meta" style="margin-top:6px">${tags.join('')}</div></div></button>`;
+}
+function showBabyRecipe(id){
+  const b = currentBaby(); if(!b) return;
+  const r = rankBabyRecipes(b).find(x=>x.id===id) || BABY_RECIPES.find(x=>x.id===id); if(!r) return;
+  const rows = r.ing.map(n=>{
+    const staple = isStaple(n), have = staple || hasStock(n), t = triedEntry(b,n);
+    const first = !t ? `<button class="yn" style="background:var(--warn-bg);color:var(--warn-ink)" onclick="markTried('${esc(n)}','${r.id}')">처음 먹었어요</button>` : '';
+    return `<div class="rd-ing"><span>${esc(n)}${isAllergen(n)?' <span class="pill warn">알레르기 주의</span>':''}${t&&watching(t)?' <small class="sub">지켜보는 중</small>':''}</span><span style="display:flex;gap:6px;align-items:center">${first}<span class="yn ${have?'have':'no'}">${staple&&!hasStock(n)?'집에 있죠?':have?'✓ 있어요':'없어요'}</span></span></div>`;
+  }).join('');
+  const missing = r.ing.filter(n=>!isStaple(n) && !hasStock(n));
+  const fresh = r.ing.filter(n=>!triedEntry(b,n));
+  openModal(`<h3>${r.emoji} ${esc(r.name)}</h3>
+    <p class="hint">${BABY_STAGES[r.st].name}부터 · 재료 ${r.ing.length}가지</p>
+    ${fresh.length?`<div class="cook-hist" style="background:var(--warn-bg)"><b style="color:var(--warn-ink)">처음 먹는 재료가 있어요: ${esc(fresh.join(', '))}</b><small>새 재료는 한 번에 하나씩, 오전에 먹이고 3일 지켜봐요.</small></div>`:''}
+    <div class="rd-sec"><div class="rd-sec-head"><b>재료</b><small>${esc(b.name)} 기준</small></div>${rows}
+      ${missing.length?`<button class="btn secondary" style="width:100%;margin-top:12px" onclick="babyMissingToShopping('${r.id}')">없는 재료 ${missing.length}개 장보기에 넣기</button>`:''}</div>
+    <div class="rd-sec-head"><b>만드는 법</b><small>${r.steps.length}단계</small></div>
+    <ol class="rd-steps">${r.steps.map((s,i)=>`<li><span class="rd-num">${i+1}</span><div class="grow"><p>${esc(s)}</p></div></li>`).join('')}</ol>
+    <p class="hint" style="margin:0 0 12px">간은 하지 않아요. 한 번에 만들어 큐브로 얼려 두면 편해요.</p>
+    <button class="btn ghost" style="width:100%" onclick="closeModal()">닫기</button>`);
+}
+function babyMissingToShopping(id){
+  const r = BABY_RECIPES.find(x=>x.id===id); if(!r) return;
+  withUndo(()=>{ let n=0; r.ing.filter(x=>!isStaple(x)&&!hasStock(x)).forEach(x=>{ if(addShoppingOnce(x)) n++; }); return n; },
+    n=> n ? `장보기에 ${n}개 넣었어요` : '이미 장보기에 다 있어요');
+  showBabyRecipe(id);
+}
+function markTried(name, recipeId){
+  const b = currentBaby(); if(!b || triedEntry(b,name)) return;
+  family.tried.push({id:uid(), baby:b.id, name, date:ymd(today), reaction:'ok'});
+  save(); renderBaby(); renderBabyNudge();
+  showToast(`${josa(name,'을/를')} 기록했어요. 3일 동안 지켜봐요`);
+  if(recipeId) showBabyRecipe(recipeId);
+}
+function setReaction(id, reaction){
+  const t = family.tried.find(x=>x.id===id); if(!t) return;
+  t.reaction = reaction;
+  save(); renderBaby(); closeModal();
+  showToast(reaction==='bad' ? `${josa(t.name,'은/는')} 추천에서 뺄게요` : `${josa(t.name,'을/를')} 다시 추천에 넣을게요`);
+}
+let triedEditId = null, triedPast = true;
+function openTriedSheet(id){
+  const b = currentBaby(); if(!b) return;
+  const t = id ? family.tried.find(x=>x.id===id) : null;
+  triedEditId = id || null;
+  if(!t) triedPast = !triedOf(b).length;
+  const quick = ['쌀','애호박','감자','고구마','브로콜리','단호박','양배추','청경채','소고기','당근','닭고기','두부','계란','사과','바나나','시금치','무','양파','대구']
+    .filter(n=>!triedEntry(b,n));
+  openModal(`<h3>${t?esc(t.name):'처음 먹어본 재료'}</h3>
+    ${t ? `<p class="hint">${t.past?'전에 먹어본 재료예요.':fmtMD(t.date)+'에 처음 먹었어요.'}</p>`
+      : `<div class="seg2" style="margin:4px 0 10px"><button type="button" class="${triedPast?'on':''}" onclick="triedPast=true;openTriedSheet()">전에 먹어봤어요</button><button type="button" class="${!triedPast?'on':''}" onclick="triedPast=false;openTriedSheet()">오늘 처음 먹였어요</button></div>
+      <p class="hint">${triedPast?'지금까지 먹어본 재료를 한꺼번에 눌러 주세요.':'새 재료는 한 번에 하나씩 먹이고, 3일 동안 지켜봐요.'}</p>
+      ${quick.length?`<div class="chips wrap" id="triedChips" style="padding-top:0">${quick.map(n=>`<button type="button" class="chip" data-k="${n}" onclick="this.classList.toggle('on')">${n}</button>`).join('')}</div>`:''}
+      <div class="field" style="margin-top:12px"><label for="triedName">다른 재료 (직접 쓰기)</label><input id="triedName" maxlength="15" placeholder="예: 오이"></div>
+      ${triedPast?'':`<div class="field" style="margin-top:12px"><label for="triedDate">먹은 날</label><input id="triedDate" type="date" max="${ymd(today)}" value="${ymd(today)}"></div>`}`}
+    <div class="modal-actions" style="margin-top:16px">
+      ${t ? `<button class="btn danger" style="flex:1" onclick="deleteTried('${t.id}')">기록 지우기</button><button class="btn ghost" style="flex:1" onclick="setReaction('${t.id}','bad')">반응 있었어요</button>`
+          : `<button class="btn ghost" style="flex:1" onclick="closeModal()">취소</button><button class="btn" style="flex:2" onclick="saveTried()">기록하기</button>`}
+    </div>`);
+}
+function saveTried(){
+  const b = currentBaby(); if(!b) return;
+  const typed = (document.getElementById('triedName').value||'').trim();
+  const date = document.getElementById('triedDate')?.value || ymd(today);
+  const names = [...document.querySelectorAll('#triedChips .chip.on')].map(c=>c.dataset.k);
+  if(typed) names.push(typed);
+  const fresh = [...new Set(names)].filter(n=>!triedEntry(b,n));
+  if(!names.length){ showToast('재료를 골라 주세요'); return; }
+  if(!fresh.length){ showToast('이미 기록한 재료예요'); return; }
+  fresh.forEach(name=>family.tried.push(triedPast ? {id:uid(), baby:b.id, name, date, reaction:'ok', past:true} : {id:uid(), baby:b.id, name, date, reaction:'ok'}));
+  save(); closeModal(); renderBaby(); renderBabyNudge();
+  showToast(fresh.length>1 ? `${fresh.length}가지 재료를 기록했어요` : `${josa(fresh[0],'을/를')} 기록했어요`);
+}
+function deleteTried(id){
+  withUndo(()=>{ family.tried = family.tried.filter(t=>t.id!==id); }, '기록을 지웠어요');
+  closeModal(); renderBaby();
+}
+
+// ----- 홈: 이유식 시작할 때 알려주기 -----
+function renderBabyNudge(){
+  const el = document.getElementById('homeBabyNudge'); if(!el) return;
+  normFamily();
+  const msgs = [];
+  babies().forEach(b=>{
+    if(!b.birth && b.due && daysLeft(b.due)<=0) msgs.push([b, `${b.name}, 태어났나요?`, '태어난 날을 넣으면 이유식 때를 알려드려요.']);
+    else if(b.birth && babyStage(b)===1 && !triedOf(b).length) msgs.push([b, `${b.name} 이유식 시작할 때예요`, '냉장고 재료로 만들 수 있는 첫 미음을 골라 드릴게요.']);
+  });
+  el.hidden = !msgs.length;
+  el.innerHTML = msgs.map(([b,t,s])=>`<button class="baby-nudge" onclick="currentBabyId='${b.id}';navigate('baby')"><span class="baby-emoji">👶</span><div class="grow"><b>${esc(t)}</b><small>${esc(s)}</small></div><span class="baby-ink">→</span></button>`).join('');
+}
+
+function renderAll(){normalizeInventory();renderHome();renderStorage();renderPantry();renderRecipes();renderMeal();renderShopping();renderLedger();renderFamily();syncBabyNav();renderBaby();renderBabyNudge()}
 
 // --- Supabase + PWA + Family Shared Storage ---
 
@@ -3238,6 +3610,9 @@ async function pullCloudState() {
     ledger = state.ledger && Array.isArray(state.ledger.purchases) ? state.ledger : ledger;
     seedLedger();
     seedCookStats();
+    family = state.family && typeof state.family==='object' ? state.family : {members:[],tried:[]};
+    normFamily();
+    localStorage.setItem('ms_family', JSON.stringify(family));
     household = data.name || '우리 집 냉장고';
 
     localStorage.setItem('ms_inventory', JSON.stringify(inventory));
@@ -3280,6 +3655,7 @@ async function persistCloudState() {
     cookStats,
     pantry,
     ledger,
+    family,
     updatedBy: currentUser.id,
     updatedAt: new Date().toISOString()
   };
@@ -3339,6 +3715,7 @@ function subscribeFamily() {
         pantry = state.pantry && typeof state.pantry==='object' ? state.pantry : pantry;
         ledger = state.ledger && Array.isArray(state.ledger.purchases) ? state.ledger : ledger;
         seedLedger();
+        if (state.family && typeof state.family==='object') { family = state.family; normFamily(); localStorage.setItem('ms_family', JSON.stringify(family)); }
         household = newData.name || household;
 
         localStorage.setItem('ms_inventory', JSON.stringify(inventory));
