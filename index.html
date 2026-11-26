@@ -903,7 +903,8 @@ const SEASONING_CATS = [
 const SEASONING_GROUPS = SEASONING_CATS.flatMap(c=>c[1]);
 // 처음 화면에 먼저 보여 줄 자주 쓰는 양념
 const POPULAR_SEASONINGS = ['소금','설탕','후추','간장','국간장','고추장','된장','쌈장','고춧가루','참기름','들기름','식용유','올리브유','식초','올리고당','물엿','마늘','깨','맛술','굴소스','케첩','마요네즈','다시다','멸치액젓','까나리액젓','부침가루','튀김가루','전분'];
-const DEFAULT_HAVE = ['소금','설탕','간장','식용유','후추'];
+// 처음 시작할 때 대부분의 집에 있을 법한 기본 양념만 있음으로 둬요.
+const DEFAULT_HAVE = ['소금','설탕','후추','간장','식용유','참기름','고춧가루','고추장'];
 const SEASONING_ALIAS = new Map();
 SEASONING_GROUPS.forEach(([k,al])=>al.forEach(a=>SEASONING_ALIAS.set(a,k)));
 function seasonKey(name){
@@ -1098,7 +1099,9 @@ function load(){
 // 이 기기에 남아 있는 이전 사용자의 데이터를 지웁니다.
 function clearLocalData(){
   inventory=[];shopping=[];mealPlan={};activity=[];household='우리 집 냉장고';family={members:[],tried:[]};
-  ['ms_inventory','ms_shopping','ms_meal','ms_household','ms_owner','ms_activity','ms_family'].forEach(k=>localStorage.removeItem(k));
+  // 다른 계정·다른 냉장고의 양념·단골·가계부가 새 냉장고에 남지 않도록 같이 비워요.
+  favorites=[];cookStats={};pantry={setup:false, items:{}};ledger={purchases:[], stamps:[]};
+  ['ms_inventory','ms_shopping','ms_meal','ms_household','ms_owner','ms_activity','ms_family','ms_favorites','ms_cookstats','ms_pantry','ms_ledger'].forEach(k=>localStorage.removeItem(k));
   const nameInput=document.getElementById('householdName');
   if(nameInput) nameInput.value=household;
   renderAll();
@@ -3859,11 +3862,12 @@ async function pullCloudState() {
     shopping = Array.isArray(state.shopping) ? state.shopping : [];
     mealPlan = state.mealPlan && typeof state.mealPlan === 'object' ? state.mealPlan : {};
     activity = Array.isArray(state.activity) ? state.activity : [];
-    favorites = Array.isArray(state.favorites) ? state.favorites : favorites;
-    cookStats = state.cookStats && typeof state.cookStats==='object' ? state.cookStats : cookStats;
-    pantry = state.pantry && typeof state.pantry==='object' ? state.pantry : pantry;
+    // 서버에 없으면 이 기기에 남은 값 대신 빈 값으로 시작해요 (다른 냉장고 데이터가 섞이지 않게).
+    favorites = Array.isArray(state.favorites) ? state.favorites : [];
+    cookStats = state.cookStats && typeof state.cookStats==='object' ? state.cookStats : {};
+    pantry = state.pantry && typeof state.pantry==='object' ? state.pantry : {setup:false, items:{}};
     migratePantry();
-    ledger = state.ledger && Array.isArray(state.ledger.purchases) ? state.ledger : ledger;
+    ledger = state.ledger && Array.isArray(state.ledger.purchases) ? state.ledger : {purchases:[], stamps:[]};
     seedLedger();
     seedCookStats();
     family = state.family && typeof state.family==='object' ? state.family : {members:[],tried:[]};
